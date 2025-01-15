@@ -1,0 +1,119 @@
+import ProjectDescription
+import ProjectDescriptionHelpers
+import ModularPlugin
+
+// MARK: Dependencies
+let projects: [ModularPlugin.Project] = [
+  PresentationLayer.UIs.Main,
+  Builder.Factories,
+]
+
+let projectDependencies: [TargetDependency] = projects.map {
+  .project(target: $0.name, path: .relativeToRoot($0.path))
+}
+
+// MARK: Target - Infomation
+let developmentTeam = "PN8663UTBA"
+let projectVersion = "1"
+let marketingVersion = "1.0.0"
+
+let baseSetting = SettingsDictionary()
+  .bitcodeEnabled(false)
+  .currentProjectVersion(projectVersion)
+  .marketingVersion(marketingVersion)
+  .automaticCodeSigning(devTeam: developmentTeam)
+  .developmentTeam(developmentTeam)
+
+let debugSetting = SettingsDictionary()
+  .automaticCodeSigning(devTeam: developmentTeam)
+  .developmentTeam(developmentTeam)
+
+let releaseSetting = SettingsDictionary()
+  .automaticCodeSigning(devTeam: developmentTeam)
+  .developmentTeam(developmentTeam)
+
+// MARK: Target
+let surcharges = Target.target(
+  name: "Surcharges",
+  destinations: [.iPhone, .iPad, .mac],
+  product: .app,
+  bundleId: "nz.surcharges",
+  deploymentTargets: .multiplatform(iOS: "16.0", macOS: "13.0"),
+  infoPlist: .extendingDefault(
+    with: [
+      "UILaunchScreen": [
+        "UIColorName": "",
+        "UIImageName": "",
+      ],
+      "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved.")
+    ]
+  ),
+  sources: ["Sources/**"],
+  resources: .resources([], privacyManifest: .default),
+  dependencies: projectDependencies,
+  settings: Settings.settings(
+    base: baseSetting,
+    debug: debugSetting,
+    release: releaseSetting,
+    defaultSettings: .recommended
+  )
+)
+
+// MARK: Schemes - Infomation
+let schemeArguments: Arguments = .arguments(
+  environmentVariables: ["OS_ACTIVITY_MODE": "disable"],
+  launchArguments: []
+)
+
+// MARK: Schemes
+let schemes: [Scheme] = [
+  .scheme(
+    name: "Surcharges",
+    shared: true,
+    hidden: false,
+    buildAction: .buildAction(
+      targets: [TargetReference(stringLiteral: "Surcharges")]
+    ),
+    testAction: nil,
+    runAction: RunAction.runAction(
+      configuration: ProjectDescription.ConfigurationName(stringLiteral: "debug"),
+      executable: TargetReference(stringLiteral: "Surcharges"),
+      arguments: schemeArguments
+    ),
+    archiveAction: ArchiveAction.archiveAction(
+      configuration: ProjectDescription.ConfigurationName(stringLiteral: "release")
+    ),
+    profileAction: nil,
+    analyzeAction: nil
+  )
+]
+
+// MARK: Project
+let project = Project(
+  name: "Applications",
+  organizationName: "Surcharges",
+  options: Project.Options.options(
+    automaticSchemesOptions: .disabled,
+    developmentRegion: "en",
+    disableBundleAccessors: true,
+    disableShowEnvironmentVarsInScriptPhases: true,
+    disableSynthesizedResourceAccessors: true,
+    textSettings: .textSettings(usesTabs: true, indentWidth: 2, tabWidth: 2, wrapsLines: true),
+    xcodeProjectName: "Applications"
+  ),
+  packages: Packages.all,
+  settings:
+    Settings.settings(
+      configurations:
+        [
+          .debug(name: "debug"),
+          .release(name: "release")
+        ]
+    ),
+  targets: [
+    surcharges
+  ],
+  schemes: schemes,
+  fileHeaderTemplate: nil,
+  resourceSynthesizers: []
+)
