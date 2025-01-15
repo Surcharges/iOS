@@ -13,7 +13,10 @@ import Networks
 import RepositoryProtocols
 
 public struct PlaceRepository: PlaceRepositoryProtocol {
-	public static func getPlaces(request: GetPlacesRequest) async -> Result<GetPlacesResponse, ResponseError> {
+	
+	public init() { }
+	
+	public func getPlaces(request: GetPlacesRequest) async -> Result<GetPlacesResponse, ResponseError> {
 		
 		let result = await API.request(
 			dto: GetPlacesResponse.self,

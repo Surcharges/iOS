@@ -1,5 +1,5 @@
 //
-//  PlaceModel.swift
+//  UseCaseError.swift
 //  Entities
 //
 //  Created by Bonsung Koo on 15/01/2025.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-public struct PlaceModel: Equatable, Sendable {
-  
+public enum UseCaseError: Error, Sendable {
+	case unknown
 }
