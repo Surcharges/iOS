@@ -1,5 +1,5 @@
 //
-//  ResponseError.swift
+//  LatLng.swift
 //  DTOs
 //
 //  Created by Bonsung Koo on 15/01/2025.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum ResponseError: Error {
-  case notAuthorized
-  case unknown
+public struct LatLng: Codable, Equatable, Sendable {
+	public let latitude: Double
+	public let longitude: Double
 }

@@ -41,6 +41,7 @@ public extension RouterProtocol {
   var headers: HTTPHeaders {
     var httpHeaders: HTTPHeaders = [:]
     httpHeaders.add(.accept("application/json"))
+		httpHeaders.add(.authorization("something"))
     return httpHeaders
   }
   

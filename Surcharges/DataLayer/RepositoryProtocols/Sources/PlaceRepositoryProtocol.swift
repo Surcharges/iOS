@@ -11,5 +11,5 @@ import Foundation
 import DTOs
 
 public protocol PlaceRepositoryProtocol {
-  
+	static func getPlaces(request: GetPlacesRequest) async -> Result<GetPlacesResponse, ResponseError>
 }

@@ -10,6 +10,6 @@ import Foundation
 
 struct Endpoint {
   static var url: String {
-    return "localhost"
+    return "http://localhost:5001/surcharges/us-central1/mobile"
   }
 }
