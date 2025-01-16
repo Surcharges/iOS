@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol UseCaseProtocol where ERROR: Error {
+public protocol UseCaseProtocol: Sendable where ERROR: Error {
   associatedtype RequestValue
   associatedtype ResponseValue
   associatedtype ERROR

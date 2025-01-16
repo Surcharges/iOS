@@ -8,6 +8,7 @@
 
 import Foundation
 
+@MainActor
 public protocol FactoryProtocol {
   
   associatedtype ViewModel

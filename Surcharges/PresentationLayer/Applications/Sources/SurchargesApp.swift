@@ -7,7 +7,9 @@ import Factories
 struct SurchargesApp: App {
 	var body: some Scene {
 		WindowGroup {
-			MainView(viewModel: MainFactory.resolve())
+			NavigationStack {
+				MainView(viewModel: MainFactory.resolve())
+			}
 		}
 	}
 }

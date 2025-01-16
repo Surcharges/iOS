@@ -32,6 +32,10 @@ public struct GetPlacesUsecase<R: PlaceRepositoryProtocol>: GetPlacesUsecaseProt
 		switch result {
 		case .success(let response):
 			
+			if response.places.isEmpty {
+				return .failure(.noResult)
+			}
+			
 			let places = response.places.map { place -> GetPlacesResponse.Item in
 				
 				var location: Location? {

@@ -10,11 +10,15 @@ import Foundation
 
 import FactoryProtocols
 
+import Repositories
+import UseCases
 import ViewModels
 
 public struct MainFactory: MainFactoryProtocol {
+	
+	public typealias ViewModel = MainViewModel<GetPlacesUsecase<PlaceRepository>>
   
-  public static func resolve() -> MainViewModel {
-    return MainViewModel()
+	public static func resolve() -> ViewModel {
+		return MainViewModel(getPlaces: GetPlacesUsecase(placeRepository: PlaceRepository()))
   }
 }

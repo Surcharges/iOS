@@ -11,25 +11,13 @@ import SwiftUI
 import Main
 import Factories
 
-import Repositories
-import UseCases
-
 @main
 struct MainApp: App {
   var body: some Scene {
     WindowGroup {
-      MainView(viewModel: MainFactory.resolve())
-				.task {
-					let result = await GetPlacesUsecase(placeRepository: PlaceRepository()).invoke(requestValue: .init(searchText: "starbucks", nextPageToken: nil))
-					
-					switch result {
-					case .success(let response):
-						
-						print(response)
-					case .failure:
-						break
-					}
-				}
+			NavigationStack {
+				MainView(viewModel: MainFactory.resolve())
+			}
     }
   }
 }
