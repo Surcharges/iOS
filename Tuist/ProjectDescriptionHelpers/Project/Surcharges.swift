@@ -28,7 +28,7 @@ public final class Surcharges: @unchecked Sendable {
       destinations: [.iPhone, .iPad, .mac],
       product: .framework,
       bundleId:  _project.bundleId,
-      deploymentTargets: .multiplatform(iOS: "16.0", macOS: "13.0"),
+      deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
       infoPlist: .extendingDefault(
         with: [
           "UILaunchScreen": [
@@ -47,7 +47,17 @@ public final class Surcharges: @unchecked Sendable {
             target: $0.name,
             path: .relativeToRoot($0.path)
           )
-        } + externalPackages
+        } + externalPackages,
+      settings: Settings.settings(
+        base: SettingsDictionary()
+          .swiftVersion("6.0")
+          .bitcodeEnabled(false)
+          .currentProjectVersion("1")
+          .marketingVersion("1.0.0"),
+        debug: SettingsDictionary(),
+        release: SettingsDictionary(),
+        defaultSettings: .recommended
+      )
     )
   }
   
@@ -70,29 +80,35 @@ public final class Surcharges: @unchecked Sendable {
       destinations: [.iPhone, .iPad, .mac],
       product: .app,
       bundleId: "\( _project.bundleId)Demo",
-      deploymentTargets: .multiplatform(iOS: "16.0", macOS: "13.0"),
+      deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
       infoPlist: .extendingDefault(
         with: [
           "UILaunchScreen": [
             "UIColorName": "",
             "UIImageName": "",
           ],
-          "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved.")
+          "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved."),
+          "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you.")
         ]
       ),
       sources: ["App/Sources/**"],
       dependencies: _dependencies,
       settings: Settings.settings(
         base: SettingsDictionary()
+          .swiftVersion("6.0")
           .bitcodeEnabled(false)
           .currentProjectVersion("1")
           .marketingVersion("1.0.0")
+          .automaticCodeSigning(devTeam: _developmentTeam)
           .developmentTeam(_developmentTeam),
         debug: SettingsDictionary()
-          .automaticCodeSigning(devTeam: _developmentTeam),
-        release: SettingsDictionary()
+          .developmentTeam(_developmentTeam)
           .automaticCodeSigning(devTeam: _developmentTeam)
-        ,
+          .developmentTeam(_developmentTeam),
+        release: SettingsDictionary()
+          .developmentTeam(_developmentTeam)
+          .automaticCodeSigning(devTeam: _developmentTeam)
+          .developmentTeam(_developmentTeam),
         defaultSettings: .recommended
       )
     )

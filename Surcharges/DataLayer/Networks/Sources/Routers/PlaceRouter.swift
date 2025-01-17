@@ -10,29 +10,33 @@ import Foundation
 
 import Alamofire
 
-enum PlaceRouter: RouterProtocol {
+public enum PlaceRouter: RouterProtocol {
   case places(searchText: String, nextPageToken: String?)
   case place(id: String)
 }
 
 extension PlaceRouter {
-  var path: String {
+	public var path: String {
     switch self {
     case .places(let searchText, let nextPageToken):
-      return "/places?searchText=\(searchText)&nextPageToken=\(nextPageToken ?? "")"
+			if let nextPageToken = nextPageToken {
+				return "/places?searchText=\(searchText)&nextPageToken=\(nextPageToken)"
+			} else {
+				return "/places?searchText=\(searchText)"
+			}
     case .place(let id):
-      return "/places?id=\(id)"
+      return "/place?id=\(id)"
     }
   }
   
-  var method: HTTPMethod {
+	public var method: HTTPMethod {
     switch self {
     case .places, .place:
       return .get
     }
   }
   
-  var parameterEncoding: ParameterEncoding {
+	public var parameterEncoding: ParameterEncoding {
     switch self {
     case .places, .place:
       return URLEncoding.default

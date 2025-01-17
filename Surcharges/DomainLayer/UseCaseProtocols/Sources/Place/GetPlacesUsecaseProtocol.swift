@@ -8,6 +8,11 @@
 
 import Foundation
 
-public protocol GetPlacesUsecaseProtocol: UseCaseProtocol {
+import Entities
+
+public protocol GetPlacesUsecaseProtocol: UseCaseProtocol
+where RequestValue == GetPlacesRequest,
+			ResponseValue == GetPlacesResponse,
+			ERROR == GetPlacesError {
   
 }

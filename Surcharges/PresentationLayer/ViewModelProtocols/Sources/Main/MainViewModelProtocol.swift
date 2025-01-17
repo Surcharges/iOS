@@ -8,8 +8,20 @@
 
 import Foundation
 
-public protocol MainViewModelProtocol: ObservableObject {
-  var title: String { get set }
+import Models
+
+public protocol MainViewModelProtocol: ViewModelProtocol {
+	var mainModel: MainModel { get set }
+	var searchText: String { get set }
+	var searchedText: String { get set }
+	var isLoading: Bool { get set }
+	var noResults: Bool { get set }
+	var canSearch: Bool { get set }
+	var isDeniedToUseUserLocation: Bool { get set }
+	var isUserLocationOn: Bool { get set }
   
-  func changeTitle(_ title: String)
+	func search() async
+	func next() async
+//	func checkLocataionAuthorisationStatus()
+	func toggleUserLocation()
 }

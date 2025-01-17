@@ -30,13 +30,23 @@ let project = ProjectDescription.Project(
       destinations: [.iPhone, .iPad, .mac],
       product: .framework,
       bundleId: PresentationLayer.UIs.Resources.bundleId,
-      deploymentTargets: .multiplatform(iOS: "16.0", macOS: "13.0"),
+      deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
       sources: ["Sources/**"],
       resources: .resources(["Resources/**"], privacyManifest: .default),
       dependencies: [
         .package(product: "RswiftLibrary", type: .runtime),
         .package(product: "RswiftGeneratePublicResources", type: .plugin)
-      ]
+      ],
+      settings: Settings.settings(
+        base: SettingsDictionary()
+          .swiftVersion("6.0")
+          .bitcodeEnabled(false)
+          .currentProjectVersion("1")
+          .marketingVersion("1.0.0"),
+        debug: SettingsDictionary(),
+        release: SettingsDictionary(),
+        defaultSettings: .recommended
+      )
     )
   ],
   schemes: [

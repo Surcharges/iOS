@@ -1,5 +1,5 @@
 //
-//  MainModel.swift
+//  SurchargeStatus.swift
 //  Models
 //
 //  Created by Bonsung Koo on 15/01/2025.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-public struct MainModel: Equatable, Sendable {
-  
+public enum SurchargeStatus: Equatable, Sendable {
+	case unknown, reported, confirmed
 }

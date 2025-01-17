@@ -18,6 +18,7 @@ let projectVersion = "1"
 let marketingVersion = "1.0.0"
 
 let baseSetting = SettingsDictionary()
+  .swiftVersion("6.0")
   .bitcodeEnabled(false)
   .currentProjectVersion(projectVersion)
   .marketingVersion(marketingVersion)
@@ -38,14 +39,15 @@ let surcharges = Target.target(
   destinations: [.iPhone, .iPad, .mac],
   product: .app,
   bundleId: "nz.surcharges",
-  deploymentTargets: .multiplatform(iOS: "16.0", macOS: "13.0"),
+  deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
   infoPlist: .extendingDefault(
     with: [
       "UILaunchScreen": [
         "UIColorName": "",
         "UIImageName": "",
       ],
-      "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved.")
+      "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved."),
+      "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you.")
     ]
   ),
   sources: ["Sources/**"],

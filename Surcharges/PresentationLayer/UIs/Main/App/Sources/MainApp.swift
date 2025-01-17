@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 import Main
 import Factories
@@ -15,7 +16,12 @@ import Factories
 struct MainApp: App {
   var body: some Scene {
     WindowGroup {
-      MainView(viewModel: MainFactory.resolve())
+			NavigationStack {
+				MainView(viewModel: MainFactory.resolve())
+//					.onAppear {
+//						try? Tips.resetDatastore()
+//					}
+			}
     }
   }
 }

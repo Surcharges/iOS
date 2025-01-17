@@ -1,5 +1,5 @@
 //
-//  PlaceModel.swift
+//  SurchargeStatus.swift
 //  Entities
 //
 //  Created by Bonsung Koo on 15/01/2025.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-public struct PlaceModel: Equatable, Sendable {
-  
+public enum SurchargeStatus: String, Codable, Equatable, Sendable {
+	case unknown, reported, confirmed
 }
