@@ -13,5 +13,5 @@ public protocol FactoryProtocol {
   
   associatedtype ViewModel
   
-  static func resolve() -> ViewModel
+  func resolve() -> ViewModel
 }

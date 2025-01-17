@@ -12,4 +12,5 @@ import DTOs
 
 public protocol PlaceRepositoryProtocol: Sendable {
 	func getPlaces(request: GetPlacesRequest) async -> Result<GetPlacesResponse, ResponseError>
+	func getPlace(request: GetPlaceRequest) async -> Result<GetPlaceResponse, ResponseError>
 }

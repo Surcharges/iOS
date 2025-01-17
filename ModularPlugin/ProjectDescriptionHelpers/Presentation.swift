@@ -27,6 +27,7 @@ extension PresentationLayer {
     case UIExtensions
     case Resources
     case Main
+    case PlaceDetail
   }
 }
 

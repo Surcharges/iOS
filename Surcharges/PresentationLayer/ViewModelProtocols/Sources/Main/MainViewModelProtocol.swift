@@ -22,6 +22,5 @@ public protocol MainViewModelProtocol: ViewModelProtocol {
   
 	func search() async
 	func next() async
-//	func checkLocataionAuthorisationStatus()
 	func toggleUserLocation()
 }

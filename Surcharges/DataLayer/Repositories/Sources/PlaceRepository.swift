@@ -43,4 +43,32 @@ public struct PlaceRepository: PlaceRepositoryProtocol {
 			
 		}
 	}
+	
+	public func getPlace(request: GetPlaceRequest) async -> Result<GetPlaceResponse, ResponseError> {
+		let result = await API.request(
+			dto: GetPlaceResponse.self,
+			router: PlaceRouter.place(id: request.placeId)
+		)
+		
+		switch result {
+		case .success(let response):
+			
+			if let response = response {
+				return .success(response)
+			} else {
+				return .failure(.unknown)
+			}
+			
+		case .failure(let error):
+			
+			switch error {
+			case .tokenInvalid, .forbidden:
+				return .failure(.notAuthorized)
+			default:
+				return .failure(.unknown)
+			}
+			
+		}
+		
+	}
 }
