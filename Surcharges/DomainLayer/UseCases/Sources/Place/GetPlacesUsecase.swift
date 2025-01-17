@@ -15,7 +15,7 @@ import Entities
 public struct GetPlacesUsecase<R: PlaceRepositoryProtocol>: GetPlacesUsecaseProtocol {
 	public typealias RequestValue = GetPlacesRequest
 	public typealias ResponseValue = GetPlacesResponse
-	public typealias ERROR = UseCaseError
+	public typealias ERROR = GetPlacesError
 	
 	private let _placeRepository: R
 	
@@ -33,7 +33,7 @@ public struct GetPlacesUsecase<R: PlaceRepositoryProtocol>: GetPlacesUsecaseProt
 		case .success(let response):
 			
 			if response.places.isEmpty {
-				return .failure(.noResult)
+				return .failure(.noResults)
 			}
 			
 			let places = response.places.map { place -> GetPlacesResponse.Item in

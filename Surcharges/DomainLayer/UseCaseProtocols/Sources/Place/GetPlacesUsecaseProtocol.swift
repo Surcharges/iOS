@@ -13,6 +13,6 @@ import Entities
 public protocol GetPlacesUsecaseProtocol: UseCaseProtocol
 where RequestValue == GetPlacesRequest,
 			ResponseValue == GetPlacesResponse,
-			ERROR == UseCaseError {
+			ERROR == GetPlacesError {
   
 }

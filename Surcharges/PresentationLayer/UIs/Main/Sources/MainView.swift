@@ -18,8 +18,10 @@ public struct MainView<VM: MainViewModelProtocol>: View {
 	
 	@ObservedObject var viewModel: VM
 	
-	@State var _isUseCurrentLocation: Bool = false
 	private let _surchargeStatusTip = SurchargeStatusTip()
+	private let _useLocationTip = UseLocationTip()
+	@State private var _showLocationDeniedAlert = false
+	@FocusState private var _isSearchTextFeildFocused: Bool
 	
 	public init(viewModel: VM) {
 		self.viewModel = viewModel
@@ -38,12 +40,12 @@ public struct MainView<VM: MainViewModelProtocol>: View {
 					})
 					.padding([.top], 10)
 					.padding([.leading, .trailing], 20)
-						
+					
 					Section {
 						
 						FavouritePlacesView()
 							.padding([.leading, .trailing], 20)
-							
+						
 					} header:  {
 						Text("Favourite Places")
 							.font(.title3)
@@ -100,18 +102,59 @@ public struct MainView<VM: MainViewModelProtocol>: View {
 				
 				Button {
 					
-					withAnimation {
-						_isUseCurrentLocation.toggle()
+					if viewModel.isDeniedToUseUserLocation {
+						_showLocationDeniedAlert.toggle()
+					} else {
+						
+						withAnimation {
+							viewModel.toggleUserLocation()
+						}
+						
+						_useLocationTip.invalidate(reason: .actionPerformed)
+						
 					}
 					
 				} label: {
 					
-					Image(systemName: _isUseCurrentLocation ? "location.fill" : "location")
-						.foregroundStyle(R.color.blue600.color)
+					if viewModel.isDeniedToUseUserLocation {
+						Image(systemName: "location.slash")
+							.foregroundStyle(R.color.blue600.color)
+					} else {
+						Image(systemName: viewModel.isUserLocationOn ? "location.fill" : "location")
+							.foregroundStyle(R.color.blue600.color)
+					}
 					
 				}
 				.buttonStyle(.plain)
 				.contentTransition(.symbolEffect(.replace))
+				.alert(
+					"Use Location is Denied",
+					isPresented: $_showLocationDeniedAlert
+				) {
+					
+					Button {
+						
+						UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+						
+					} label: {
+						Text("Go to Settings")
+					}
+					
+					Button(role: .cancel) {
+						_showLocationDeniedAlert.toggle()
+					} label: {
+						Text("Close")
+					}
+					
+				} message: {
+					Text("Allow to use your location")
+				}
+				.popoverTip(_useLocationTip, arrowEdge: .leading) { action in
+					withAnimation {
+						viewModel.toggleUserLocation()
+					}
+					_useLocationTip.invalidate(reason: .actionPerformed)
+				}
 				
 				TextField("Search your destination", text: $viewModel.searchText)
 					.textFieldStyle(.roundedBorder)
@@ -123,7 +166,13 @@ public struct MainView<VM: MainViewModelProtocol>: View {
 						}
 					}
 					.submitLabel(.search)
-						
+					.focused($_isSearchTextFeildFocused)
+					.onChange(of: _isSearchTextFeildFocused, { _, newValue in
+						if newValue {
+							UseLocationTip.tryToSearch.toggle()
+						}
+					})
+				
 				Button {
 					Task {
 						await viewModel.search()

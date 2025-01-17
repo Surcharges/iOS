@@ -46,7 +46,8 @@ let surcharges = Target.target(
         "UIColorName": "",
         "UIImageName": "",
       ],
-      "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved.")
+      "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved."),
+      "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you.")
     ]
   ),
   sources: ["Sources/**"],

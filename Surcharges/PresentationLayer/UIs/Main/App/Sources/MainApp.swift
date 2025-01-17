@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 import Main
 import Factories
@@ -17,6 +18,9 @@ struct MainApp: App {
     WindowGroup {
 			NavigationStack {
 				MainView(viewModel: MainFactory.resolve())
+//					.onAppear {
+//						try? Tips.resetDatastore()
+//					}
 			}
     }
   }

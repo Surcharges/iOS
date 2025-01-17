@@ -8,7 +8,6 @@
 
 import Foundation
 
-public enum UseCaseError: Error, Sendable {
-	case noResult
-	case unknown
+public protocol UseCaseError: Error, Sendable {
+	static var unknown: Self { get }
 }

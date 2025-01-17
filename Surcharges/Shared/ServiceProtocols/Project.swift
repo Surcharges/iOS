@@ -2,14 +2,12 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import ModularPlugin
 
-let surcharges = Surcharges(project: PresentationLayer.ViewModels)
+let surcharges = Surcharges(project: Shared.ServiceProtocols)
 
 let target = surcharges.target(
   projects:
     [
-      PresentationLayer.ViewModelProtocols,
-      DomainLayer.UseCaseProtocols,
-      Shared.ServiceProtocols
+      
     ]
 )
 

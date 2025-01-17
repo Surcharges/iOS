@@ -17,7 +17,11 @@ public protocol MainViewModelProtocol: ViewModelProtocol {
 	var isLoading: Bool { get set }
 	var noResults: Bool { get set }
 	var canSearch: Bool { get set }
+	var isDeniedToUseUserLocation: Bool { get set }
+	var isUserLocationOn: Bool { get set }
   
 	func search() async
 	func next() async
+//	func checkLocataionAuthorisationStatus()
+	func toggleUserLocation()
 }
