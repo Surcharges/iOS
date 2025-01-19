@@ -17,7 +17,7 @@ struct MainApp: App {
   var body: some Scene {
     WindowGroup {
 			NavigationStack {
-				MainView(viewModel: MainFactory.resolve())
+				MainView(viewModel: MainFactory().resolve())
 //					.onAppear {
 //						try? Tips.resetDatastore()
 //					}

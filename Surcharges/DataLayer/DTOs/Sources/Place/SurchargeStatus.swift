@@ -9,5 +9,5 @@
 import Foundation
 
 public enum SurchargeStatus: String, Codable, Equatable, Sendable {
-	case UNKOWN, REPORTED, CONFIRMED
+	case UNKNOWN, REPORTED, CONFIRMED
 }

@@ -87,12 +87,17 @@ public final class MainViewModel<
 					}
 				}
 				
+				var updatedDate: Date? {
+					guard let date = item.surcharge.updatedDate else { return nil }
+					return Date(timeIntervalSince1970: TimeInterval(date.seconds))
+				}
+				
 				return .init(
 					id: item.place.id,
 					name: item.place.displayName.text,
 					address: item.place.addressComponents.prefix(4).map { $0.longText }.joined(separator: " "),
 					location: nil,
-					surcharge: .init(status: surchargeStatus, rate: item.surcharge.rate)
+					surcharge: .init(status: surchargeStatus, rate: item.surcharge.rate, updatedDate: updatedDate)
 				)
 			}
 			
@@ -137,12 +142,17 @@ public final class MainViewModel<
 					}
 				}
 				
+				var updatedDate: Date? {
+					guard let date = item.surcharge.updatedDate else { return nil }
+					return Date(timeIntervalSince1970: TimeInterval(date.seconds))
+				}
+				
 				return .init(
 					id: item.place.id,
 					name: item.place.displayName.text,
 					address: item.place.addressComponents.map { $0.longText }.joined(separator: " "),
 					location: nil,
-					surcharge: .init(status: surchargeStatus, rate: item.surcharge.rate)
+					surcharge: .init(status: surchargeStatus, rate: item.surcharge.rate, updatedDate: updatedDate)
 				)
 			}
 			

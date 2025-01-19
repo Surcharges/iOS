@@ -11,7 +11,7 @@ let target = surcharges.target(
     ],
   externalPackages: 
     [
-      ExternalPackages.Alamofire
+      ExternalPackages.DataLayer.Alamofire
   ]
 )
 

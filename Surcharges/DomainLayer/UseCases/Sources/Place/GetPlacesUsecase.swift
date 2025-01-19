@@ -47,11 +47,19 @@ public struct GetPlacesUsecase<R: PlaceRepositoryProtocol>: GetPlacesUsecaseProt
 				}
 				
 				var surchargeStatus: SurchargeStatus {
-					switch place.status {
-					case .UNKOWN: return .unknown
+					switch place.surchargeStatus {
+					case .UNKNOWN: return .unknown
 					case .REPORTED: return .reported
 					case .CONFIRMED: return .confirmed
 					default: return .unknown
+					}
+				}
+				
+				var updatedDate: TimeStamp? {
+					if let updatedDate = place.reportedDate {
+						return .init(nanoseconds: updatedDate._nanoseconds, seconds: updatedDate._seconds)
+					} else {
+						return nil
 					}
 				}
 				
@@ -64,7 +72,7 @@ public struct GetPlacesUsecase<R: PlaceRepositoryProtocol>: GetPlacesUsecaseProt
 						},
 						location: location
 					),
-					surcharge: .init(rate: place.rate, status: surchargeStatus)
+					surcharge: .init(status: surchargeStatus, rate: place.rate, updatedDate: updatedDate)
 				)
 			}
 			

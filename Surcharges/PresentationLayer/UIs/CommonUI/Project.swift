@@ -12,7 +12,7 @@ let target = surcharges.target(
     ],
   externalPackages:
     [
-      
+      ExternalPackages.PresentationLayer.Shimmer
   ]
 )
 

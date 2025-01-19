@@ -60,7 +60,7 @@ struct PlaceView: View {
 				name: "Starbucks Porirua",
 				address: "11 Hartham Pl North Porirua Porirua 5022 New Zealand",
 				location: nil,
-				surcharge: .init(status: .unknown, rate: nil)
+				surcharge: .init(status: .unknown, rate: nil, updatedDate: nil)
 			)
 		)
 		PlaceView(
@@ -69,7 +69,7 @@ struct PlaceView: View {
 				name: "Starbucks Lambton Quay",
 				address: "233 Lambton Quay Wellington Central Wellington 6011 New Zealand",
 				location: nil,
-				surcharge: .init(status: .reported, rate: 0)
+				surcharge: .init(status: .reported, rate: 0, updatedDate: Date())
 			)
 		)
 		PlaceView(
@@ -78,7 +78,7 @@ struct PlaceView: View {
 				name: "Starbucks Lower Hutt",
 				address: "6 Bunny St Hutt Central Lower Hutt 5010 New Zealand",
 				location: nil,
-				surcharge: .init(status: .confirmed, rate: 1)
+				surcharge: .init(status: .confirmed, rate: 1, updatedDate: Date())
 			)
 		)
 	}

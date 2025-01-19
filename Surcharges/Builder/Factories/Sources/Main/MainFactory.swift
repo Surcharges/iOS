@@ -22,7 +22,9 @@ public struct MainFactory: MainFactoryProtocol {
 		LocationService
 	>
 	
-	public static func resolve() -> ViewModel {
+	public init() { }
+	
+	public func resolve() -> ViewModel {
 		
 		return MainViewModel(
 			getPlaces: GetPlacesUsecase(placeRepository: PlaceRepository()),

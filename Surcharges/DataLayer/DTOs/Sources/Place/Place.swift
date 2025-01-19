@@ -14,5 +14,6 @@ public struct Place: Codable, Equatable, Sendable {
 	public let addressComponents: [AddressComponents]
 	public let location: LatLng?
 	public let rate: Double?
-	public let status: SurchargeStatus?
+	public let reportedDate: TimeStamp?
+	public let surchargeStatus: SurchargeStatus?
 }
