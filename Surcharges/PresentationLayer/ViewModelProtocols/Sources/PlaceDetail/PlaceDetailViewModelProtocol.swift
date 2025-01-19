@@ -7,10 +7,17 @@
 //
 
 import Foundation
+import Combine
 
 import Models
 
 public protocol PlaceDetailViewModelProtocol: ViewModelProtocol {
-	var placeName: String { get set }
-	var placeAddress: String { get set }
+	var placeName: String { get }
+	var placeAddress: String { get }
+	var placeLocation: Location { get }
+	var surcharge: Surcharge { get }
+	
+	var isLoading: Bool { get }
+	
+	func getPlaceDetail() async
 }

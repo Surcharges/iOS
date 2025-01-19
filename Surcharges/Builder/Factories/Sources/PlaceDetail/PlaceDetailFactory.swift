@@ -17,7 +17,7 @@ import Services
 
 public struct PlaceDetailFactory: PlaceDetailFactoryProtocol {
 	
-	public typealias ViewModel = PlaceDetailViewModel
+	public typealias ViewModel = PlaceDetailViewModel<GetPlaceUsecase<PlaceRepository>>
 	
 	private let _placeId: String
 	
@@ -26,7 +26,7 @@ public struct PlaceDetailFactory: PlaceDetailFactoryProtocol {
 	}
 	
 	public func resolve() -> ViewModel {
-		return PlaceDetailViewModel(placeId: _placeId)
+		return PlaceDetailViewModel(placeId: _placeId, getPlace: GetPlaceUsecase(placeRepository: PlaceRepository()))
 	}
 	
 }

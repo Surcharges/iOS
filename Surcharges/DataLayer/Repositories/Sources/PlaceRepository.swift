@@ -46,7 +46,7 @@ public struct PlaceRepository: PlaceRepositoryProtocol {
 	
 	public func getPlace(request: GetPlaceRequest) async -> Result<GetPlaceResponse, ResponseError> {
 		let result = await API.request(
-			dto: GetPlaceResponse.self,
+			dto: Place.self,
 			router: PlaceRouter.place(id: request.placeId)
 		)
 		
@@ -54,7 +54,7 @@ public struct PlaceRepository: PlaceRepositoryProtocol {
 		case .success(let response):
 			
 			if let response = response {
-				return .success(response)
+				return .success(.init(place: response))
 			} else {
 				return .failure(.unknown)
 			}

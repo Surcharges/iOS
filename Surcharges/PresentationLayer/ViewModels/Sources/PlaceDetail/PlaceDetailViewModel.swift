@@ -14,17 +14,61 @@ import Models
 import UseCaseProtocols
 import ViewModelProtocols
 
-public final class PlaceDetailViewModel: PlaceDetailViewModelProtocol {
+public final class PlaceDetailViewModel<GetPlace: GetPlaceUsecaseProtocol>: PlaceDetailViewModelProtocol {
 	
-	@Published public var placeName: String = ""
-	@Published public var placeAddress: String = ""
+	@Published public var placeName: String = "A name of place"
+	@Published public var placeAddress: String = "An address of place"
+	@Published public var placeLocation: Location = .init(latitude: 0, longitude: 0)
+	@Published public var surcharge: Surcharge = .init(status: .notDetermined, rate: nil, updatedDate: nil)
+	@Published public var isLoading: Bool = true
 	
 	private var _placeId: String
 	
-	public init(placeId: String) {
+	private let _getPlace: GetPlace
+	
+	public init(placeId: String, getPlace: GetPlace) {
 		_placeId = placeId
+		_getPlace = getPlace
+	}
+	
+	public func getPlaceDetail() async {
 		
-		placeName = "starbucks"
+		isLoading = true
+		
+		let getPlaceResult = await _getPlace.invoke(requestValue: .init(placeId: _placeId))
+		
+		switch getPlaceResult {
+		case .success(let response):
+			
+			placeLocation = .init(
+				latitude: response.place.location?.latitude ?? 0,
+				longitude: response.place.location?.longitude ?? 0
+			)
+			
+			placeName = response.place.displayName.text
+			placeAddress = response.place.addressComponents.prefix(4).map { $0.longText }.joined(separator: " ")
+			
+			var surchargeStatus: SurchargeStatus {
+				switch response.surcharge.status {
+				case .unknown: return .unknown
+				case .reported: return .reported
+				case .confirmed: return .confirmed
+				}
+			}
+			
+			var updatedDate: Date? {
+				guard let updatedDate = response.surcharge.updatedDate else { return nil }
+				return Date(timeIntervalSince1970: TimeInterval(updatedDate.seconds))
+			}
+			
+			surcharge = .init(status: surchargeStatus, rate: response.surcharge.rate, updatedDate: updatedDate)
+			
+		case .failure:
+			break
+		}
+		
+		isLoading = false
+		
 	}
 	
 }

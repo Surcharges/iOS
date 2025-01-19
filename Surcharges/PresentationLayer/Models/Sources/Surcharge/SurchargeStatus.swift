@@ -9,5 +9,5 @@
 import Foundation
 
 public enum SurchargeStatus: Equatable, Sendable {
-	case unknown, reported, confirmed
+	case notDetermined, unknown, reported, confirmed
 }

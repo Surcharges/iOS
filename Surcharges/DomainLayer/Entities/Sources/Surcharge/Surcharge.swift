@@ -9,11 +9,13 @@
 import Foundation
 
 public struct Surcharge: Equatable, Sendable {
-	public let rate: Double?
 	public let status: SurchargeStatus
+	public let rate: Double?
+	public let updatedDate: TimeStamp?
 	
-	public init(rate: Double?, status: SurchargeStatus) {
+	public init(status: SurchargeStatus, rate: Double?, updatedDate: TimeStamp?) {
 		self.rate = rate
 		self.status = status
+		self.updatedDate = updatedDate
 	}
 }

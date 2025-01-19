@@ -21,7 +21,7 @@ struct NoResultView: View {
 	var body: some View {
 		VStack(spacing: 20) {
 			
-			if #available(iOS 18.0, *) {
+			if #available(iOS 18.0, macOS 14.0, *) {
 				Image(systemName: "exclamationmark.magnifyingglass")
 					.font(.largeTitle)
 					.symbolEffect(.wiggle.clockwise, options: .speed(0.5))
