@@ -12,6 +12,7 @@ import Combine
 import Models
 
 public protocol PlaceDetailViewModelProtocol: ViewModelProtocol {
+	var placeId: String { get }
 	var placeName: String { get }
 	var placeAddress: String { get }
 	var placeLocation: Location { get }

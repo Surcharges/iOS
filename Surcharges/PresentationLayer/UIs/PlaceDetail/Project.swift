@@ -9,6 +9,7 @@ let target = surcharges.target(
     [
       PresentationLayer.ViewModelProtocols,
       PresentationLayer.UIs.CommonUI,
+      PresentationLayer.Routers.RouterProtocols,
     ],
   externalPackages: 
     [
@@ -19,6 +20,8 @@ let target = surcharges.target(
 let demo = surcharges.demo(
   projects: [
     Builder.Factories,
+    PresentationLayer.Routers.PlaceDetailRouter,
+    PresentationLayer.UIs.PlaceDetail
   ]
 )
 

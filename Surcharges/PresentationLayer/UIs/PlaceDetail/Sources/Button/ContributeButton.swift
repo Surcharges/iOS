@@ -13,9 +13,11 @@ import Models
 struct ContributeButton: View {
 	
 	private let _surcharge: Surcharge
+	private let _action: () -> Void
 	
-	init(surcharge: Surcharge) {
+	init(surcharge: Surcharge, action: @escaping () -> Void) {
 		_surcharge = surcharge
+		_action = action
 	}
 	
 	var body: some View {
@@ -23,14 +25,10 @@ struct ContributeButton: View {
 		Button {
 			
 			switch _surcharge.status {
-			case .notDetermined:
+			case .notDetermined, .reported:
 				break
-			case .unknown:
-				break
-			case .reported:
-				break
-			case .confirmed:
-				break
+			case .unknown, .confirmed:
+				_action()
 			}
 			
 		} label: {

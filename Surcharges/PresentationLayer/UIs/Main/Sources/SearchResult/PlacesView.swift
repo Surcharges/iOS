@@ -17,17 +17,33 @@ struct PlacesView: View {
 	
 	@Binding private var _mainModel: MainModel
 	private let _loadNextPage: () -> Void
+	private let _selectedPlace: (String) -> Void
 	
-	init(mainModel: Binding<MainModel>, loadNextPage: @escaping () -> Void) {
+	init(
+		mainModel: Binding<MainModel>,
+		selectedPlace: @escaping (String) -> Void,
+		loadNextPage: @escaping () -> Void
+	) {
 		__mainModel = mainModel
+		_selectedPlace = selectedPlace
 		_loadNextPage = loadNextPage
 	}
 	
 	var body: some View {
 		ForEach(_mainModel.places) { place in
-			PlaceView(place: place)
+			
+			Button {
+				
+				_selectedPlace(place.id)
+				
+			} label: {
+				PlaceView(place: place)
+			}
+			.buttonStyle(.plain)
+			
 		}
 		.padding(.bottom, 20)
+		
 		
 		if _mainModel.isExistNextPage {
 			CircleProgress()
@@ -70,6 +86,9 @@ struct PlacesView: View {
 				isExistNextPage: false
 			)
 		),
+		selectedPlace: { _ in
+			
+		},
 		loadNextPage: { }
 	)
 }

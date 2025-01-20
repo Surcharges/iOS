@@ -13,13 +13,19 @@ import Resources
 import CommonUI
 
 import ViewModelProtocols
+import RouterProtocols
 
-public struct PlaceDetailView<VM: PlaceDetailViewModelProtocol>: View {
+public struct PlaceDetailView<VM: PlaceDetailViewModelProtocol, Router: PlaceDetailRouterProtocol>: View {
 	
-	@EnvironmentObject var viewModel: VM
+	@StateObject private var _viewModel: VM
+	@StateObject private var _router: Router
+	
 	@Environment(\.dismiss) var dismiss
 	
-	public init() { }
+	public init(viewModel: VM, router: Router) {
+		__viewModel = StateObject(wrappedValue: viewModel)
+		__router = StateObject(wrappedValue: router)
+	}
 	
 	public var body: some View {
 		ZStack(alignment: .bottom) {
@@ -30,12 +36,12 @@ public struct PlaceDetailView<VM: PlaceDetailViewModelProtocol>: View {
 					
 					ZStack(alignment: .topTrailing) {
 						
-						if viewModel.isLoading {
+						if _viewModel.isLoading {
 							
 							MapLoadingView()
 							
 						} else {
-							MapView(placeLocation: viewModel.placeLocation)
+							MapView(placeLocation: _viewModel.placeLocation)
 						}
 						
 						Button {
@@ -57,19 +63,21 @@ public struct PlaceDetailView<VM: PlaceDetailViewModelProtocol>: View {
 				}
 				
 				SurchargeView(
-					placeName: viewModel.placeName,
-					placeAddress: viewModel.placeAddress,
-					surcharge: viewModel.surcharge,
-					isLoading: viewModel.isLoading
+					placeName: _viewModel.placeName,
+					placeAddress: _viewModel.placeAddress,
+					surcharge: _viewModel.surcharge,
+					isLoading: _viewModel.isLoading
 				)
 				
 			}
 			
-			ContributeButton(surcharge: viewModel.surcharge)
+			ContributeButton(surcharge: _viewModel.surcharge) {
+				_router.present(.reportSurchargeInformation(id: _viewModel.placeId))
+			}
 
 		}
 		.task {
-			await viewModel.getPlaceDetail()
+			await _viewModel.getPlaceDetail()
 		}
 	}
 }

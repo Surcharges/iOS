@@ -44,3 +44,25 @@ public extension PresentationLayer.UIs {
     return Surcharges.Surcharges
   }
 }
+
+extension PresentationLayer {
+  public enum Routers: Project {
+    case RouterProtocols
+    case MainRouter
+    case PlaceDetailRouter
+  }
+}
+
+public extension PresentationLayer.Routers {
+  var name: String {
+    return String(describing: self)
+  }
+  
+  var path: String {
+    return "\(parent.path)/PresentationLayer/Routers/\(name)"
+  }
+  
+  var parent: Workspace {
+    return Surcharges.Surcharges
+  }
+}
