@@ -4,8 +4,11 @@ import ModularPlugin
 
 // MARK: Dependencies
 let projects: [ModularPlugin.Project] = [
-  PresentationLayer.UIs.Main,
   Builder.Factories,
+  PresentationLayer.Routers.MainRouter,
+  PresentationLayer.UIs.Main,
+  PresentationLayer.Routers.PlaceDetailRouter,
+  PresentationLayer.UIs.PlaceDetail,
 ]
 
 let projectDependencies: [TargetDependency] = projects.map {

@@ -16,18 +16,19 @@ import ViewModelProtocols
 
 public final class PlaceDetailViewModel<GetPlace: GetPlaceUsecaseProtocol>: PlaceDetailViewModelProtocol {
 	
+	
 	@Published public var placeName: String = "A name of place"
 	@Published public var placeAddress: String = "An address of place"
 	@Published public var placeLocation: Location = .init(latitude: 0, longitude: 0)
 	@Published public var surcharge: Surcharge = .init(status: .notDetermined, rate: nil, updatedDate: nil)
 	@Published public var isLoading: Bool = true
 	
-	private var _placeId: String
+	public let placeId: String
 	
 	private let _getPlace: GetPlace
 	
 	public init(placeId: String, getPlace: GetPlace) {
-		_placeId = placeId
+		self.placeId = placeId
 		_getPlace = getPlace
 	}
 	
@@ -35,7 +36,7 @@ public final class PlaceDetailViewModel<GetPlace: GetPlaceUsecaseProtocol>: Plac
 		
 		isLoading = true
 		
-		let getPlaceResult = await _getPlace.invoke(requestValue: .init(placeId: _placeId))
+		let getPlaceResult = await _getPlace.invoke(requestValue: .init(placeId: placeId))
 		
 		switch getPlaceResult {
 		case .success(let response):

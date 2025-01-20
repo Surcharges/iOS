@@ -10,10 +10,12 @@ import SwiftUI
 
 import PlaceDetail
 import Factories
-import ViewModels
+import PlaceDetailRouter
 
 @main
 struct PlaceDetailApp: App {
+	
+	@StateObject var placeDetailRouter = PlaceDetailRouter()
 	
 	@State private var _isShowStarbucksLambtonQuey = false
 	@State private var _isShowStarbucksLowerHutt = false
@@ -21,9 +23,7 @@ struct PlaceDetailApp: App {
 	private let _starbucksLambtonQuey = "ChIJ__-_U9SvOG0RNehxHQPATv0"
 	private let _starbucksLowerHutt = "ChIJTbxdbFaqOG0Rt5u-D2CPNiE"
 	
-
-	
-	var body: some Scene {
+var body: some Scene {
 		WindowGroup {
 			VStack(spacing: 30) {
 				Button {
@@ -39,12 +39,36 @@ struct PlaceDetailApp: App {
 				}
 			}
 			.sheet(isPresented: $_isShowStarbucksLambtonQuey) {
-				PlaceDetailView<PlaceDetailFactory.ViewModel>()
-					.environmentObject(PlaceDetailFactory(placeId: _starbucksLambtonQuey).resolve())
+				PlaceDetailView<PlaceDetailFactory.ViewModel, PlaceDetailRouter>(
+					viewModel: PlaceDetailFactory(placeId: _starbucksLambtonQuey).resolve(),
+					router: placeDetailRouter
+				)
+				.sheet(item: $placeDetailRouter.activeSheet) { destination in
+					switch destination {
+					case .reportSurchargeInformation(let id):
+						VStack {
+							Text("Report Surcharge Information View")
+							
+							Text("Place ID: \(id)")
+						}
+					}
+				}
 			}
 			.sheet(isPresented: $_isShowStarbucksLowerHutt) {
-				PlaceDetailView<PlaceDetailFactory.ViewModel>()
-					.environmentObject(PlaceDetailFactory(placeId: _starbucksLowerHutt).resolve())
+				PlaceDetailView<PlaceDetailFactory.ViewModel, PlaceDetailRouter>(
+					viewModel: PlaceDetailFactory(placeId: _starbucksLowerHutt).resolve(),
+					router: placeDetailRouter
+				)
+				.sheet(item: $placeDetailRouter.activeSheet) { destination in
+					switch destination {
+					case .reportSurchargeInformation(let id):
+						VStack {
+							Text("Report Surcharge Information View")
+							
+							Text("Place ID: \(id)")
+						}
+					}
+				}
 			}
 			
 		}

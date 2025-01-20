@@ -13,18 +13,21 @@ import Resources
 import CommonUI
 
 import ViewModelProtocols
+import RouterProtocols
 
-public struct MainView<VM: MainViewModelProtocol>: View {
+public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: View {
 	
-	@ObservedObject var viewModel: VM
+	@StateObject private var _viewModel: VM
+	@StateObject private var _router: Router
 	
 	private let _surchargeStatusTip = SurchargeStatusTip()
 	private let _useLocationTip = UseLocationTip()
 	@State private var _showLocationDeniedAlert = false
 	@FocusState private var _isSearchTextFeildFocused: Bool
 	
-	public init(viewModel: VM) {
-		self.viewModel = viewModel
+	public init(viewModel: VM, router: Router) {
+		__viewModel = StateObject(wrappedValue: viewModel)
+		__router = StateObject(wrappedValue: router)
 	}
 	
 	public var body: some View {
@@ -36,7 +39,8 @@ public struct MainView<VM: MainViewModelProtocol>: View {
 				LazyVStack(spacing: 20, pinnedViews: [.sectionHeaders]) {
 					
 					TipView(_surchargeStatusTip, action: { _ in
-						// Show surcharge status tip view
+						_router.present(.surchargeStatusHelp)
+						_surchargeStatusTip.invalidate(reason: .actionPerformed)
 					})
 					.padding([.top], 10)
 					.padding([.leading, .trailing], 20)
@@ -52,7 +56,7 @@ public struct MainView<VM: MainViewModelProtocol>: View {
 							.blurBackground()
 					}
 					
-					if viewModel.isLoading {
+					if _viewModel.isLoading {
 						
 						Spacer()
 						
@@ -62,25 +66,31 @@ public struct MainView<VM: MainViewModelProtocol>: View {
 						
 					} else {
 						
-						if viewModel.noResults {
+						if _viewModel.noResults {
 							
-							NoResultView(searchedText: viewModel.searchedText)
+							NoResultView(searchedText: _viewModel.searchedText)
 								.padding(.top, 40)
 								.padding([.leading, .trailing], 20)
 							
 						} else {
 							
-							if !viewModel.mainModel.places.isEmpty {
+							if !_viewModel.mainModel.places.isEmpty {
 								
 								Section {
-									PlacesView(mainModel: $viewModel.mainModel) {
-										Task {
-											await viewModel.next()
+									PlacesView(
+										mainModel: $_viewModel.mainModel,
+										selectedPlace: { placeId in
+											_router.present(.placeDetail(id: placeId))
+										},
+										loadNextPage: {
+											Task {
+												await _viewModel.next()
+											}
 										}
-									}
+									)
 									
 								} header: {
-									Text("Search for \"\(viewModel.searchedText)\"")
+									Text("Search for \"\(_viewModel.searchedText)\"")
 										.font(.title3)
 										.blurBackground()
 								}
@@ -102,12 +112,12 @@ public struct MainView<VM: MainViewModelProtocol>: View {
 				
 				Button {
 					
-					if viewModel.isDeniedToUseUserLocation {
+					if _viewModel.isDeniedToUseUserLocation {
 						_showLocationDeniedAlert.toggle()
 					} else {
 						
 						withAnimation {
-							viewModel.toggleUserLocation()
+							_viewModel.toggleUserLocation()
 						}
 						
 						_useLocationTip.invalidate(reason: .actionPerformed)
@@ -116,11 +126,11 @@ public struct MainView<VM: MainViewModelProtocol>: View {
 					
 				} label: {
 					
-					if viewModel.isDeniedToUseUserLocation {
+					if _viewModel.isDeniedToUseUserLocation {
 						Image(systemName: "location.slash")
 							.foregroundStyle(R.color.blue600.color)
 					} else {
-						Image(systemName: viewModel.isUserLocationOn ? "location.fill" : "location")
+						Image(systemName: _viewModel.isUserLocationOn ? "location.fill" : "location")
 							.foregroundStyle(R.color.blue600.color)
 					}
 					
@@ -151,18 +161,18 @@ public struct MainView<VM: MainViewModelProtocol>: View {
 				}
 				.popoverTip(_useLocationTip, arrowEdge: .leading) { action in
 					withAnimation {
-						viewModel.toggleUserLocation()
+						_viewModel.toggleUserLocation()
 					}
 					_useLocationTip.invalidate(reason: .actionPerformed)
 				}
 				
-				TextField("Search your destination", text: $viewModel.searchText)
+				TextField("Search your destination", text: $_viewModel.searchText)
 					.textFieldStyle(.roundedBorder)
 					.font(.body)
-					.disabled(viewModel.isLoading)
+					.disabled(_viewModel.isLoading)
 					.onSubmit {
 						Task {
-							await viewModel.search()
+							await _viewModel.search()
 						}
 					}
 					.submitLabel(.search)
@@ -175,12 +185,12 @@ public struct MainView<VM: MainViewModelProtocol>: View {
 				
 				Button {
 					Task {
-						await viewModel.search()
+						await _viewModel.search()
 					}
 				} label: {
 					Text("Search")
 						.font(.body)
-						.disabled(!viewModel.canSearch)
+						.disabled(!_viewModel.canSearch)
 				}
 				
 			}
