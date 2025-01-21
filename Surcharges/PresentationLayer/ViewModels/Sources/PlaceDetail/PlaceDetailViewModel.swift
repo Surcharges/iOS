@@ -16,6 +16,9 @@ import ViewModelProtocols
 
 public final class PlaceDetailViewModel<GetPlace: GetPlaceUsecaseProtocol>: PlaceDetailViewModelProtocol {
 	
+	deinit {
+		print("Deinitialised: \(self)")
+	}
 	
 	@Published public var placeName: String = "A name of place"
 	@Published public var placeAddress: String = "An address of place"

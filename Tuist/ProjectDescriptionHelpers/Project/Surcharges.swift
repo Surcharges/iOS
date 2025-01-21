@@ -88,7 +88,8 @@ public final class Surcharges: @unchecked Sendable {
             "UIImageName": "",
           ],
           "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved."),
-          "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you.")
+          "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you."),
+          "NSCameraUsageDescription": .string("Surcharges uses your camera to take your receipt."),
         ]
       ),
       sources: ["App/Sources/**"],

@@ -20,6 +20,10 @@ public final class MainViewModel<
 	LocationService: LocationServiceProtocol
 >: MainViewModelProtocol {
 	
+	deinit {
+		print("Deinitialised: \(self)")
+	}
+	
 	@Published public var mainModel: MainModel = .init(places: [], isExistNextPage: false)
 	@Published public var searchText: String = ""
 	@Published public var searchedText: String = ""

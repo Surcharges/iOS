@@ -12,9 +12,7 @@ import Resources
 
 public struct CircleProgress: View {
 	
-	public init() {
-		
-	}
+	public init() { }
 	
 	public var body: some View {
 		Image(systemName: "progress.indicator")

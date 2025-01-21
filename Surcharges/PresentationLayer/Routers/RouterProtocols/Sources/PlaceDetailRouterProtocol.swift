@@ -9,11 +9,11 @@
 import SwiftUI
 
 public enum PlaceDetailRouterDestination: Equatable, Identifiable {
-	case reportSurchargeInformation(id: String)
+	case reportSurchargeInformation(placeId: String, placeName: String)
 	
 	public var id: String {
 		switch self {
-		case .reportSurchargeInformation(let id):
+		case .reportSurchargeInformation(let id, _):
 			return id
 		}
 	}
