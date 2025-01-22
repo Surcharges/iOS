@@ -33,8 +33,15 @@ public extension API {
     parameters: Parameters = [:]
   ) async -> Result<Res?, NetworkError> {
 
-    let request = await _buildRequest(router, parameters).response
+		let request = await _buildRequest(router, parameters).response
     
     return response(dto, request)
   }
+	
+	static func request(router: RouterProtocol, parameters: Parameters = [:]) async throws(NetworkError) {
+		
+		let request = await _buildRequest(router, parameters).response
+		
+		return try response(request: request)
+	}
 }

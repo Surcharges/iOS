@@ -23,7 +23,7 @@ public protocol ReportSurchargeViewModelProtocol: ViewModelProtocol {
 	var isRecognising: Bool { get }
 	var isRecognised: Bool { get }
 	var isReporting: Bool { get }
-	var isReported: Bool { get }
+	var isReported: Bool { get set }
 	
 	var isReportButtonDisabled: Bool { get }
 	

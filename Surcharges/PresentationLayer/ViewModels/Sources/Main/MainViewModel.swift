@@ -18,11 +18,7 @@ import LocationServiceProtocol
 public final class MainViewModel<
 	GetPlace: GetPlacesUsecaseProtocol,
 	LocationService: LocationServiceProtocol
->: MainViewModelProtocol {
-	
-	deinit {
-		print("Deinitialised: \(self)")
-	}
+>: BaseViewModel, MainViewModelProtocol {
 	
 	@Published public var mainModel: MainModel = .init(places: [], isExistNextPage: false)
 	@Published public var searchText: String = ""
@@ -49,6 +45,8 @@ public final class MainViewModel<
 	) {
 		_getPlaces = getPlaces
 		_locationService = locationService
+		
+		super.init()
 		
 		_bindCanSearch()
 		_bindIsDeniedToUseUserLocation()

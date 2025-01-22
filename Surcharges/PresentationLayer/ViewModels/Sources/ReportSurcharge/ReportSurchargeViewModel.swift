@@ -14,11 +14,10 @@ import Models
 import UseCaseProtocols
 import ViewModelProtocols
 
-public final class ReportSurchargeViewModel<RecogniseReceiptImage: RecogniseReceiptImageProtocol>: ReportSurchargeViewModelProtocol {
-	
-	deinit {
-		print("Deinitialised: \(self)")
-	}
+public final class ReportSurchargeViewModel<
+	RecogniseReceiptImage: RecogniseReceiptImageProtocol,
+	ReportSurcharge: ReportSurchargeProtocol
+>: BaseViewModel, ReportSurchargeViewModelProtocol {
 	
 	@Published public var placeName: String
 	@Published public var selectedPhoto: PhotosPickerItem?
@@ -48,11 +47,15 @@ public final class ReportSurchargeViewModel<RecogniseReceiptImage: RecogniseRece
 	
 	private let _placeId: String
 	private let _recogniseReceiptImage: RecogniseReceiptImage
+	private let _reportSurcharge: ReportSurcharge
 	
-	public init(placeId: String, placeName: String, recogniseReceiptImage: RecogniseReceiptImage) {
+	public init(placeId: String, placeName: String, recogniseReceiptImage: RecogniseReceiptImage, reportSurcharge: ReportSurcharge) {
 		_placeId = placeId
 		self.placeName = placeName
 		_recogniseReceiptImage = recogniseReceiptImage
+		_reportSurcharge = reportSurcharge
+		
+		super.init()
 		
 		_bindTakingImageData()
 		_bindRecogniseImage()
@@ -65,6 +68,40 @@ public final class ReportSurchargeViewModel<RecogniseReceiptImage: RecogniseRece
 
 	public func report() async {
 		isReporting = true
+		
+		guard let totalAmount = Double(totalAmount),
+					let surchargeAmount = Double(surchargeAmount),
+					let imageData = _imageData else {
+			isReporting = false
+			return
+		}
+		
+		do {
+			
+			try await _reportSurcharge.invoke(
+				requestValue: .init(
+					placeId: _placeId,
+					totalAmount: totalAmount,
+					surchargeAmount: surchargeAmount,
+					receiptImageData: imageData
+				)
+			)
+			
+			isReporting = false
+			isReported = true
+			
+		} catch(let error) {
+			
+			isReporting = false
+			
+			switch error {
+			case .notAuthorized:
+				break
+			case .unknown:
+				break
+			}
+		}
+		
 	}
 	
 	private func _bindTakingImageData() {

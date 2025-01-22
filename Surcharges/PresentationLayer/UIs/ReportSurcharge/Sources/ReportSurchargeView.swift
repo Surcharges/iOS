@@ -18,6 +18,8 @@ import RouterProtocols
 
 public struct ReportSurchargeView<VM: ReportSurchargeViewModelProtocol, Router: ReportSurchargeRouterProtocol>: View {
 	
+	@Environment(\.dismiss) private var dismiss
+	
 	@StateObject private var _viewModel: VM
 	@StateObject private var _router: Router
 	
@@ -67,7 +69,7 @@ public struct ReportSurchargeView<VM: ReportSurchargeViewModelProtocol, Router: 
 						.multilineTextAlignment(.leading)
 				}
 				
-				Menu(_viewModel.isRecognising ? "Recognising..." : "📸 or 🏞️") {
+				Menu {
 					Button {
 						_isShowingPhotosicker.toggle()
 					} label: {
@@ -84,6 +86,17 @@ public struct ReportSurchargeView<VM: ReportSurchargeViewModelProtocol, Router: 
 							Text("Take a photo")
 						}
 					}
+				} label: {
+					
+					if _viewModel.isRecognising {
+						HStack {
+							Text("Recognising...")
+							ProgressView()
+						}
+					} else {
+						Text("📸 or 🏞️")
+					}
+					
 				}
 				.buttonStyle(.borderedProminent)
 				.disabled(_viewModel.isRecognising || _viewModel.isReporting)
@@ -136,7 +149,10 @@ public struct ReportSurchargeView<VM: ReportSurchargeViewModelProtocol, Router: 
 					} label: {
 						
 						if _viewModel.isReporting {
-							Text("Reporting...")
+							HStack {
+								Text("Reporting...")
+								ProgressView()
+							}
 						} else {
 							Text("📝Report")
 						}
@@ -177,6 +193,18 @@ public struct ReportSurchargeView<VM: ReportSurchargeViewModelProtocol, Router: 
 			preferredItemEncoding: .compatible
 		)
 		.imagePicker(isPresented: $_isShowingImageicker, selectedImage: $_viewModel.selectedImage)
-		
+		.overlay(_viewModel.isReported ? ThanksView(placeName: _viewModel.placeName) : nil)
+		.onChange(of: _viewModel.isReported) { _, newValue in
+			
+			_presentationIndents.insert(.large)
+			
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+				_selectedPresentationIndents = .large
+			}
+			
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+				_presentationIndents = [.large]
+			}
+		}
 	}
 }

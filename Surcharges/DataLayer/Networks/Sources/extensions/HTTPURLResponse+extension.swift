@@ -12,6 +12,7 @@ extension HTTPURLResponse {
   
   enum Status: Int, Codable {
     case ok = 200
+		case created = 201
     case noContent = 204
     case badRequest = 400
     case notAuthorized = 401

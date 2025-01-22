@@ -14,14 +14,13 @@ public struct ExternalPackages {
       return .package(product: "Shimmer", type: .runtime)
     }
     
+    public static var Confetti: TargetDependency {
+      return .package(product: "ConfettiSwiftUI", type: .runtime)
+
     public static var ToastUI: TargetDependency {
       return .package(product: "ToastUI", type: .runtime)
     }
+
   }
   
-//  public static var Kingfisher: TargetDependency {
-//    get {
-//      return TargetDependency.external(name: "Kingfisher")
-//    }
-//  }
 }

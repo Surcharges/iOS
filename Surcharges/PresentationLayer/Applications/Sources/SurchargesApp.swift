@@ -15,12 +15,14 @@ struct SurchargesApp: App {
 	@StateObject var placeDetailRouter = PlaceDetailRouter()
 	@StateObject var reportSurchargeRouter = ReportSurchargeRouter()
 	
+	@StateObject var mainFactory = MainFactory().resolve()
+	
 	var body: some Scene {
 		WindowGroup {
 			
 			NavigationStack {
 				
-				MainView(viewModel: MainFactory().resolve(), router: mainRouter)
+				MainView(viewModel: mainFactory, router: mainRouter)
 					.sheet(item: $mainRouter.activeSheet) { destination in
 						
 						switch destination {

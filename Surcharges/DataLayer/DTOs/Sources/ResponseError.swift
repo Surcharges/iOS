@@ -10,5 +10,6 @@ import Foundation
 
 public enum ResponseError: Error {
   case notAuthorized
+	case parameterError
   case unknown
 }

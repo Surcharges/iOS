@@ -17,7 +17,7 @@ import Services
 
 public struct ReportSurchargeFactory: ReportSurchargeFactoryProtocol {
 	
-	public typealias ViewModel = ReportSurchargeViewModel<RecogniseReceiptImage>
+	public typealias ViewModel = ReportSurchargeViewModel<RecogniseReceiptImage, ReportSurcharge<SurchargeRepository>>
 	
 	private let _placeId: String
 	private let _placeName: String
@@ -31,7 +31,8 @@ public struct ReportSurchargeFactory: ReportSurchargeFactoryProtocol {
 		return ReportSurchargeViewModel(
 			placeId: _placeId,
 			placeName: _placeName,
-			recogniseReceiptImage: RecogniseReceiptImage()
+			recogniseReceiptImage: RecogniseReceiptImage(),
+			reportSurcharge: ReportSurcharge(surchargeRepository: SurchargeRepository())
 		)
 	}
 	

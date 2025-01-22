@@ -10,17 +10,35 @@ import Foundation
 
 import Entities
 
-public protocol UseCaseProtocol: Sendable where ERROR: UseCaseError {
-  associatedtype RequestValue
-  associatedtype ResponseValue
-  associatedtype ERROR
-  
-  func invoke(requestValue: RequestValue) async -> Result<ResponseValue, ERROR>
+public protocol UseCaseBaseProtocol: Sendable {
+	associatedtype RequestValue
+}
+	
+public protocol UseCaseNonResponseValueProtocol: UseCaseBaseProtocol where ERROR: UseCaseError {
+	associatedtype RequestValue
+	associatedtype ERROR
+	
+	func invoke(requestValue: RequestValue) async throws(ERROR)
 }
 
-public protocol NonErrorUseCaseProtocol: Sendable {
+public protocol UseCaseNonErrorProtocol: UseCaseBaseProtocol {
 	associatedtype RequestValue
 	associatedtype ResponseValue
 	
 	func invoke(requestValue: RequestValue) async -> ResponseValue
+}
+
+public protocol UseCaseWithErrorProtocol: UseCaseNonResponseValueProtocol {
+	associatedtype ResponseValue
+	
+	func invoke(requestValue: RequestValue) async throws(ERROR) -> ResponseValue
+}
+
+@available(*, deprecated, renamed: "UseCaseWithErrorProtocol", message: "Use UseCaseWithErrorProtocol instead")
+public protocol UseCaseProtocol: Sendable where ERROR: UseCaseError {
+	associatedtype RequestValue
+	associatedtype ResponseValue
+	associatedtype ERROR
+	
+	func invoke(requestValue: RequestValue) async -> Result<ResponseValue, ERROR>
 }

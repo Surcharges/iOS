@@ -41,10 +41,10 @@ extension API {
 				return .failure(.failureResponseDecoding(reason: error.localizedDescription))
 			}
 			
-		case .noContent:
-			
+		case .created:
 			return .success(nil)
-			
+		case .noContent:
+			return .success(nil)
 		case .badRequest:
 			return .failure(.badRequest)
 		case .forbidden:
@@ -61,6 +61,36 @@ extension API {
 			return .failure(.gatewayTimeout)
 		case .undefinedError:
 			return .failure(.unknown)
+		}
+	}
+	
+	static func response(request: DataResponse<Data, AFError>) throws(NetworkError) {
+		guard let response = request.response else { throw .systemConnection }
+		
+#if DEBUG
+//		if let response = request.response,
+//			 let data = request.data {
+//			responseViewForDebug(data: (response, data))
+//		}
+#endif
+		
+		switch response.status {
+		case .ok, .created, .noContent:
+			return
+		case .badRequest:
+			throw .badRequest
+		case .forbidden:
+			throw .forbidden
+		case .notAuthorized:
+			throw .tokenInvalid
+		case .methodNotAllowed:
+			throw .methodNotAllowed
+		case .serverError:
+			throw .serverError
+		case .gatewayTimeout:
+			throw .gatewayTimeout
+		case .undefinedError:
+			throw .unknown
 		}
 	}
 	
