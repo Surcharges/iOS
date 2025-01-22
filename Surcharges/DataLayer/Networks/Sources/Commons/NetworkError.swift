@@ -12,6 +12,7 @@ public enum NetworkError: Error {
   case tokenInvalid
   case systemConnection
   case methodNotAllowed
+	case deprecatedAPI
   case serverError
   case gatewayTimeout
   case responseIsEmpty

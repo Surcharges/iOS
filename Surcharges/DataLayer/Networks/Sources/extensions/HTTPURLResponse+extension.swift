@@ -17,6 +17,7 @@ extension HTTPURLResponse {
     case notAuthorized = 401
     case forbidden = 403
     case methodNotAllowed = 405
+		case gone = 410
     case serverError = 500
     case gatewayTimeout = 504
     case undefinedError = -1

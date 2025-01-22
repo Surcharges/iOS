@@ -13,7 +13,7 @@ import CoreLocation
 import Models
 import UseCaseProtocols
 import ViewModelProtocols
-import ServiceProtocols
+import LocationServiceProtocol
 
 public final class MainViewModel<
 	GetPlace: GetPlacesUsecaseProtocol,
@@ -64,9 +64,13 @@ public final class MainViewModel<
 			_lastUserLocation = nil
 		}
 		
-		print(userLocation ?? "No location")
-		
-		let getPlacesResult = await _getPlaces.invoke(requestValue: .init(searchText: searchText, nextPageToken: _nextPageToken))
+		let getPlacesResult = await _getPlaces.invoke(
+			requestValue: .init(
+				searchText: searchText,
+				nextPageToken: _nextPageToken,
+				userLocation: userLocation != nil ? .init(latitude: userLocation!.latitude, longitude: userLocation!.longitude) : nil
+			)
+		)
 		
 		isLoading = false
 		searchedText = searchText
@@ -121,13 +125,17 @@ public final class MainViewModel<
 		
 		var userLocation: Location?
 		
-		if isUserLocationOn, let location = _lastUserLocation {
+		if let location = _lastUserLocation {
 			userLocation = .init(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
 		}
 		
-		print(userLocation ?? "No location")
-		
-		let getPlacesResult = await _getPlaces.invoke(requestValue: .init(searchText: searchText, nextPageToken: _nextPageToken))
+		let getPlacesResult = await _getPlaces.invoke(
+			requestValue: .init(
+				searchText: searchText,
+				nextPageToken: _nextPageToken,
+				userLocation: userLocation != nil ? .init(latitude: userLocation!.latitude, longitude: userLocation!.longitude) : nil
+			)
+		)
 		
 		switch getPlacesResult {
 			

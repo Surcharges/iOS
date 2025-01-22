@@ -11,7 +11,8 @@ import Foundation
 @MainActor
 public protocol FactoryProtocol {
   
+	associatedtype AppStatusService
   associatedtype ViewModel
   
-  func resolve() -> ViewModel
+	func resolve(appStatusService: AppStatusService) -> ViewModel
 }

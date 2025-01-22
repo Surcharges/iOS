@@ -11,7 +11,8 @@ let target = surcharges.target(
       PresentationLayer.ViewModels,
       DomainLayer.UseCases,
       DataLayer.Repositories,
-      Shared.Services
+      Shared.Services.AppStatusService,
+      Shared.Services.LocationService
     ]
 )
 

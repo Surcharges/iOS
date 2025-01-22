@@ -21,7 +21,7 @@ let demo = surcharges.demo(
   projects: [
     Builder.Factories,
     PresentationLayer.Routers.MainRouter,
-    PresentationLayer.UIs.Main
+    PresentationLayer.UIs.Main,
   ]
 )
 

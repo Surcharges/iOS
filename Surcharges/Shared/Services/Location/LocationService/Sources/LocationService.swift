@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import Combine
 
-import ServiceProtocols
+import LocationServiceProtocol
 
 public final class LocationService: NSObject, LocationServiceProtocol, @preconcurrency CLLocationManagerDelegate {
 	

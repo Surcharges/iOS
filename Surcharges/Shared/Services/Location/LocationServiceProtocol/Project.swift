@@ -2,7 +2,7 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import ModularPlugin
 
-let surcharges = Surcharges(project: Shared.ServiceProtocols)
+let surcharges = Surcharges(project: Shared.Services.LocationServiceProtocol)
 
 let target = surcharges.target(
   projects:

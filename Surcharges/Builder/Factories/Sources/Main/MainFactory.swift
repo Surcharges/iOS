@@ -13,22 +13,32 @@ import FactoryProtocols
 import Repositories
 import UseCases
 import ViewModels
-import Services
+import AppStatusService
+import AppStatusServiceProtocol
+import LocationService
 
 public struct MainFactory: MainFactoryProtocol {
-	
+		
 	public typealias ViewModel = MainViewModel<
-		GetPlacesUsecase<PlaceRepository>,
+		GetPlacesUsecase<PlaceRepository<AppStatusService>>,
 		LocationService
 	>
 	
-	public init() { }
+	private let _locationService: LocationService
 	
-	public func resolve() -> ViewModel {
+	public init(locationService: LocationService) {
+		_locationService = locationService
+	}
+	
+	public func resolve(appStatusService: AppStatusService) -> ViewModel {
 		
 		return MainViewModel(
-			getPlaces: GetPlacesUsecase(placeRepository: PlaceRepository()),
-			locationService: LocationService()
+			getPlaces: GetPlacesUsecase(
+				placeRepository: PlaceRepository(
+					appStatusService: appStatusService
+				)
+			),
+			locationService: _locationService
 		)
 	}
 	
