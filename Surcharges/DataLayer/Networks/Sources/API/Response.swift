@@ -53,6 +53,8 @@ extension API {
 			return .failure(.tokenInvalid)
 		case .methodNotAllowed:
 			return .failure(.methodNotAllowed)
+		case .gone:
+			return .failure(.deprecatedAPI)
 		case .serverError:
 			return .failure(.serverError)
 		case .gatewayTimeout:

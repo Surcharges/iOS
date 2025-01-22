@@ -55,7 +55,7 @@ let surcharges = Target.target(
   ),
   sources: ["Sources/**"],
   resources: .resources([], privacyManifest: .default),
-  dependencies: projectDependencies,
+  dependencies: projectDependencies + [ExternalPackages.PresentationLayer.ToastUI],
   settings: Settings.settings(
     base: baseSetting,
     debug: debugSetting,

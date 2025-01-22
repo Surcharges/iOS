@@ -10,7 +10,7 @@ import Foundation
 
 import DTOs
 
-public protocol PlaceRepositoryProtocol: Sendable {
-	func getPlaces(request: GetPlacesRequest) async -> Result<GetPlacesResponse, ResponseError>
+public protocol PlaceRepositoryProtocol: RepositoryProtocol {
+	func getPlaces(request: GetPlacesRequest) async -> GetPlacesResponse
 	func getPlace(request: GetPlaceRequest) async -> Result<GetPlaceResponse, ResponseError>
 }

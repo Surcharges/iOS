@@ -11,4 +11,9 @@ import Foundation
 public struct GetPlacesResponse: Codable, Equatable, Sendable {
 	public let places: [Place]
 	public let nextPageToken: String?
+	
+	public init(places: [Place], nextPageToken: String?) {
+		self.places = places
+		self.nextPageToken = nextPageToken
+	}
 }

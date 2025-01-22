@@ -11,37 +11,44 @@ import Foundation
 import DTOs
 import Networks
 import RepositoryProtocols
+import AppStatusServiceProtocol
 
-public struct PlaceRepository: PlaceRepositoryProtocol {
+public struct PlaceRepository<AppStatusService: AppStatusServiceProtocol>: PlaceRepositoryProtocol {
 	
-	public init() { }
+	public typealias AppStatusService = AppStatusService
 	
-	public func getPlaces(request: GetPlacesRequest) async -> Result<GetPlacesResponse, ResponseError> {
+	private let _appStatusService: AppStatusService
+	
+	public init(appStatusService: AppStatusService) {
+		_appStatusService = appStatusService
+	}
+	
+	public func getPlaces(request: GetPlacesRequest) async -> GetPlacesResponse {
 		
 		let result = await API.request(
 			dto: GetPlacesResponse.self,
-			router: PlaceRouter.places(searchText: request.searchText, nextPageToken: request.nextPageToken)
+			router: PlaceRouter.places(
+				searchText: request.searchText,
+				nextPageToken: request.nextPageToken,
+				latitude: request.userLocation?.latitude,
+				longitude: request.userLocation?.longitude
+			)
 		)
 		
 		switch result {
 		case .success(let response):
 			
 			if let response = response {
-				return .success(response)
-			} else {
-				return .failure(.unknown)
+				return response
 			}
 			
 		case .failure(let error):
 			
-			switch error {
-			case .tokenInvalid, .forbidden:
-				return .failure(.notAuthorized)
-			default:
-				return .failure(.unknown)
-			}
+			await errorHandler(appStatusService: _appStatusService, error: error)
 			
 		}
+		
+		return .init(places: [], nextPageToken: nil)
 	}
 	
 	public func getPlace(request: GetPlaceRequest) async -> Result<GetPlaceResponse, ResponseError> {

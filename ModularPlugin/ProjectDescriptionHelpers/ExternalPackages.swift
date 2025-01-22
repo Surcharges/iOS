@@ -13,6 +13,10 @@ public struct ExternalPackages {
     public static var Shimmer: TargetDependency {
       return .package(product: "Shimmer", type: .runtime)
     }
+    
+    public static var ToastUI: TargetDependency {
+      return .package(product: "ToastUI", type: .runtime)
+    }
   }
   
 //  public static var Kingfisher: TargetDependency {

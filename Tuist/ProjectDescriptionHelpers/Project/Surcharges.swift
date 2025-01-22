@@ -92,7 +92,7 @@ public final class Surcharges: @unchecked Sendable {
         ]
       ),
       sources: ["App/Sources/**"],
-      dependencies: _dependencies,
+      dependencies: _dependencies + [ExternalPackages.PresentationLayer.ToastUI],
       settings: Settings.settings(
         base: SettingsDictionary()
           .swiftVersion("6.0")

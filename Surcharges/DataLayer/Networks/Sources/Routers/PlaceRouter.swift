@@ -11,18 +11,27 @@ import Foundation
 import Alamofire
 
 public enum PlaceRouter: RouterProtocol {
-  case places(searchText: String, nextPageToken: String?)
+	case places(searchText: String, nextPageToken: String?, latitude: Double?, longitude: Double?)
   case place(id: String)
 }
 
 extension PlaceRouter {
 	public var path: String {
     switch self {
-    case .places(let searchText, let nextPageToken):
+		case .places(let searchText, let nextPageToken, let latitude, let longitude):
 			if let nextPageToken = nextPageToken {
-				return "/places?searchText=\(searchText)&nextPageToken=\(nextPageToken)"
+				if let latitude = latitude, let longitude = longitude {
+					return "/places?searchText=\(searchText)&nextPageToken=\(nextPageToken)&latitude=\(latitude)&longitude=\(longitude)"
+				} else {
+					return "/places?searchText=\(searchText)&nextPageToken=\(nextPageToken)"
+				}
 			} else {
-				return "/places?searchText=\(searchText)"
+				if let latitude = latitude, let longitude = longitude {
+					return "/places?searchText=\(searchText)&latitude=\(latitude)&longitude=\(longitude)"
+				} else {
+					return "/places?searchText=\(searchText)"
+				}
+				
 			}
     case .place(let id):
       return "/place?id=\(id)"
