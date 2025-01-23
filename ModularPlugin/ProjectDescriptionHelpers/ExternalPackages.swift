@@ -16,11 +16,10 @@ public struct ExternalPackages {
     
     public static var Confetti: TargetDependency {
       return .package(product: "ConfettiSwiftUI", type: .runtime)
-
+    }
+    
     public static var ToastUI: TargetDependency {
       return .package(product: "ToastUI", type: .runtime)
     }
-
   }
-  
 }

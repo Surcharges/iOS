@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol UseCaseError: Error, Sendable {
-	static var unknown: Self { get }
+	
 }

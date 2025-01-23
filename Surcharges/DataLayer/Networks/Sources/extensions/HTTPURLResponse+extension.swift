@@ -17,6 +17,7 @@ extension HTTPURLResponse {
     case badRequest = 400
     case notAuthorized = 401
     case forbidden = 403
+		case notFound = 404
     case methodNotAllowed = 405
 		case gone = 410
     case serverError = 500

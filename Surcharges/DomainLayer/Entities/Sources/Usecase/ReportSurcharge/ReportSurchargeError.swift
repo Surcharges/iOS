@@ -9,6 +9,5 @@
 import Foundation
 
 public enum ReportSurchargeError: UseCaseError {
-	case notAuthorized
-	case unknown
+	case failedToReportSurcharge
 }

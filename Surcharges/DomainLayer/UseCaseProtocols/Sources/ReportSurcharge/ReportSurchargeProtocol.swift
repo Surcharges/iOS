@@ -10,8 +10,9 @@ import Foundation
 
 import Entities
 
-public protocol ReportSurchargeProtocol: UseCaseNonResponseValueProtocol
+public protocol ReportSurchargeProtocol: UseCaseWithErrorProtocol
 where RequestValue == ReportSurchargeRequest,
+			ResponseValue == ReportSurchargeResponse,
 			ERROR == ReportSurchargeError {
 	
 }

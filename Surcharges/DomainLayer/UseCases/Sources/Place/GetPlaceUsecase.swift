@@ -24,53 +24,18 @@ public struct GetPlaceUsecase<R: PlaceRepositoryProtocol>: GetPlaceUsecaseProtoc
 	}
 	
 	public func invoke(requestValue: RequestValue) async -> Result<ResponseValue, ERROR> {
-		let result = await _placeRepository.getPlace(request: .init(placeId: requestValue.placeId))
 		
-		switch result {
-		case .success(let response):
+		do {
 			
-			var location: Location? {
-				if let location = response.place.location {
-					return .init(latitude: location.latitude, longitude: location.longitude)
-				} else {
-					return nil
-				}
-			}
+			let result = try await _placeRepository.getPlace(request: .init(placeId: requestValue.placeId))
 			
-			var surchargeStatus: SurchargeStatus {
-				switch response.place.surchargeStatus {
-				case .UNKNOWN: return .unknown
-				case .REPORTED: return .reported
-				case .CONFIRMED: return .confirmed
-				default: return .unknown
-				}
-			}
+			let place = ConvertDTOtoEntity.place(dto: result.place)
+			let surcharge = ConvertDTOtoEntity.surcharge(dto: result.place)
 			
-			var updatedDate: TimeStamp? {
-				if let updatedDate = response.place.reportedDate {
-					return .init(nanoseconds: updatedDate._nanoseconds, seconds: updatedDate._seconds)
-				} else {
-					return nil
-				}
-			}
+			return .success(.init(place: place, surcharge: surcharge))
 			
-			return .success(
-				.init(
-					place: .init(
-						id: response.place.id,
-						displayName: .init(text: response.place.displayName.text, languageCode: response.place.displayName.languageCode),
-						addressComponents: response.place.addressComponents.map {
-							.init(longText: $0.longText, shortText: $0.shortText, types: $0.types)
-						},
-						location: location
-					),
-					surcharge: .init(status: surchargeStatus, rate: response.place.rate, updatedDate: updatedDate)
-				)
-			)
-			
-		case .failure:
-			return .failure(.unknown)
+		} catch(let error) {
+			return .failure(.notFound)
 		}
 	}
-	
 }

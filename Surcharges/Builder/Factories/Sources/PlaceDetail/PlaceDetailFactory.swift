@@ -14,15 +14,22 @@ import Repositories
 import UseCases
 import ViewModels
 import AppStatusService
+import ViewUpdateService
 
 public struct PlaceDetailFactory: PlaceDetailFactoryProtocol {
 	
-	public typealias ViewModel = PlaceDetailViewModel<GetPlaceUsecase<PlaceRepository<AppStatusService>>>
+	public typealias ViewModel = PlaceDetailViewModel<
+		GetPlaceUsecase<PlaceRepository<AppStatusService>>,
+		ViewUpdateService
+	>
 	
 	private let _placeId: String
 	
-	public init(placeId: String) {
+	private let _viewUpdateService: ViewUpdateService
+	
+	public init(placeId: String, viewUpdateService: ViewUpdateService) {
 		_placeId = placeId
+		_viewUpdateService = viewUpdateService
 	}
 	
 	public func resolve(appStatusService: AppStatusService) -> ViewModel {
@@ -32,7 +39,8 @@ public struct PlaceDetailFactory: PlaceDetailFactoryProtocol {
 				placeRepository: PlaceRepository(
 					appStatusService: appStatusService
 				)
-			)
+			),
+			viewUpdateService: _viewUpdateService
 		)
 	}
 	

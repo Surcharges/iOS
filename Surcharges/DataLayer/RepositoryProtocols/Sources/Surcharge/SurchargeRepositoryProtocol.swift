@@ -10,6 +10,6 @@ import Foundation
 
 import DTOs
 
-public protocol SurchargeRepositoryProtocol: Sendable {
-	func reportSurcharge(request: ReportSurchargeRequest) async throws(ResponseError)
+public protocol SurchargeRepositoryProtocol: RepositoryProtocol {
+	func reportSurcharge(request: ReportSurchargeRequest) async throws(ReportSurchargeError) -> ReportSurchargeResponse
 }

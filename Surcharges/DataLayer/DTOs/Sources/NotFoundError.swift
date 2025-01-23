@@ -1,5 +1,5 @@
 //
-//  ResponseError.swift
+//  NotFoundError.swift
 //  DTOs
 //
 //  Created by Bonsung Koo on 15/01/2025.
@@ -8,8 +8,6 @@
 
 import Foundation
 
-public enum ResponseError: Error {
-  case notAuthorized
-	case parameterError
-  case unknown
+public enum NotFoundError: Error {
+  case notFound
 }

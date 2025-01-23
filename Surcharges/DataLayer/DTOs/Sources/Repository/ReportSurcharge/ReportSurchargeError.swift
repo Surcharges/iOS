@@ -1,5 +1,5 @@
 //
-//  ReportSurchargeResponse.swift
+//  ReportSurchargeError.swift
 //  DTOs
 //
 //  Created by Bonsung Koo on 22/01/2025.
@@ -7,3 +7,5 @@
 //
 
 import Foundation
+
+public typealias ReportSurchargeError = NotFoundError

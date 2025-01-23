@@ -14,10 +14,12 @@ import Models
 import UseCaseProtocols
 import ViewModelProtocols
 import LocationServiceProtocol
+import ViewUpdateServiceProtocol
 
 public final class MainViewModel<
 	GetPlace: GetPlacesUsecaseProtocol,
-	LocationService: LocationServiceProtocol
+	LocationService: LocationServiceProtocol,
+	ViewUpdateService: ViewUpdateServiceProtocol
 >: BaseViewModel, MainViewModelProtocol {
 	
 	@Published public var mainModel: MainModel = .init(places: [], isExistNextPage: false)
@@ -38,18 +40,22 @@ public final class MainViewModel<
 	
 	private let _getPlaces: GetPlace
 	private let _locationService: LocationService
+	private let _viewUpdateService: ViewUpdateService
 	
 	public init(
 		getPlaces: GetPlace,
-		locationService: LocationService
+		locationService: LocationService,
+		viewUpdateService: ViewUpdateService
 	) {
 		_getPlaces = getPlaces
 		_locationService = locationService
+		_viewUpdateService = viewUpdateService
 		
 		super.init()
 		
 		_bindCanSearch()
 		_bindIsDeniedToUseUserLocation()
+		_bindViewUpdate()
 	}
 	
 	public func search() async {
@@ -84,27 +90,7 @@ public final class MainViewModel<
 			noResults = false
 			
 			let places = response.items.map { item -> Place in
-				
-				var surchargeStatus: SurchargeStatus {
-					switch item.surcharge.status {
-					case .unknown: return .unknown
-					case .reported: return .reported
-					case .confirmed: return .confirmed
-					}
-				}
-				
-				var updatedDate: Date? {
-					guard let date = item.surcharge.updatedDate else { return nil }
-					return Date(timeIntervalSince1970: TimeInterval(date.seconds))
-				}
-				
-				return .init(
-					id: item.place.id,
-					name: item.place.displayName.text,
-					address: item.place.addressComponents.prefix(4).map { $0.longText }.joined(separator: " "),
-					location: nil,
-					surcharge: .init(status: surchargeStatus, rate: item.surcharge.rate, updatedDate: updatedDate)
-				)
+				return  ConvertPlaceEntityToModel.convert(place: item.place, surcharge: item.surcharge)
 			}
 			
 			mainModel = .init(places: places, isExistNextPage: response.nextPageToken != nil)
@@ -116,8 +102,6 @@ public final class MainViewModel<
 			case .noResults:
 				noResults = true
 				mainModel = .init(places: [], isExistNextPage: false)
-			case .unknown:
-				break
 			}
 		}
 		
@@ -143,27 +127,7 @@ public final class MainViewModel<
 			
 		case .success(let response):
 			let places = response.items.map { item -> Place in
-				
-				var surchargeStatus: SurchargeStatus {
-					switch item.surcharge.status {
-					case .unknown: return .unknown
-					case .reported: return .reported
-					case .confirmed: return .confirmed
-					}
-				}
-				
-				var updatedDate: Date? {
-					guard let date = item.surcharge.updatedDate else { return nil }
-					return Date(timeIntervalSince1970: TimeInterval(date.seconds))
-				}
-				
-				return .init(
-					id: item.place.id,
-					name: item.place.displayName.text,
-					address: item.place.addressComponents.map { $0.longText }.joined(separator: " "),
-					location: nil,
-					surcharge: .init(status: surchargeStatus, rate: item.surcharge.rate, updatedDate: updatedDate)
-				)
+				return  ConvertPlaceEntityToModel.convert(place: item.place, surcharge: item.surcharge)
 			}
 			
 			let newPlaces = mainModel.places + places
@@ -229,5 +193,32 @@ public final class MainViewModel<
 			})
 			.store(in: &_cancellables)
 		
+	}
+	
+	private func _bindViewUpdate() {
+		_viewUpdateService
+			.notified
+			.sink { [weak self] viewUpdateType in
+				switch viewUpdateType {
+				case .surchargeInformationUpdated(let updatedPlace):
+					
+					let newPlaces = self?.mainModel.places.compactMap { _place -> Place? in
+						if updatedPlace.id == _place.id {
+							return .init(
+								id: _place.id,
+								name: _place.name,
+								address: _place.address,
+								location: _place.location,
+								surcharge: updatedPlace.surcharge
+							)
+						}
+						return _place
+					}
+					
+					self?.mainModel = .init(places: newPlaces ?? [], isExistNextPage: self?.mainModel.isExistNextPage ?? false)
+					
+				}
+			}
+			.store(in: &_cancellables)
 	}
 }

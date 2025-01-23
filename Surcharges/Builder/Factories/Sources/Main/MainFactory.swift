@@ -14,20 +14,23 @@ import Repositories
 import UseCases
 import ViewModels
 import AppStatusService
-import AppStatusServiceProtocol
 import LocationService
+import ViewUpdateService
 
 public struct MainFactory: MainFactoryProtocol {
 		
 	public typealias ViewModel = MainViewModel<
 		GetPlacesUsecase<PlaceRepository<AppStatusService>>,
-		LocationService
+		LocationService,
+		ViewUpdateService
 	>
 	
 	private let _locationService: LocationService
+	private let _viewUpdateService: ViewUpdateService
 	
-	public init(locationService: LocationService) {
+	public init(locationService: LocationService, viewUpdateService: ViewUpdateService) {
 		_locationService = locationService
+		_viewUpdateService = viewUpdateService
 	}
 	
 	public func resolve(appStatusService: AppStatusService) -> ViewModel {
@@ -38,7 +41,8 @@ public struct MainFactory: MainFactoryProtocol {
 					appStatusService: appStatusService
 				)
 			),
-			locationService: _locationService
+			locationService: _locationService,
+			viewUpdateService: _viewUpdateService
 		)
 	}
 	

@@ -15,6 +15,7 @@ import RepositoryProtocols
 public struct ReportSurcharge<Repository: SurchargeRepositoryProtocol>: ReportSurchargeProtocol {
 	
 	public typealias RequestValue = ReportSurchargeRequest
+	public typealias ResponseValue = ReportSurchargeResponse
 	public typealias ERROR = ReportSurchargeError
 	
 	private let _surchargeRepository: Repository
@@ -23,9 +24,10 @@ public struct ReportSurcharge<Repository: SurchargeRepositoryProtocol>: ReportSu
 		_surchargeRepository = surchargeRepository
 	}
 	
-	public func invoke(requestValue: RequestValue) async throws(ERROR) {
+	public func invoke(requestValue: RequestValue) async throws(ERROR) -> ResponseValue {
 		do {
-			try await _surchargeRepository.reportSurcharge(
+			
+			let result = try await _surchargeRepository.reportSurcharge(
 				request: .init(
 					plcaeId: requestValue.placeId,
 					totalAmount: requestValue.totalAmount,
@@ -33,15 +35,18 @@ public struct ReportSurcharge<Repository: SurchargeRepositoryProtocol>: ReportSu
 					receiptImageData: requestValue.receiptImageData
 				)
 			)
+			
+			let place = ConvertDTOtoEntity.place(dto: result.place)
+			let surcharge = ConvertDTOtoEntity.surcharge(dto: result.place)
+			
+			return .init(place: place, surcharge: surcharge)
+			
 		} catch(let error) {
 			switch error {
-			case .notAuthorized:
-				throw .notAuthorized
-			case .parameterError, .unknown:
-				throw .unknown
+			case .notFound:
+				throw .failedToReportSurcharge
 			}
 		}
-		
 	}
 }
 	

@@ -15,7 +15,8 @@ import MainRouter
 
 import LocationService
 import AppStatusService
-import AppStatusServiceProtocol
+import AppStatusService
+import ViewUpdateService
 
 import ToastUI
 
@@ -24,15 +25,19 @@ struct MainApp: App {
 	
 	@StateObject var mainRouter = MainRouter()
 	
-	private let _locationService = LocationService()
+	private var _locationService = LocationService()
 	@StateObject private var _appStatusService = AppStatusService()
+	@StateObject private var _viewUpdateService = ViewUpdateService()
 	
 	var body: some Scene {
 		WindowGroup {
 			NavigationStack {
 				MainView(
-					viewModel: MainFactory(locationService: _locationService)
-						.resolve(appStatusService: _appStatusService),
+					viewModel: MainFactory(
+						locationService: _locationService,
+						viewUpdateService: _viewUpdateService
+					)
+					.resolve(appStatusService: _appStatusService),
 					router: mainRouter
 				)
 				.sheet(item: $mainRouter.activeSheet) { destination in

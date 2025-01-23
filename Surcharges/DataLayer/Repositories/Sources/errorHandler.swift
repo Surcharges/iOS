@@ -10,11 +10,10 @@ import Foundation
 
 import Networks
 import RepositoryProtocols
-//import AppStatusServiceProtocol
 
 extension RepositoryProtocol {
 	
-	public func errorHandler(appStatusService: AppStatusService, error: NetworkError) async {
+	public func errorHandlerExceptNotFound(appStatusService: AppStatusService, error: NetworkError) async {
 		switch error {
 		case .tokenInvalid:
 			await appStatusService.notifyAppStatus(.toast(.notAuthorized))
@@ -26,6 +25,8 @@ extension RepositoryProtocol {
 			await appStatusService.notifyAppStatus(.toast(.needToUpdate))
 		case .failureResponseDecoding(let reason):
 			await appStatusService.notifyAppStatus(.toast(.unknown(message: reason)))
+		case .notFound:
+			return
 		default:
 			await appStatusService.notifyAppStatus(.toast(.unknown(message: error.localizedDescription)))
 		}

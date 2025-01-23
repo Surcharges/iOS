@@ -14,5 +14,5 @@ public protocol RepositoryProtocol: Sendable where AppStatusService: AppStatusSe
 	associatedtype AppStatusService
 	associatedtype ERROR
 	
-	func errorHandler(appStatusService: AppStatusService, error: ERROR) async
+	func errorHandlerExceptNotFound(appStatusService: AppStatusService, error: ERROR) async
 }

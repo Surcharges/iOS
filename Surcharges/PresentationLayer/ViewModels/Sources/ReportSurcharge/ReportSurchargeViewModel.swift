@@ -13,10 +13,12 @@ import Combine
 import Models
 import UseCaseProtocols
 import ViewModelProtocols
+import ViewUpdateServiceProtocol
 
 public final class ReportSurchargeViewModel<
 	RecogniseReceiptImage: RecogniseReceiptImageProtocol,
-	ReportSurcharge: ReportSurchargeProtocol
+	ReportSurcharge: ReportSurchargeProtocol,
+	ViewUpdateService: ViewUpdateServiceProtocol
 >: BaseViewModel, ReportSurchargeViewModelProtocol {
 	
 	@Published public var placeName: String
@@ -49,11 +51,20 @@ public final class ReportSurchargeViewModel<
 	private let _recogniseReceiptImage: RecogniseReceiptImage
 	private let _reportSurcharge: ReportSurcharge
 	
-	public init(placeId: String, placeName: String, recogniseReceiptImage: RecogniseReceiptImage, reportSurcharge: ReportSurcharge) {
+	private let _viewUpdateService: ViewUpdateService
+	
+	public init(
+		placeId: String,
+		placeName: String,
+		recogniseReceiptImage: RecogniseReceiptImage,
+		reportSurcharge: ReportSurcharge,
+		viewUpdateService: ViewUpdateService
+	) {
 		_placeId = placeId
 		self.placeName = placeName
 		_recogniseReceiptImage = recogniseReceiptImage
 		_reportSurcharge = reportSurcharge
+		_viewUpdateService = viewUpdateService
 		
 		super.init()
 		
@@ -67,6 +78,7 @@ public final class ReportSurchargeViewModel<
 	}
 
 	public func report() async {
+		
 		isReporting = true
 		
 		guard let totalAmount = Double(totalAmount),
@@ -78,7 +90,7 @@ public final class ReportSurchargeViewModel<
 		
 		do {
 			
-			try await _reportSurcharge.invoke(
+			let result = try await _reportSurcharge.invoke(
 				requestValue: .init(
 					placeId: _placeId,
 					totalAmount: totalAmount,
@@ -90,16 +102,16 @@ public final class ReportSurchargeViewModel<
 			isReporting = false
 			isReported = true
 			
-		} catch(let error) {
+			await _viewUpdateService.update(
+				.surchargeInformationUpdated(
+					ConvertPlaceEntityToModel.convert(place: result.place, surcharge: result.surcharge)
+				)
+			)
+			
+		} catch {
 			
 			isReporting = false
 			
-			switch error {
-			case .notAuthorized:
-				break
-			case .unknown:
-				break
-			}
 		}
 		
 	}

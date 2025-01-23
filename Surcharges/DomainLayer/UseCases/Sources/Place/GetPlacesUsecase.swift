@@ -34,59 +34,32 @@ public struct GetPlacesUsecase<R: PlaceRepositoryProtocol>: GetPlacesUsecaseProt
 			}
 		}
 		
-		let result = await _placeRepository.getPlaces(
-			request: .init(
-				searchText: requestValue.searchText,
-				nextPageToken: requestValue.nextPageToken,
-				userLocation: usrLocation
+		do {
+			
+			let result = try await _placeRepository.getPlaces(
+				request: .init(
+					searchText: requestValue.searchText,
+					nextPageToken: requestValue.nextPageToken,
+					userLocation: usrLocation
+				)
 			)
-		)
-		
-		if result.places.isEmpty {
-			return .failure(.noResults)
+			
+			let places = result.places.map { _place -> Entities.GetPlacesResponse.Item in
+				
+				let place = ConvertDTOtoEntity.place(dto: _place)
+				let surcharge = ConvertDTOtoEntity.surcharge(dto: _place)
+				
+				return .init(place: place, surcharge: surcharge)
+				
+			}
+			
+			return .success(.init(items: places, nextPageToken: result.nextPageToken))
+			
+		} catch(let error) {
+			switch error {
+			case .notFound:
+				return .failure(.noResults)
+			}
 		}
-		
-		let places = result.places.map { place -> Entities.GetPlacesResponse.Item in
-			
-			var location: Location? {
-				if let location = place.location {
-					return .init(latitude: location.latitude, longitude: location.longitude)
-				} else {
-					return nil
-				}
-			}
-			
-			var surchargeStatus: Entities.SurchargeStatus {
-				switch place.surchargeStatus {
-				case .UNKNOWN: return .unknown
-				case .REPORTED: return .reported
-				case .CONFIRMED: return .confirmed
-				default: return .unknown
-				}
-			}
-			
-			var updatedDate: Entities.TimeStamp? {
-				if let updatedDate = place.reportedDate {
-					return .init(nanoseconds: updatedDate._nanoseconds, seconds: updatedDate._seconds)
-				} else {
-					return nil
-				}
-			}
-			
-			return .init(
-				place: .init(
-					id: place.id,
-					displayName: .init(text: place.displayName.text, languageCode: place.displayName.languageCode),
-					addressComponents: place.addressComponents.map {
-						Entities.AddressComponents(longText: $0.longText, shortText: $0.shortText, types: $0.types)
-					},
-					location: location
-				),
-				surcharge: .init(status: surchargeStatus, rate: place.rate, updatedDate: updatedDate)
-			)
-		}
-		
-		return .success(.init(items: places, nextPageToken: result.nextPageToken))
-		
   }
 }

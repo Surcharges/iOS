@@ -12,6 +12,7 @@ public struct Packages {
   
   public static var Confetti: Package {
     return .remote(url: "https://github.com/simibac/ConfettiSwiftUI", requirement: .exact("2.0.2"))
+  }
 
   public static var ToastUI: Package {
     return .remote(url: "https://github.com/quanshousio/ToastUI", requirement: .exact("4.0.0"))
@@ -21,7 +22,7 @@ public struct Packages {
     return [
       Alamofire,
       Shimmer,
-      Confetti
+      Confetti,
       ToastUI,
     ]
   }

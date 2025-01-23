@@ -9,7 +9,8 @@ let target = surcharges.target(
     [
       PresentationLayer.ViewModelProtocols,
       DomainLayer.UseCaseProtocols,
-      Shared.Services.LocationServiceProtocol
+      Shared.Services.LocationServiceProtocol,
+      Shared.Services.ViewUpdateServiceProtocol,
     ]
 )
 

@@ -28,8 +28,9 @@ public protocol UseCaseNonErrorProtocol: UseCaseBaseProtocol {
 	func invoke(requestValue: RequestValue) async -> ResponseValue
 }
 
-public protocol UseCaseWithErrorProtocol: UseCaseNonResponseValueProtocol {
+public protocol UseCaseWithErrorProtocol: UseCaseBaseProtocol where ERROR: UseCaseError {
 	associatedtype ResponseValue
+	associatedtype ERROR
 	
 	func invoke(requestValue: RequestValue) async throws(ERROR) -> ResponseValue
 }
