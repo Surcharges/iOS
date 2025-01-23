@@ -18,6 +18,13 @@ let projectDependencies: [TargetDependency] = projects.map {
   .project(target: $0.name, path: .relativeToRoot($0.path))
 }
 
+let externalDependencies: [TargetDependency] = [
+  ExternalPackages.PresentationLayer.ToastUI,
+  ExternalPackages.Firebase.Core,
+  ExternalPackages.Firebase.Analytics,
+  ExternalPackages.Firebase.Crashlytics,
+]
+
 // MARK: Target - Infomation
 let developmentTeam = "PN8663UTBA"
 let projectVersion = "1"
@@ -28,6 +35,7 @@ let baseSetting = SettingsDictionary()
   .bitcodeEnabled(false)
   .currentProjectVersion(projectVersion)
   .marketingVersion(marketingVersion)
+  .otherLinkerFlags(["-ObjC"])
   .automaticCodeSigning(devTeam: developmentTeam)
   .developmentTeam(developmentTeam)
 
@@ -58,8 +66,8 @@ let surcharges = Target.target(
     ]
   ),
   sources: ["Sources/**"],
-  resources: .resources([], privacyManifest: .default),
-  dependencies: projectDependencies + [ExternalPackages.PresentationLayer.ToastUI],
+  resources: .resources(["Resources/**"], privacyManifest: .default),
+  dependencies: projectDependencies + externalDependencies,
   settings: Settings.settings(
     base: baseSetting,
     debug: debugSetting,

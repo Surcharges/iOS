@@ -18,12 +18,17 @@ public struct Packages {
     return .remote(url: "https://github.com/quanshousio/ToastUI", requirement: .exact("4.0.0"))
   }
   
+  public static var Firebase: Package {
+    return .remote(url: "https://github.com/firebase/firebase-ios-sdk", requirement: .exact("11.7.0"))
+  }
+  
   public static var all: [Package] {
     return [
       Alamofire,
       Shimmer,
       Confetti,
       ToastUI,
+      Firebase,
     ]
   }
 }
