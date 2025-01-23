@@ -22,4 +22,18 @@ public struct ExternalPackages {
       return .package(product: "ToastUI", type: .runtime)
     }
   }
+  
+  public struct Firebase {
+    public static var Core: TargetDependency {
+      return .package(product: "FirebaseCore", type: .runtime)
+    }
+    
+    public static var Analytics: TargetDependency {
+      return .package(product: "FirebaseAnalytics", type: .runtime)
+    }
+    
+    public static var Crashlytics: TargetDependency {
+      return .package(product: "FirebaseCrashlytics", type: .runtime)
+    }
+  }
 }

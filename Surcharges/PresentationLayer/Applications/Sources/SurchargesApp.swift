@@ -35,6 +35,8 @@ import ToastUI
 @main
 struct SurchargesApp: App {
 	
+	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+	
 	@StateObject private var _mainRouter = MainRouter()
 	@StateObject private var _placeDetailRouter = PlaceDetailRouter()
 	@StateObject private var _reportSurchargeRouter = ReportSurchargeRouter()
