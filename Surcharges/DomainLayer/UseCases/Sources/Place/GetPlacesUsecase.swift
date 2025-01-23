@@ -24,7 +24,7 @@ public struct GetPlacesUsecase<R: PlaceRepositoryProtocol>: GetPlacesUsecaseProt
 		_placeRepository = placeRepository
 	}
   
-  public func invoke(requestValue: RequestValue) async -> Result<ResponseValue, ERROR> {
+  public func invoke(requestValue: RequestValue) async throws(ERROR) -> ResponseValue {
 		
 		var usrLocation: DTOs.GetPlacesRequest.UserLocation? {
 			if let userLocation = requestValue.userLocation {
@@ -53,12 +53,12 @@ public struct GetPlacesUsecase<R: PlaceRepositoryProtocol>: GetPlacesUsecaseProt
 				
 			}
 			
-			return .success(.init(items: places, nextPageToken: result.nextPageToken))
+			return .init(items: places, nextPageToken: result.nextPageToken)
 			
 		} catch(let error) {
 			switch error {
 			case .notFound:
-				return .failure(.noResults)
+				throw .noResults
 			}
 		}
   }

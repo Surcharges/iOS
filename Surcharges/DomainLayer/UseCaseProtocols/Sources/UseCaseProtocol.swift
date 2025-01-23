@@ -34,12 +34,3 @@ public protocol UseCaseWithErrorProtocol: UseCaseBaseProtocol where ERROR: UseCa
 	
 	func invoke(requestValue: RequestValue) async throws(ERROR) -> ResponseValue
 }
-
-@available(*, deprecated, renamed: "UseCaseWithErrorProtocol", message: "Use UseCaseWithErrorProtocol instead")
-public protocol UseCaseProtocol: Sendable where ERROR: UseCaseError {
-	associatedtype RequestValue
-	associatedtype ResponseValue
-	associatedtype ERROR
-	
-	func invoke(requestValue: RequestValue) async -> Result<ResponseValue, ERROR>
-}

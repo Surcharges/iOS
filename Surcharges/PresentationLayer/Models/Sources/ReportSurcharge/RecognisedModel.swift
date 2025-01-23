@@ -16,7 +16,6 @@ public struct RecognisedModel: Equatable, Sendable {
 		case extractedPartially
 		case mayNotReceiptOrPurchaseTerminal
 		case notExtractable
-		case unknown
 	}
 	
 	public let result: RecognisedResult

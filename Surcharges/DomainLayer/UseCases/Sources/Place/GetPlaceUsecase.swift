@@ -23,7 +23,7 @@ public struct GetPlaceUsecase<R: PlaceRepositoryProtocol>: GetPlaceUsecaseProtoc
 		_placeRepository = placeRepository
 	}
 	
-	public func invoke(requestValue: RequestValue) async -> Result<ResponseValue, ERROR> {
+	public func invoke(requestValue: RequestValue) async throws(ERROR) -> ResponseValue {
 		
 		do {
 			
@@ -32,12 +32,12 @@ public struct GetPlaceUsecase<R: PlaceRepositoryProtocol>: GetPlaceUsecaseProtoc
 			let place = ConvertDTOtoEntity.place(dto: result.place)
 			let surcharge = ConvertDTOtoEntity.surcharge(dto: result.place)
 			
-			return .success(.init(place: place, surcharge: surcharge))
+			return .init(place: place, surcharge: surcharge)
 			
 		} catch(let error) {
 			switch error {
 			case .notFound:
-				return .failure(.notFound)
+				throw .notFound
 			}
 		}
 	}

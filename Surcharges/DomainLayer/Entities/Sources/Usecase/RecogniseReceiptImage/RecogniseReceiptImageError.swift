@@ -13,5 +13,4 @@ public enum RecogniseReceiptImageError: UseCaseError {
 	case extractedPartially(totalAmount: Double?, surchargeAmount: Double?)
 	case mayNotReceiptOrPurchaseTerminal
 	case notExtractable
-	case unknown
 }

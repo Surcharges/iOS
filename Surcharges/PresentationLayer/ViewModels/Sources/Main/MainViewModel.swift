@@ -72,39 +72,35 @@ public final class MainViewModel<
 			_lastUserLocation = nil
 		}
 		
-		let getPlacesResult = await _getPlaces.invoke(
-			requestValue: .init(
-				searchText: searchText,
-				nextPageToken: _nextPageToken,
-				userLocation: userLocation != nil ? .init(latitude: userLocation!.latitude, longitude: userLocation!.longitude) : nil
+		do {
+			let getPlacesResult = try await _getPlaces.invoke(
+				requestValue: .init(
+					searchText: searchText,
+					nextPageToken: _nextPageToken,
+					userLocation: userLocation != nil ? .init(latitude: userLocation!.latitude, longitude: userLocation!.longitude) : nil
+				)
 			)
-		)
-		
-		isLoading = false
-		searchedText = searchText
-		
-		switch getPlacesResult {
 			
-		case .success(let response):
+			isLoading = false
+			searchedText = searchText
 			
 			noResults = false
 			
-			let places = response.items.map { item -> Place in
+			let places = getPlacesResult.items.map { item -> Place in
 				return  ConvertPlaceEntityToModel.convert(place: item.place, surcharge: item.surcharge)
 			}
 			
-			mainModel = .init(places: places, isExistNextPage: response.nextPageToken != nil)
+			mainModel = .init(places: places, isExistNextPage: getPlacesResult.nextPageToken != nil)
 			
-			_nextPageToken = response.nextPageToken
+			_nextPageToken = getPlacesResult.nextPageToken
 			
-		case .failure(let error):
+		} catch(let error) {
 			switch error {
 			case .noResults:
 				noResults = true
 				mainModel = .init(places: [], isExistNextPage: false)
 			}
 		}
-		
 	}
 	
 	public func next() async {
@@ -115,33 +111,33 @@ public final class MainViewModel<
 			userLocation = .init(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
 		}
 		
-		let getPlacesResult = await _getPlaces.invoke(
-			requestValue: .init(
-				searchText: searchText,
-				nextPageToken: _nextPageToken,
-				userLocation: userLocation != nil ? .init(latitude: userLocation!.latitude, longitude: userLocation!.longitude) : nil
-			)
-		)
+		do {
 		
-		switch getPlacesResult {
+			let getPlacesResult = try await _getPlaces.invoke(
+				requestValue: .init(
+					searchText: searchText,
+					nextPageToken: _nextPageToken,
+					userLocation: userLocation != nil ? .init(latitude: userLocation!.latitude, longitude: userLocation!.longitude) : nil
+				)
+			)
 			
-		case .success(let response):
-			let places = response.items.map { item -> Place in
+			let places = getPlacesResult.items.map { item -> Place in
 				return  ConvertPlaceEntityToModel.convert(place: item.place, surcharge: item.surcharge)
 			}
 			
 			let newPlaces = mainModel.places + places
 			
-			mainModel = .init(places: newPlaces, isExistNextPage: response.nextPageToken != nil)
+			mainModel = .init(places: newPlaces, isExistNextPage: getPlacesResult.nextPageToken != nil)
 			
-			_nextPageToken = response.nextPageToken
+			_nextPageToken = getPlacesResult.nextPageToken
 			
-		case .failure:
+		} catch(let error) {
 			
-			mainModel = .init(places: mainModel.places, isExistNextPage: false)
-			
+			switch error {
+			case .noResults:
+				mainModel = .init(places: mainModel.places, isExistNextPage: false)
+			}
 		}
-		
 	}
 	
 	public func toggleUserLocation() {

@@ -11,7 +11,7 @@ import Vision
 import NaturalLanguage
 
 public struct AmountExtractor {
-	static public func invoke(image: Data) throws -> [Double] {
+	static public func invoke(image: Data) -> [Double] {
 		let tagger = NLTagger(tagSchemes: [.nameTypeOrLexicalClass])
 		
 		var extractedText: [String] = []
@@ -66,8 +66,8 @@ public struct AmountExtractor {
 			
 			return amounts
 			
-		} catch(let error) {
-			throw error
+		} catch {
+			return []
 		}
 	}
 }

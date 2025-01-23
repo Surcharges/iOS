@@ -12,7 +12,7 @@ import NaturalLanguage
 
 public struct PlaceValidator {
 	
-	static public func matched(placeName: String, image: Data) throws -> Bool {
+	static public func matched(placeName: String, image: Data) -> Bool {
 		
 		let tagger = NLTagger(tagSchemes: [.nameTypeOrLexicalClass])
 		
@@ -62,8 +62,10 @@ public struct PlaceValidator {
 			
 			return !extractedText.isEmpty
 			
-		} catch(let error) {
-			throw error
+		} catch {
+			
+			return false
+			
 		}
 	}
 	
