@@ -24,6 +24,8 @@ extension Shared {
     case LocationServiceProtocol
     case AppStatusService
     case AppStatusServiceProtocol
+    case ViewUpdateService
+    case ViewUpdateServiceProtocol
   }
 }
 
@@ -38,6 +40,8 @@ public extension Shared.Services {
       return "\(parent.path)/Shared/Services/Location/\(name)"
     case .AppStatusService, .AppStatusServiceProtocol:
       return "\(parent.path)/Shared/Services/AppStatus/\(name)"
+    case .ViewUpdateService, .ViewUpdateServiceProtocol:
+      return "\(parent.path)/Shared/Services/ViewUpdate/\(name)"
     }
   }
   

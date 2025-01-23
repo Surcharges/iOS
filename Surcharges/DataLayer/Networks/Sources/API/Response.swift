@@ -12,12 +12,9 @@ import Alamofire
 
 extension API {
 	
-	static func response<Res: Decodable>(
-		_ dto: Res.Type,
-		_ request: DataResponse<Data, AFError>
-	) -> Result<Res?, NetworkError> {
+	static func response<Res: Decodable>(_ dto: Res.Type, _ request: DataResponse<Data, AFError>) throws(NetworkError) -> Res {
 		
-		guard let response = request.response else { return .failure(.systemConnection) }
+		guard let response = request.response else { throw .systemConnection }
 		
 #if DEBUG
 //		if let response = request.response,
@@ -27,43 +24,68 @@ extension API {
 #endif
 		
 		switch response.status {
-		case .ok:
+		case .ok, .created:
+			
 			do {
-				
 				guard let data = request.data else {
-					return .failure(.responseIsEmpty)
+					throw NetworkError.responseIsEmpty
 				}
 				
 				let decodedDto = try JSONDecoder().decode(dto.self, from: data)
-				return .success(decodedDto)
+				return decodedDto
 				
-			} catch {
-				return .failure(.failureResponseDecoding(reason: error.localizedDescription))
+			} catch(let error) {
+				throw .failureResponseDecoding(reason: error.localizedDescription)
 			}
-			
-		case .noContent:
-			
-			return .success(nil)
-			
-		case .badRequest:
-			return .failure(.badRequest)
-		case .forbidden:
-			return .failure(.forbidden)
-		case .notAuthorized:
-			return .failure(.tokenInvalid)
-		case .methodNotAllowed:
-			return .failure(.methodNotAllowed)
-		case .gone:
-			return .failure(.deprecatedAPI)
-		case .serverError:
-			return .failure(.serverError)
-		case .gatewayTimeout:
-			return .failure(.gatewayTimeout)
-		case .undefinedError:
-			return .failure(.unknown)
+		
+		default:
+			try _errorHandler(request: request)
 		}
+		
+		fatalError("There must be a return statement.")
 	}
 	
+	static func response(request: DataResponse<Data, AFError>) throws(NetworkError) {
+		
+		guard let _ = request.response else { throw .systemConnection }
+		
+#if DEBUG
+//		if let response = request.response,
+//			 let data = request.data {
+//			responseViewForDebug(data: (response, data))
+//		}
+#endif
+		
+		try _errorHandler(request: request)
+	}
+	
+	static private func _errorHandler(request: DataResponse<Data, AFError>) throws(NetworkError) {
+		
+		guard let response = request.response else { throw .systemConnection }
+		
+		switch response.status {
+		case .ok, .created, .noContent:
+			return
+		case .badRequest:
+			throw .badRequest
+		case .forbidden:
+			throw .forbidden
+		case .notAuthorized:
+			throw .tokenInvalid
+		case .notFound:
+			throw .notFound
+		case .methodNotAllowed:
+			throw .methodNotAllowed
+		case .gone:
+			throw .deprecatedAPI
+		case .serverError:
+			throw .serverError
+		case .gatewayTimeout:
+			throw .gatewayTimeout
+		case .undefinedError:
+			throw .unknown
+		}
+	}
 }
 
 extension API {

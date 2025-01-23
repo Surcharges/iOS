@@ -13,9 +13,12 @@ import CoreLocation
 import Models
 import UseCaseProtocols
 import ViewModelProtocols
+import ViewUpdateServiceProtocol
 
-public final class PlaceDetailViewModel<GetPlace: GetPlaceUsecaseProtocol>: PlaceDetailViewModelProtocol {
-	
+public final class PlaceDetailViewModel<
+	GetPlace: GetPlaceUsecaseProtocol,
+	ViewUpdateService: ViewUpdateServiceProtocol
+>: BaseViewModel, PlaceDetailViewModelProtocol {
 	
 	@Published public var placeName: String = "A name of place"
 	@Published public var placeAddress: String = "An address of place"
@@ -23,13 +26,20 @@ public final class PlaceDetailViewModel<GetPlace: GetPlaceUsecaseProtocol>: Plac
 	@Published public var surcharge: Surcharge = .init(status: .notDetermined, rate: nil, updatedDate: nil)
 	@Published public var isLoading: Bool = true
 	
+	private var _cancellables: Set<AnyCancellable> = []
+	
 	public let placeId: String
 	
 	private let _getPlace: GetPlace
+	private let _viewUpdateService: ViewUpdateService
 	
-	public init(placeId: String, getPlace: GetPlace) {
+	public init(placeId: String, getPlace: GetPlace, viewUpdateService: ViewUpdateService) {
 		self.placeId = placeId
 		_getPlace = getPlace
+		_viewUpdateService = viewUpdateService
+		super.init()
+		
+		_bindViewUpdate()
 	}
 	
 	public func getPlaceDetail() async {
@@ -41,28 +51,14 @@ public final class PlaceDetailViewModel<GetPlace: GetPlaceUsecaseProtocol>: Plac
 		switch getPlaceResult {
 		case .success(let response):
 			
-			placeLocation = .init(
-				latitude: response.place.location?.latitude ?? 0,
-				longitude: response.place.location?.longitude ?? 0
-			)
+			let place = ConvertPlaceEntityToModel.convert(place: response.place, surcharge: response.surcharge)
 			
-			placeName = response.place.displayName.text
-			placeAddress = response.place.addressComponents.prefix(4).map { $0.longText }.joined(separator: " ")
+			placeLocation = place.location ?? .init(latitude: 0, longitude: 0)
 			
-			var surchargeStatus: SurchargeStatus {
-				switch response.surcharge.status {
-				case .unknown: return .unknown
-				case .reported: return .reported
-				case .confirmed: return .confirmed
-				}
-			}
+			placeName = place.name
+			placeAddress = place.address
 			
-			var updatedDate: Date? {
-				guard let updatedDate = response.surcharge.updatedDate else { return nil }
-				return Date(timeIntervalSince1970: TimeInterval(updatedDate.seconds))
-			}
-			
-			surcharge = .init(status: surchargeStatus, rate: response.surcharge.rate, updatedDate: updatedDate)
+			surcharge = place.surcharge
 			
 		case .failure:
 			break
@@ -70,6 +66,20 @@ public final class PlaceDetailViewModel<GetPlace: GetPlaceUsecaseProtocol>: Plac
 		
 		isLoading = false
 		
+	}
+	
+	private func _bindViewUpdate() {
+		_viewUpdateService
+			.notified
+			.sink { [weak self] viewUpdateType in
+				switch viewUpdateType {
+				case .surchargeInformationUpdated(let place):
+					
+					self?.surcharge = place.surcharge
+					
+				}
+			}
+			.store(in: &_cancellables)
 	}
 	
 }

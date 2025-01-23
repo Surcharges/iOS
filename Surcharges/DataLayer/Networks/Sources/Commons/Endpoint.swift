@@ -10,6 +10,6 @@ import Foundation
 
 struct Endpoint {
   static var url: String {
-    return "http://192.168.68.54:5051/surcharges/us-central1/mobile"
+    return "http://192.168.68.50:5051/surcharges/us-central1/mobile"
   }
 }

@@ -11,6 +11,6 @@ import Foundation
 import DTOs
 
 public protocol PlaceRepositoryProtocol: RepositoryProtocol {
-	func getPlaces(request: GetPlacesRequest) async -> GetPlacesResponse
-	func getPlace(request: GetPlaceRequest) async -> Result<GetPlaceResponse, ResponseError>
+	func getPlaces(request: GetPlacesRequest) async throws(GetPlacesError) -> GetPlacesResponse
+	func getPlace(request: GetPlaceRequest) async throws(GetPlaceError) -> GetPlaceResponse
 }

@@ -9,6 +9,7 @@
 import Foundation
 
 public enum NetworkError: Error {
+	case notFound
   case tokenInvalid
   case systemConnection
   case methodNotAllowed

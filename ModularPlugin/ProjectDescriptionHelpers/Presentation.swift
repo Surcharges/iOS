@@ -28,6 +28,7 @@ extension PresentationLayer {
     case Resources
     case Main
     case PlaceDetail
+    case ReportSurcharge
   }
 }
 
@@ -50,6 +51,7 @@ extension PresentationLayer {
     case RouterProtocols
     case MainRouter
     case PlaceDetailRouter
+    case ReportSurchargeRouter
   }
 }
 

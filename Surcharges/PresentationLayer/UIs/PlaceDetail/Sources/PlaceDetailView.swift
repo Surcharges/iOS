@@ -72,7 +72,7 @@ public struct PlaceDetailView<VM: PlaceDetailViewModelProtocol, Router: PlaceDet
 			}
 			
 			ContributeButton(surcharge: _viewModel.surcharge) {
-				_router.present(.reportSurchargeInformation(id: _viewModel.placeId))
+				_router.present(.reportSurchargeInformation(placeId: _viewModel.placeId, placeName: _viewModel.placeName))
 			}
 
 		}

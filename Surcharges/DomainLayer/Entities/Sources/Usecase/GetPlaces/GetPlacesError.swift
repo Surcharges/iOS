@@ -10,5 +10,4 @@ import Foundation
 
 public enum GetPlacesError: UseCaseError {
 	case noResults
-	case unknown
 }

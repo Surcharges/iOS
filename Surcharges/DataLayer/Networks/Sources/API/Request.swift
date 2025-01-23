@@ -27,14 +27,21 @@ public extension API {
       .serializingData()
   }
   
-  static func request<Res: Decodable>(
-    dto: Res.Type,
-    router: RouterProtocol,
-    parameters: Parameters = [:]
-  ) async -> Result<Res?, NetworkError> {
+	static func request<Res: Decodable>(
+		dto: Res.Type,
+		router: RouterProtocol,
+		parameters: Parameters = [:]
+	) async throws(NetworkError) -> Res {
 
-    let request = await _buildRequest(router, parameters).response
-    
-    return response(dto, request)
-  }
+		let request = await _buildRequest(router, parameters).response
+		
+		return try response(dto, request)
+	}
+	
+	static func request(router: RouterProtocol, parameters: Parameters = [:]) async throws(NetworkError) {
+		
+		let request = await _buildRequest(router, parameters).response
+		
+		return try response(request: request)
+	}
 }

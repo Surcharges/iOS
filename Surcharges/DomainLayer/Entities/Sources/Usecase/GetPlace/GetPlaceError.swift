@@ -9,5 +9,5 @@
 import Foundation
 
 public enum GetPlaceError: UseCaseError {
-	case unknown
+	case notFound
 }
