@@ -1,16 +1,35 @@
-import SwiftUI
+//
+//  SurchargesApp.swift
+//  Surcharges
+//
+//  Created by Bonsung Koo on 23/01/2025.
+//  Copyright © 2025 Surcharges. All rights reserved.
+//
 
-import Factories
+// Standard Frameworks
+import SwiftUI
+import TipKit
+
+// UIs
 import Main
 import PlaceDetail
 import ReportSurcharge
+import SurchargeStatusHelp
+
+// Routers
 import MainRouter
 import PlaceDetailRouter
 import ReportSurchargeRouter
+
+// Builders
+import Factories
+
+// Services
 import AppStatusService
 import LocationService
 import ViewUpdateService
 
+// External Dependencies
 import ToastUI
 
 @main
@@ -69,12 +88,12 @@ struct SurchargesApp: App {
 						}
 						
 					case .surchargeStatusHelp:
-						VStack {
-							Text("Surcharge Status Help View")
-						}
+						SurchargeStatusHelpView()
 					}
 				}
-				
+			}
+			.onAppear {
+				try? Tips.resetDatastore()
 			}
 			.toast(item: $_appStatusService.appStatus, dismissAfter: 5) { status in
 				switch status {

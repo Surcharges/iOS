@@ -29,6 +29,7 @@ extension PresentationLayer {
     case Main
     case PlaceDetail
     case ReportSurcharge
+    case SurchargeStatusHelp
   }
 }
 

@@ -22,6 +22,7 @@ let demo = surcharges.demo(
     Builder.Factories,
     PresentationLayer.Routers.MainRouter,
     PresentationLayer.UIs.Main,
+    PresentationLayer.UIs.SurchargeStatusHelp,
   ]
 )
 

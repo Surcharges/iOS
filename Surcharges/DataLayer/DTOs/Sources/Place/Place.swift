@@ -13,7 +13,7 @@ public struct Place: Codable, Equatable, Sendable {
 	public let displayName: LocalizedText
 	public let addressComponents: [AddressComponents]
 	public let location: LatLng?
-	public let rate: Double?
+	public let surchargeRate: Double?
 	public let reportedDate: TimeStamp?
-	public let status: SurchargeStatus?
+	public let surchargeStatus: SurchargeStatus?
 }

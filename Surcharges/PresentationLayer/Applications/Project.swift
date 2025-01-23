@@ -6,11 +6,12 @@ import ModularPlugin
 let projects: [ModularPlugin.Project] = [
   Builder.Factories,
   PresentationLayer.Routers.MainRouter,
-  PresentationLayer.UIs.Main,
   PresentationLayer.Routers.PlaceDetailRouter,
-  PresentationLayer.UIs.PlaceDetail,
   PresentationLayer.Routers.ReportSurchargeRouter,
+  PresentationLayer.UIs.Main,
+  PresentationLayer.UIs.PlaceDetail,
   PresentationLayer.UIs.ReportSurcharge,
+  PresentationLayer.UIs.SurchargeStatusHelp,
 ]
 
 let projectDependencies: [TargetDependency] = projects.map {
