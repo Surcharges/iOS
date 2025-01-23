@@ -10,7 +10,7 @@ import Foundation
 
 import Entities
 
-public protocol RecogniseReceiptImageProtocol: UseCaseProtocol
+public protocol RecogniseReceiptImageProtocol: UseCaseWithErrorProtocol
 where RequestValue == RecogniseReceiptImageRequest,
 			ResponseValue == RecogniseReceiptImageResponse,
 			ERROR == RecogniseReceiptImageError {

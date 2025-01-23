@@ -10,7 +10,7 @@ import Foundation
 
 import Entities
 
-public protocol GetPlaceUsecaseProtocol: UseCaseProtocol
+public protocol GetPlaceUsecaseProtocol: UseCaseWithErrorProtocol
 where RequestValue == GetPlaceRequest,
 			ResponseValue == GetPlaceResponse,
 			ERROR == GetPlaceError {

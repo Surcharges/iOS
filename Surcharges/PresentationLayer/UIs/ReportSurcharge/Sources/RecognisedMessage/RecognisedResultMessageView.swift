@@ -68,10 +68,6 @@ struct RecognisedResultMessageView: View {
 				Text("It is not extractable. Place input manually.")
 					.messageStyle(color: R.color.red800.color)
 				
-			case .unknown:
-				
-				Text("Opps! Something went wrong. Please try again.")
-					.messageStyle(color: R.color.red800.color)
 			}
 		}
 	}

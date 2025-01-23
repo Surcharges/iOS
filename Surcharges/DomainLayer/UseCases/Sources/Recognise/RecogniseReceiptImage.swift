@@ -18,36 +18,36 @@ public struct RecogniseReceiptImage: RecogniseReceiptImageProtocol {
 	
 	public init() { }
 	
-	public func invoke(requestValue: RequestValue) async -> Result<ResponseValue, ERROR> {
-		do {
+	public func invoke(requestValue: RequestValue) async throws(ERROR) -> ResponseValue {
+		
+		do throws(ERROR) {
 			
-			let placeMatched = try PlaceValidator.matched(placeName: requestValue.placeName, image: requestValue.image)
+			let placeMatched = PlaceValidator.matched(placeName: requestValue.placeName, image: requestValue.image)
 			
 			if !placeMatched {
-				return .failure(.placeNotMatched)
+				throw .placeNotMatched
 			}
 			
-			let amounts = try AmountExtractor.invoke(image: requestValue.image)
+			let amounts = AmountExtractor.invoke(image: requestValue.image)
 			
 			if amounts.isEmpty {
-				return .failure(.mayNotReceiptOrPurchaseTerminal)
+				throw .mayNotReceiptOrPurchaseTerminal
 			} else if amounts.count == 1 {
-				
-				return .failure(.extractedPartially(totalAmount: amounts.first, surchargeAmount: nil))
+				throw .extractedPartially(totalAmount: amounts.first, surchargeAmount: nil)
 			} else {
 				
 				if let largestAmount = amounts.max(by: { $0 < $1 }),
 					 let smallestAmount = amounts.min(by: { $0 < $1 }) {
 				
-					return .success(.init(totalAmount: largestAmount, surchargeAmount: smallestAmount))
+					return .init(totalAmount: largestAmount, surchargeAmount: smallestAmount)
 				} else {
-					
-					return .failure(.notExtractable)
+					throw .notExtractable
 				}
 				
 			}
-		} catch(let error) {
-			return .failure(.unknown)
+			
+		} catch (let error) {
+			throw error
 		}
 	}
 }

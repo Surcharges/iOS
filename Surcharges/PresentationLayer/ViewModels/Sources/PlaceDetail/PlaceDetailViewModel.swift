@@ -46,26 +46,25 @@ public final class PlaceDetailViewModel<
 		
 		isLoading = true
 		
-		let getPlaceResult = await _getPlace.invoke(requestValue: .init(placeId: placeId))
-		
-		switch getPlaceResult {
-		case .success(let response):
+		do {
 			
-			let place = ConvertPlaceEntityToModel.convert(place: response.place, surcharge: response.surcharge)
+			let getPlaceResult = try await _getPlace.invoke(requestValue: .init(placeId: placeId))
 			
-			placeLocation = place.location ?? .init(latitude: 0, longitude: 0)
+			let place = ConvertPlaceEntityToModel.convert(place: getPlaceResult.place, surcharge: getPlaceResult.surcharge)
 			
 			placeName = place.name
 			placeAddress = place.address
-			
+			placeLocation = place.location ?? .init(latitude: 0, longitude: 0)
 			surcharge = place.surcharge
 			
-		case .failure:
-			break
+		} catch (let error) {
+			switch error {
+			case .notFound:
+				break
+			}
 		}
 		
 		isLoading = false
-		
 	}
 	
 	private func _bindViewUpdate() {

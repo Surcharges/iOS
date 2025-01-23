@@ -11,6 +11,7 @@ import PhotosUI
 import Combine
 
 import Models
+import Entities
 import UseCaseProtocols
 import ViewModelProtocols
 import ViewUpdateServiceProtocol
@@ -76,7 +77,7 @@ public final class ReportSurchargeViewModel<
 	public func howeverProceedAnyway() {
 		isRecognised = true
 	}
-
+	
 	public func report() async {
 		
 		isReporting = true
@@ -143,7 +144,7 @@ public final class ReportSurchargeViewModel<
 				
 			}
 			.store(in: &_cancellables)
-			
+		
 	}
 	
 	private func _bindRecogniseImage() {
@@ -159,28 +160,31 @@ public final class ReportSurchargeViewModel<
 				
 				Task {
 					
-					switch await self._recogniseReceiptImage.invoke(requestValue: .init(placeName: self.placeName, image: imageData)) {
-					case .success(let amounts):
+					do {
 						
-						self.totalAmount = "\(amounts.totalAmount)"
-						self.surchargeAmount = "\(amounts.surchargeAmount)"
+						let recognisingResult = try await self._recogniseReceiptImage.invoke(
+							requestValue: .init(placeName: self.placeName, image: imageData)
+						)
+						
+						self.totalAmount = "\(recognisingResult.totalAmount)"
+						self.surchargeAmount = "\(recognisingResult.surchargeAmount)"
 						
 						isRecognised = true
 						
 						self.recognisedModel = .init(result: .recognised)
 						
-						case .failure(let error):
+					} catch (let error as RecogniseReceiptImageError) {
 						
 						self.totalAmount = ""
 						self.surchargeAmount = ""
-							
+						
 						switch error {
 						case .placeNotMatched:
 							
 							isRecognised = false
 							
 							self.recognisedModel = .init(result: .placeNotMatched)
-							
+
 						case .notExtractable:
 							
 							isRecognised = true
@@ -206,16 +210,11 @@ public final class ReportSurchargeViewModel<
 							
 							self.recognisedModel = .init(result: .extractedPartially)
 							
-						case .unknown:
-							
-							isRecognised = false
-							
-							self.recognisedModel = .init(result: .unknown)
 						}
-						
 					}
 					
 					isRecognising = false
+					
 				}
 				
 			}
