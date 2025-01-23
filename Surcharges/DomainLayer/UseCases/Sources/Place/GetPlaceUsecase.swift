@@ -35,7 +35,10 @@ public struct GetPlaceUsecase<R: PlaceRepositoryProtocol>: GetPlaceUsecaseProtoc
 			return .success(.init(place: place, surcharge: surcharge))
 			
 		} catch(let error) {
-			return .failure(.notFound)
+			switch error {
+			case .notFound:
+				return .failure(.notFound)
+			}
 		}
 	}
 }
