@@ -1,0 +1,14 @@
+name: Patch Drafter
+on:
+  push:
+    branches:
+      - hotfix
+jobs:
+  update_release_draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: release-drafter/release-drafter@v6
+        with:
+          config-name: patch-drafter-config.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.DRAFTER_TOKEN }}
