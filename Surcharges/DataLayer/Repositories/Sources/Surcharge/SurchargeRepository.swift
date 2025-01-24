@@ -13,8 +13,12 @@ import DTOs
 import Networks
 import RepositoryProtocols
 import AppStatusServiceProtocol
+import EndpointProtocol
 
-public struct SurchargeRepository<AppStatusService: AppStatusServiceProtocol>: SurchargeRepositoryProtocol {
+public struct SurchargeRepository<
+	AppStatusService: AppStatusServiceProtocol,
+	Endpoint: EndpointProtocol
+>: SurchargeRepositoryProtocol {
 	
 	private let _appStatusService: AppStatusService
 	
@@ -27,7 +31,7 @@ public struct SurchargeRepository<AppStatusService: AppStatusServiceProtocol>: S
 			
 			let result = try await API.request(
 				dto: ReportSurchargeResponse.self,
-				router: SurchargeRouter.reportSurcharge,
+				router: SurchargeRouter<Endpoint>.reportSurcharge,
 				parameters: [
 					"placeId": request.plcaeId,
 					"totalAmount": request.totalAmount,
@@ -41,7 +45,7 @@ public struct SurchargeRepository<AppStatusService: AppStatusServiceProtocol>: S
 		} catch (let error) {
 			await errorHandlerExceptNotFound(appStatusService: _appStatusService, error: error)
 		}
-
+		
 		throw .notFound
 	}
 }

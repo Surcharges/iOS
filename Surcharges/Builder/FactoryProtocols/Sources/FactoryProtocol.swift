@@ -13,6 +13,7 @@ public protocol FactoryProtocol {
   
 	associatedtype AppStatusService
   associatedtype ViewModel
+	associatedtype Endpoint
   
 	func resolve(appStatusService: AppStatusService) -> ViewModel
 }

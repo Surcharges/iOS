@@ -9,6 +9,7 @@ let target = surcharges.target(
     [
       DataLayer.DTOs,
       Shared.Services.AppStatusServiceProtocol,
+      DataSource.EndpointProtocol,
     ]
 )
 

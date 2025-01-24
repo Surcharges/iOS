@@ -8,11 +8,13 @@
 
 import Foundation
 
+import EndpointProtocol
+
 import Alamofire
 
-import os
-
-public protocol RouterProtocol {
+public protocol RouterProtocol where Endpoint: EndpointProtocol {
+	associatedtype Endpoint
+	var endpoint: Endpoint { get }
   var path: String { get }
   var url: URL { get }
   var method: HTTPMethod { get }
@@ -21,16 +23,19 @@ public protocol RouterProtocol {
 }
 
 public extension RouterProtocol {
+	
+	var endpoint: Endpoint {
+		Endpoint()
+	}
+	
   var url: URL {
-    let urlString = Endpoint.url + path
-
+		let urlString = endpoint.baseURL + path
+		
     guard let percentedUrlString = urlString
       .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
       fatalError("Can not add percent encoding")
     }
     
-    os_log(.info, log: .networks, "%@", "\(method.rawValue): \(path)")
-
     do {
       return try percentedUrlString.asURL()
     } catch {
@@ -41,15 +46,8 @@ public extension RouterProtocol {
   var headers: HTTPHeaders {
     var httpHeaders: HTTPHeaders = [:]
     httpHeaders.add(.accept("application/json"))
-		httpHeaders.add(.authorization("something"))
+		httpHeaders.add(.authorization("\(endpoint.authorisationScheme) \(endpoint.authorisationToken)"))
     return httpHeaders
   }
   
-}
-
-extension OSLog {
-  static var networks: OSLog {
-    let subsystem = Bundle.main.bundleIdentifier ?? ""
-    return OSLog(subsystem: subsystem, category: "Networks")
-  }
 }

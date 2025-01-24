@@ -4,6 +4,10 @@
 ### Firebase ###
 GoogleService-Info.plist
 
+### Sensitive Data ###
+DevelopmentEndpoint.swift
+ProductionEndpoint.swift
+
 ### Projects ###
 *.xcodeproj
 *.xcworkspace

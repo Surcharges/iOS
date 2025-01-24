@@ -9,9 +9,15 @@
 import Foundation
 
 import AppStatusServiceProtocol
+import EndpointProtocol
 
-public protocol RepositoryProtocol: Sendable where AppStatusService: AppStatusServiceProtocol, ERROR: Error {
+public protocol RepositoryProtocol: Sendable
+where AppStatusService: AppStatusServiceProtocol,
+			Endpoint: EndpointProtocol,
+			ERROR: Error {
+	
 	associatedtype AppStatusService
+	associatedtype Endpoint
 	associatedtype ERROR
 	
 	func errorHandlerExceptNotFound(appStatusService: AppStatusService, error: ERROR) async

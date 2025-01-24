@@ -12,8 +12,12 @@ import DTOs
 import Networks
 import RepositoryProtocols
 import AppStatusServiceProtocol
+import EndpointProtocol
 
-public struct PlaceRepository<AppStatusService: AppStatusServiceProtocol>: PlaceRepositoryProtocol {
+public struct PlaceRepository<
+	AppStatusService: AppStatusServiceProtocol,
+	Endpoint: EndpointProtocol
+>: PlaceRepositoryProtocol {
 	
 	public typealias AppStatusService = AppStatusService
 	
@@ -28,7 +32,7 @@ public struct PlaceRepository<AppStatusService: AppStatusServiceProtocol>: Place
 			
 			let result = try await API.request(
 				dto: GetPlacesResponse.self,
-				router: PlaceRouter.places(
+				router: PlaceRouter<Endpoint>.places(
 					searchText: request.searchText,
 					nextPageToken: request.nextPageToken,
 					latitude: request.userLocation?.latitude,
@@ -48,10 +52,10 @@ public struct PlaceRepository<AppStatusService: AppStatusServiceProtocol>: Place
 	public func getPlace(request: GetPlaceRequest) async throws(GetPlaceError) -> GetPlaceResponse {
 		
 		do {
-		
+			
 			let result = try await API.request(
 				dto: Place.self,
-				router: PlaceRouter.place(id: request.placeId)
+				router: PlaceRouter<Endpoint>.place(id: request.placeId)
 			)
 			
 			return .init(place: result)
@@ -59,7 +63,7 @@ public struct PlaceRepository<AppStatusService: AppStatusServiceProtocol>: Place
 		} catch {
 			
 			await errorHandlerExceptNotFound(appStatusService: _appStatusService, error: error)
-
+			
 		}
 		
 		throw .notFound

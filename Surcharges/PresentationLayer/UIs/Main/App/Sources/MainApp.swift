@@ -17,6 +17,7 @@ import LocationService
 import AppStatusService
 import AppStatusService
 import ViewUpdateService
+import DevelopmentEndpoint
 
 import ToastUI
 
@@ -33,7 +34,7 @@ struct MainApp: App {
 		WindowGroup {
 			NavigationStack {
 				MainView(
-					viewModel: MainFactory(
+					viewModel: MainFactory<DevelopmentEndpoint>(
 						locationService: _locationService,
 						viewUpdateService: _viewUpdateService
 					)
