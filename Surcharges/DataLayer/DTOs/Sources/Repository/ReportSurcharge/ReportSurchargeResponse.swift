@@ -8,4 +8,16 @@
 
 import Foundation
 
-public typealias ReportSurchargeResponse = GetPlaceResponse
+public struct ReportSurchargeServerResponse: BasicServerResponse {
+	public var data: ReportSurchargeResponse
+}
+
+public struct ReportSurchargeResponse: Codable, Equatable, Sendable {
+	public let place: Place
+	public let surcharge: Surcharge
+	
+	public init(place: Place, surcharge: Surcharge) {
+		self.place = place
+		self.surcharge = surcharge
+	}
+}

@@ -30,7 +30,7 @@ public struct SurchargeRepository<
 		do {
 			
 			let result = try await API.request(
-				dto: ReportSurchargeResponse.self,
+				dto: ReportSurchargeServerResponse.self,
 				router: SurchargeRouter<Endpoint>.reportSurcharge,
 				parameters: [
 					"placeId": request.plcaeId,
@@ -40,7 +40,10 @@ public struct SurchargeRepository<
 				]
 			)
 			
-			return result
+			return .init(
+				place: result.data.place,
+				surcharge: result.data.surcharge
+			)
 			
 		} catch (let error) {
 			await errorHandlerExceptNotFound(appStatusService: _appStatusService, error: error)

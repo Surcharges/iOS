@@ -31,13 +31,12 @@ struct ConvertDTOtoEntity {
 		 )
 	}
 	
-	static func surcharge(dto: DTOs.Place) -> Entities.Surcharge {
+	static func surcharge(dto: DTOs.Surcharge) -> Entities.Surcharge {
 		var surchargeStatus: Entities.SurchargeStatus {
-			switch dto.surchargeStatus {
+			switch dto.status {
 			case .UNKNOWN: return .unknown
 			case .REPORTED: return .reported
 			case .CONFIRMED: return .confirmed
-			default: return .unknown
 			}
 		}
 		
@@ -49,6 +48,6 @@ struct ConvertDTOtoEntity {
 			}
 		}
 		
-		return .init(status: surchargeStatus, rate: dto.surchargeRate, updatedDate: updatedDate)
+		return .init(status: surchargeStatus, rate: dto.rate, updatedDate: updatedDate)
 	}
 }

@@ -37,7 +37,7 @@ public struct ReportSurcharge<Repository: SurchargeRepositoryProtocol>: ReportSu
 			)
 			
 			let place = ConvertDTOtoEntity.place(dto: result.place)
-			let surcharge = ConvertDTOtoEntity.surcharge(dto: result.place)
+			let surcharge = ConvertDTOtoEntity.surcharge(dto: result.surcharge)
 			
 			return .init(place: place, surcharge: surcharge)
 			

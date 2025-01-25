@@ -8,11 +8,13 @@
 
 import Foundation
 
+import DTOs
+
 import Alamofire
 
 extension API {
 	
-	static func response<Res: Decodable>(_ dto: Res.Type, _ request: DataResponse<Data, AFError>) throws(NetworkError) -> Res {
+	static func response<Res: BasicServerResponse>(_ dto: Res.Type, _ request: DataResponse<Data, AFError>) throws(NetworkError) -> Res {
 		
 		guard let response = request.response else { throw .systemConnection }
 		

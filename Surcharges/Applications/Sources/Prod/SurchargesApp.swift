@@ -24,6 +24,4 @@ struct SurchargesApp: App {
 			
 		}
 	}
-	
-	
 }

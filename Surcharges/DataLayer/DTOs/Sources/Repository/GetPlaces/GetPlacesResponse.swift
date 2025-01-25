@@ -8,6 +8,10 @@
 
 import Foundation
 
+public struct GetPlacesServerResponse: BasicServerResponse {
+	public var data: GetPlacesResponse
+}
+
 public struct GetPlacesResponse: Codable, Equatable, Sendable {
 	public let places: [Place]
 	public let nextPageToken: String?

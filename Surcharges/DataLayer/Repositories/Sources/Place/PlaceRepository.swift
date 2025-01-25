@@ -31,7 +31,7 @@ public struct PlaceRepository<
 		do {
 			
 			let result = try await API.request(
-				dto: GetPlacesResponse.self,
+				dto: GetPlacesServerResponse.self,
 				router: PlaceRouter<Endpoint>.places(
 					searchText: request.searchText,
 					nextPageToken: request.nextPageToken,
@@ -40,7 +40,7 @@ public struct PlaceRepository<
 				)
 			)
 			
-			return result
+			return .init(places: result.data.places, nextPageToken: result.data.nextPageToken)
 			
 		} catch {
 			await errorHandlerExceptNotFound(appStatusService: _appStatusService, error: error)
@@ -54,11 +54,11 @@ public struct PlaceRepository<
 		do {
 			
 			let result = try await API.request(
-				dto: Place.self,
+				dto: GetPlaceServerResponse.self,
 				router: PlaceRouter<Endpoint>.place(id: request.placeId)
 			)
 			
-			return .init(place: result)
+			return .init(place: result.data)
 			
 		} catch {
 			

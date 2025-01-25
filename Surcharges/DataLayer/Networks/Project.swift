@@ -8,6 +8,7 @@ let target = surcharges.target(
   projects:
     [
       DataSource.EndpointProtocol,
+      DataLayer.DTOs,
     ],
   externalPackages: 
     [

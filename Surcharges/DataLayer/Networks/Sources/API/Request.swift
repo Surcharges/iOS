@@ -8,6 +8,8 @@
 
 import Foundation
 
+import DTOs
+
 import Alamofire
 
 public extension API {
@@ -27,7 +29,7 @@ public extension API {
       .serializingData()
   }
   
-	static func request<Res: Decodable, Router: RouterProtocol>(
+	static func request<Res: BasicServerResponse, Router: RouterProtocol>(
 		dto: Res.Type,
 		router: Router,
 		parameters: Parameters = [:]
