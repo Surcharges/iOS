@@ -15,11 +15,12 @@ import UseCases
 import ViewModels
 import AppStatusService
 import ViewUpdateService
+import EndpointProtocol
 
-public struct PlaceDetailFactory: PlaceDetailFactoryProtocol {
+public struct PlaceDetailFactory<Endpoint: EndpointProtocol>: PlaceDetailFactoryProtocol {
 	
 	public typealias ViewModel = PlaceDetailViewModel<
-		GetPlaceUsecase<PlaceRepository<AppStatusService>>,
+		GetPlaceUsecase<PlaceRepository<AppStatusService, Endpoint>>,
 		ViewUpdateService
 	>
 	

@@ -45,12 +45,26 @@ public struct GetPlacesUsecase<R: PlaceRepositoryProtocol>: GetPlacesUsecaseProt
 			)
 			
 			let places = result.places.map { _place -> Entities.GetPlacesResponse.Item in
-				
 				let place = ConvertDTOtoEntity.place(dto: _place)
-				let surcharge = ConvertDTOtoEntity.surcharge(dto: _place)
 				
-				return .init(place: place, surcharge: surcharge)
+				var surchargeStatus: Entities.SurchargeStatus {
+					switch _place.surchargeStatus {
+					case .UNKNOWN: return .unknown
+					case .REPORTED: return .reported
+					case .CONFIRMED: return .confirmed
+					case .none: return .unknown
+					}
+				}
 				
+				var updatedDate: Entities.TimeStamp? {
+					if let updatedDate = _place.reportedDate {
+						return .init(nanoseconds: updatedDate._nanoseconds, seconds: updatedDate._seconds)
+					} else {
+						return nil
+					}
+				}
+				
+				return .init(place: place, surcharge: .init(status: surchargeStatus, rate: _place.surchargeRate, updatedDate: updatedDate))
 			}
 			
 			return .init(items: places, nextPageToken: result.nextPageToken)

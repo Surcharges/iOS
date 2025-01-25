@@ -14,6 +14,7 @@ import ReportSurchargeRouter
 import Models
 import AppStatusService
 import ViewUpdateService
+import DevelopmentEndpoint
 
 import ToastUI
 
@@ -42,7 +43,7 @@ struct ReportSurchargeApp: App {
 				}
 				.sheet(isPresented: $_isShowStarbucksLambtonQuey) {
 					ReportSurchargeView(
-						viewModel: ReportSurchargeFactory(
+						viewModel: ReportSurchargeFactory<DevelopmentEndpoint>(
 							placeId: _starbucksLambtonQuey.0,
 							placeName: _starbucksLambtonQuey.1,
 							viewUpdateService: _viewUpdateService
@@ -58,7 +59,7 @@ struct ReportSurchargeApp: App {
 				}
 				.sheet(isPresented: $_isShowStarbucksLowerHutt) {
 					ReportSurchargeView(
-						viewModel: ReportSurchargeFactory(
+						viewModel: ReportSurchargeFactory<DevelopmentEndpoint>(
 							placeId: _starbucksLowerHutt.0,
 							placeName: _starbucksLowerHutt.1,
 							viewUpdateService: _viewUpdateService
@@ -74,7 +75,7 @@ struct ReportSurchargeApp: App {
 				}
 				.sheet(isPresented: $_isShowChilifashion) {
 					ReportSurchargeView(
-						viewModel: ReportSurchargeFactory(
+						viewModel: ReportSurchargeFactory<DevelopmentEndpoint>(
 							placeId: _chilifashion.0,
 							placeName: _chilifashion.1,
 							viewUpdateService: _viewUpdateService

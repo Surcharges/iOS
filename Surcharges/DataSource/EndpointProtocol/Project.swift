@@ -2,14 +2,12 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import ModularPlugin
 
-let surcharges = Surcharges(project: DataLayer.RepositoryProtocols)
+let surcharges = Surcharges(project: DataSource.EndpointProtocol)
 
 let target = surcharges.target(
   projects:
     [
-      DataLayer.DTOs,
-      Shared.Services.AppStatusServiceProtocol,
-      DataSource.EndpointProtocol,
+      
     ]
 )
 

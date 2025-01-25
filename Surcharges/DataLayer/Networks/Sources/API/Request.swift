@@ -8,12 +8,14 @@
 
 import Foundation
 
+import DTOs
+
 import Alamofire
 
 public extension API {
   
-  private static func _buildRequest(
-    _ router: RouterProtocol,
+  private static func _buildRequest<Router: RouterProtocol>(
+    _ router: Router,
     _ parameters: Parameters
   ) async -> DataTask<Data> {
     return _manager
@@ -27,9 +29,9 @@ public extension API {
       .serializingData()
   }
   
-	static func request<Res: Decodable>(
+	static func request<Res: BasicServerResponse, Router: RouterProtocol>(
 		dto: Res.Type,
-		router: RouterProtocol,
+		router: Router,
 		parameters: Parameters = [:]
 	) async throws(NetworkError) -> Res {
 
@@ -38,7 +40,7 @@ public extension API {
 		return try response(dto, request)
 	}
 	
-	static func request(router: RouterProtocol, parameters: Parameters = [:]) async throws(NetworkError) {
+	static func request<Router: RouterProtocol>(router: Router, parameters: Parameters = [:]) async throws(NetworkError) {
 		
 		let request = await _buildRequest(router, parameters).response
 		

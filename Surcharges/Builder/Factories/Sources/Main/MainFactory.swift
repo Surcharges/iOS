@@ -16,11 +16,12 @@ import ViewModels
 import AppStatusService
 import LocationService
 import ViewUpdateService
+import EndpointProtocol
 
-public struct MainFactory: MainFactoryProtocol {
+public struct MainFactory<Endpoint: EndpointProtocol>: MainFactoryProtocol {
 		
 	public typealias ViewModel = MainViewModel<
-		GetPlacesUsecase<PlaceRepository<AppStatusService>>,
+		GetPlacesUsecase<PlaceRepository<AppStatusService, Endpoint>>,
 		LocationService,
 		ViewUpdateService
 	>

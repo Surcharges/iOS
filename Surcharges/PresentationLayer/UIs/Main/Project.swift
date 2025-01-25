@@ -20,6 +20,7 @@ let target = surcharges.target(
 let demo = surcharges.demo(
   projects: [
     Builder.Factories,
+    DataSource.DevelopmentEndpoint,
     PresentationLayer.Routers.MainRouter,
     PresentationLayer.UIs.Main,
     PresentationLayer.UIs.SurchargeStatusHelp,

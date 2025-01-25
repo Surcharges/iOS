@@ -15,12 +15,13 @@ import UseCases
 import ViewModels
 import AppStatusService
 import ViewUpdateService
+import EndpointProtocol
 
-public struct ReportSurchargeFactory: ReportSurchargeFactoryProtocol {
+public struct ReportSurchargeFactory<Endpoint: EndpointProtocol>: ReportSurchargeFactoryProtocol {
 	
 	public typealias ViewModel = ReportSurchargeViewModel<
 		RecogniseReceiptImage,
-		ReportSurcharge<SurchargeRepository<AppStatusService>>,
+		ReportSurcharge<SurchargeRepository<AppStatusService, Endpoint>>,
 		ViewUpdateService
 	>
 	

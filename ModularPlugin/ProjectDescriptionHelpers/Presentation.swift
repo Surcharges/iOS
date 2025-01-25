@@ -1,7 +1,6 @@
 import Foundation
 
 public enum PresentationLayer: Project {
-  case Applications
   case ViewModels
   case ViewModelProtocols
   case Models

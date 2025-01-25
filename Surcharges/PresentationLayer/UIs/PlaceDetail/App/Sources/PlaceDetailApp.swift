@@ -13,6 +13,7 @@ import Factories
 import PlaceDetailRouter
 import AppStatusService
 import ViewUpdateService
+import DevelopmentEndpoint
 
 import ToastUI
 
@@ -38,7 +39,7 @@ var body: some Scene {
 					Text("Starbucks Lambton Quay")
 				}
 				.sheet(isPresented: $_isShowStarbucksLambtonQuey) {
-					PlaceDetailView<PlaceDetailFactory.ViewModel, PlaceDetailRouter>(
+					PlaceDetailView<PlaceDetailFactory<DevelopmentEndpoint>.ViewModel, PlaceDetailRouter>(
 						viewModel: PlaceDetailFactory(
 							placeId: _starbucksLambtonQuey,
 							viewUpdateService: _viewUpdateService
@@ -64,7 +65,7 @@ var body: some Scene {
 					Text("Starbucks Lower Hutt")
 				}
 				.sheet(isPresented: $_isShowStarbucksLowerHutt) {
-					PlaceDetailView<PlaceDetailFactory.ViewModel, PlaceDetailRouter>(
+					PlaceDetailView<PlaceDetailFactory<DevelopmentEndpoint>.ViewModel, PlaceDetailRouter>(
 						viewModel: PlaceDetailFactory(
 							placeId: _starbucksLowerHutt,
 							viewUpdateService: _viewUpdateService

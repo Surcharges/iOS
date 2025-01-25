@@ -8,9 +8,11 @@
 
 import Foundation
 
+import EndpointProtocol
+
 import Alamofire
 
-public enum SurchargeRouter: RouterProtocol {
+public enum SurchargeRouter<Endpoint>: RouterProtocol where Endpoint: EndpointProtocol {
 	case reportSurcharge
 }
 
@@ -18,7 +20,7 @@ extension SurchargeRouter {
 	public var path: String {
 		switch self {
 		case .reportSurcharge:
-			return "/surcharge"
+			return "/surcharge/v1"
 		}
 	}
 	
