@@ -81,9 +81,7 @@ public final class MainViewModel<
 				)
 			)
 			
-			isLoading = false
 			searchedText = searchText
-			
 			noResults = false
 			
 			let places = getPlacesResult.items.map { item -> Place in
@@ -101,6 +99,8 @@ public final class MainViewModel<
 				mainModel = .init(places: [], isExistNextPage: false)
 			}
 		}
+		
+		isLoading = false
 	}
 	
 	public func next() async {

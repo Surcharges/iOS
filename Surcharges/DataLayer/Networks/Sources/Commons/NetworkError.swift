@@ -9,16 +9,15 @@
 import Foundation
 
 public enum NetworkError: Error {
+	case systemError
+	case badRequest
+	case unauthorised
+	case forbidden
 	case notFound
-  case tokenInvalid
-  case systemConnection
-  case methodNotAllowed
+	case methodNotAllowed
 	case deprecatedAPI
-  case serverError
-  case gatewayTimeout
-  case responseIsEmpty
-  case badRequest
-  case forbidden
+	case serverError
+	case gatewayTimeout
   case failureResponseDecoding(reason: String)
   case unknown
 }

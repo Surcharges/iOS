@@ -16,7 +16,7 @@ extension API {
 	
 	static func response<Res: BasicServerResponse>(_ dto: Res.Type, _ request: DataResponse<Data, AFError>) throws(NetworkError) -> Res {
 		
-		guard let response = request.response else { throw .systemConnection }
+		guard let response = request.response else { throw .systemError }
 		
 #if DEBUG
 //		if let response = request.response,
@@ -30,7 +30,7 @@ extension API {
 			
 			do {
 				guard let data = request.data else {
-					throw NetworkError.responseIsEmpty
+					throw NetworkError.failureResponseDecoding(reason: "No data")
 				}
 				
 				let decodedDto = try JSONDecoder().decode(dto.self, from: data)
@@ -49,7 +49,7 @@ extension API {
 	
 	static func response(request: DataResponse<Data, AFError>) throws(NetworkError) {
 		
-		guard let _ = request.response else { throw .systemConnection }
+		guard let _ = request.response else { throw .systemError }
 		
 #if DEBUG
 //		if let response = request.response,
@@ -63,7 +63,7 @@ extension API {
 	
 	static private func _errorHandler(request: DataResponse<Data, AFError>) throws(NetworkError) {
 		
-		guard let response = request.response else { throw .systemConnection }
+		guard let response = request.response else { throw .systemError }
 		
 		switch response.status {
 		case .ok, .created, .noContent:
@@ -72,8 +72,8 @@ extension API {
 			throw .badRequest
 		case .forbidden:
 			throw .forbidden
-		case .notAuthorized:
-			throw .tokenInvalid
+		case .unauthorised:
+			throw .unauthorised
 		case .notFound:
 			throw .notFound
 		case .methodNotAllowed:
