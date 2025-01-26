@@ -9,7 +9,7 @@
 import Foundation
 
 public enum Toast: Identifiable, Equatable, Sendable {
-	case notAuthorized
+	case unauthorised
 	case outOfNZ
 	case noInternet
 	case needToUpdate

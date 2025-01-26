@@ -22,7 +22,8 @@ let demo = surcharges.demo(
     Builder.Factories,
     DataSource.DevelopmentEndpoint,
     PresentationLayer.Routers.PlaceDetailRouter,
-    PresentationLayer.UIs.PlaceDetail
+    PresentationLayer.UIs.PlaceDetail,
+    PresentationLayer.UIs.Toast,
   ]
 )
 

@@ -2,43 +2,45 @@ import ProjectDescription
 import ProjectDescriptionHelpers
 import ModularPlugin
 
-// MARK: Dependencies: Prod
-let productionProjects: [ModularPlugin.Project] = [
-  Builder.Factories,
-  DataSource.ProductionEndpoint,
-  PresentationLayer.Routers.MainRouter,
-  PresentationLayer.Routers.PlaceDetailRouter,
-  PresentationLayer.Routers.ReportSurchargeRouter,
-  PresentationLayer.UIs.Main,
-  PresentationLayer.UIs.PlaceDetail,
-  PresentationLayer.UIs.ReportSurcharge,
-  PresentationLayer.UIs.SurchargeStatusHelp,
-]
-
-let productionDependencies: [TargetDependency] = productionProjects.map {
-  .project(target: $0.name, path: .relativeToRoot($0.path))
+enum Configuration {
+  case dev, prod
 }
+
+func getDependencies(_ config: Configuration) -> [TargetDependency] {
+  
+  var projects: [ModularPlugin.Project] = [
+    Builder.Factories,
+    PresentationLayer.Routers.MainRouter,
+    PresentationLayer.Routers.PlaceDetailRouter,
+    PresentationLayer.Routers.ReportSurchargeRouter,
+    PresentationLayer.UIs.Main,
+    PresentationLayer.UIs.PlaceDetail,
+    PresentationLayer.UIs.ReportSurcharge,
+    PresentationLayer.UIs.SurchargeStatusHelp,
+    PresentationLayer.UIs.Toast,
+  ]
+  
+  switch config {
+  case .dev:
+    projects.append(DataSource.DevelopmentEndpoint)
+  case .prod:
+    projects.append(DataSource.ProductionEndpoint)
+  }
+  
+  return projects.map {
+    .project(target: $0.name, path: .relativeToRoot($0.path))
+  }
+}
+
+// MARK: Dependencies: Prod
+let productionDependencies: [TargetDependency] = getDependencies(.prod)
+
 
 // MARK: Dependencies: Dev
-let developmentProjects: [ModularPlugin.Project] = [
-  Builder.Factories,
-  DataSource.DevelopmentEndpoint,
-  PresentationLayer.Routers.MainRouter,
-  PresentationLayer.Routers.PlaceDetailRouter,
-  PresentationLayer.Routers.ReportSurchargeRouter,
-  PresentationLayer.UIs.Main,
-  PresentationLayer.UIs.PlaceDetail,
-  PresentationLayer.UIs.ReportSurcharge,
-  PresentationLayer.UIs.SurchargeStatusHelp,
-]
-
-let developmentDependencies: [TargetDependency] = developmentProjects.map {
-  .project(target: $0.name, path: .relativeToRoot($0.path))
-}
+let developmentDependencies: [TargetDependency] = getDependencies(.dev)
 
 // MARK: External Dependencies
 let externalDependencies: [TargetDependency] = [
-  ExternalPackages.PresentationLayer.ToastUI,
   ExternalPackages.Firebase.Core,
   ExternalPackages.Firebase.Analytics,
   ExternalPackages.Firebase.Crashlytics,

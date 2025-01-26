@@ -15,11 +15,11 @@ extension RepositoryProtocol {
 	
 	public func errorHandlerExceptNotFound(appStatusService: AppStatusService, error: NetworkError) async {
 		switch error {
-		case .tokenInvalid:
-			await appStatusService.notifyAppStatus(.toast(.notAuthorized))
+		case .unauthorised:
+			await appStatusService.notifyAppStatus(.toast(.unauthorised))
 		case .forbidden:
 			await appStatusService.notifyAppStatus(.toast(.outOfNZ))
-		case .systemConnection:
+		case .systemError:
 			await appStatusService.notifyAppStatus(.toast(.noInternet))
 		case .deprecatedAPI:
 			await appStatusService.notifyAppStatus(.toast(.needToUpdate))

@@ -25,6 +25,7 @@ extension PresentationLayer {
     case CommonUI
     case UIExtensions
     case Resources
+    case Toast
     case Main
     case PlaceDetail
     case ReportSurcharge

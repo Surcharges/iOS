@@ -15,8 +15,7 @@ import Models
 import AppStatusService
 import ViewUpdateService
 import DevelopmentEndpoint
-
-import ToastUI
+import Toast
 
 @main
 struct ReportSurchargeApp: App {
@@ -85,29 +84,7 @@ struct ReportSurchargeApp: App {
 				}
 				
 			}
-			.toast(item: $_appStatusService.appStatus, dismissAfter: 5) { status in
-				switch status {
-				case .toast(let type):
-					switch type {
-					case .notAuthorized:
-						ToastView("Do you want some permissions?😁")
-							.toastViewStyle(.failure)
-					case .outOfNZ:
-						ToastView("🇳🇿Only available in New Zealand.")
-							.toastViewStyle(.information)
-					case .noInternet:
-						ToastView("🛜Please check the Internet connection.")
-							.toastViewStyle(.warning)
-					case .needToUpdate:
-						ToastView("🔥New version available. Please update.")
-							.toastViewStyle(.information)
-					case .unknown(let message):
-						ToastView("Oops🫢 Something went wrong. Please try again.\n\(message)")
-							.toastViewStyle(.failure)
-					}
-				}
-			}
-			.toastDimmedBackground(false)
+			.appStatusToast(appStatus: $_appStatusService.appStatus, dismissAfter: 5)
 			
 		}
 	}
