@@ -48,13 +48,11 @@ let externalDependencies: [TargetDependency] = [
 
 // MARK: Target - Infomation
 let developmentTeam = Environment.developmentTeam.getString(default: "None")
-let projectVersion = "1"
-let marketingVersion = "1.0.0"
+let marketingVersion = Environment.version.getString(default: "1.0.0")
 
 let baseSetting = SettingsDictionary()
   .swiftVersion("6.0")
   .bitcodeEnabled(false)
-  .currentProjectVersion(projectVersion)
   .marketingVersion(marketingVersion)
   .otherLinkerFlags(["-ObjC"])
   .automaticCodeSigning(devTeam: developmentTeam)
@@ -79,10 +77,18 @@ let surcharges = Target.target(
       "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved."),
       "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you."),
       "NSCameraUsageDescription": .string("Surcharges uses your camera to take your receipt."),
+      "ITSAppUsesNonExemptEncryption": .boolean(false),
     ]
   ),
   sources: ["Sources/Commons/**", "Sources/Prod/**"],
-  resources: .resources(["Resources/Prod/**"], privacyManifest: .default),
+  resources: .resources(
+    [
+      .glob(
+        pattern: .relativeToManifest("Resources/Prod/**"),
+        excluding: [.relativeToManifest("Resources/Prod/.gitkeep")]
+      )
+    ], privacyManifest: .default
+  ),
   dependencies: productionDependencies + externalDependencies,
   settings: Settings.settings(
     base: baseSetting,
@@ -108,10 +114,18 @@ let surchargesDev = Target.target(
       "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved."),
       "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you."),
       "NSCameraUsageDescription": .string("Surcharges uses your camera to take your receipt."),
+      "ITSAppUsesNonExemptEncryption": .boolean(false),
     ]
   ),
   sources: ["Sources/Commons/**", "Sources/Dev/**"],
-  resources: .resources(["Resources/Dev/**"], privacyManifest: .default),
+  resources: .resources(
+    [
+      .glob(
+        pattern: .relativeToManifest("Resources/Dev/**"),
+        excluding: [.relativeToManifest("Resources/Dev/.gitkeep")]
+      )
+    ], privacyManifest: .default
+  ),
   dependencies: developmentDependencies + externalDependencies,
   settings: Settings.settings(
     base: baseSetting,

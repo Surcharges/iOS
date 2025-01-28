@@ -50,9 +50,7 @@ public final class Surcharges: @unchecked Sendable {
       settings: Settings.settings(
         base: SettingsDictionary()
           .swiftVersion("6.0")
-          .bitcodeEnabled(false)
-          .currentProjectVersion("1")
-          .marketingVersion("1.0.0"),
+          .bitcodeEnabled(false),
         debug: SettingsDictionary(),
         release: SettingsDictionary(),
         defaultSettings: .recommended
@@ -97,8 +95,6 @@ public final class Surcharges: @unchecked Sendable {
         base: SettingsDictionary()
           .swiftVersion("6.0")
           .bitcodeEnabled(false)
-          .currentProjectVersion("1")
-          .marketingVersion("1.0.0")
           .codeSignIdentityAppleDevelopment(),
         debug: SettingsDictionary(),
         release: SettingsDictionary(),
