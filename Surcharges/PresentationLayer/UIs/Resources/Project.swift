@@ -40,9 +40,7 @@ let project = ProjectDescription.Project(
       settings: Settings.settings(
         base: SettingsDictionary()
           .swiftVersion("6.0")
-          .bitcodeEnabled(false)
-          .currentProjectVersion("1")
-          .marketingVersion("1.0.0"),
+          .bitcodeEnabled(false),
         debug: SettingsDictionary(),
         release: SettingsDictionary(),
         defaultSettings: .recommended

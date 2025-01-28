@@ -47,26 +47,19 @@ let externalDependencies: [TargetDependency] = [
 ]
 
 // MARK: Target - Infomation
-let developmentTeam = "PN8663UTBA"
-let projectVersion = "1"
-let marketingVersion = "1.0.0"
+let developmentTeam = Environment.developmentTeam.getString(default: "None")
+let marketingVersion = Environment.version.getString(default: "1.0.0")
 
 let baseSetting = SettingsDictionary()
   .swiftVersion("6.0")
   .bitcodeEnabled(false)
-  .currentProjectVersion(projectVersion)
   .marketingVersion(marketingVersion)
   .otherLinkerFlags(["-ObjC"])
   .automaticCodeSigning(devTeam: developmentTeam)
-  .developmentTeam(developmentTeam)
 
 let debugSetting = SettingsDictionary()
-  .automaticCodeSigning(devTeam: developmentTeam)
-  .developmentTeam(developmentTeam)
 
 let releaseSetting = SettingsDictionary()
-  .automaticCodeSigning(devTeam: developmentTeam)
-  .developmentTeam(developmentTeam)
 
 // MARK: Target - Prod
 let surcharges = Target.target(
@@ -84,10 +77,18 @@ let surcharges = Target.target(
       "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved."),
       "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you."),
       "NSCameraUsageDescription": .string("Surcharges uses your camera to take your receipt."),
+      "ITSAppUsesNonExemptEncryption": .boolean(false),
     ]
   ),
   sources: ["Sources/Commons/**", "Sources/Prod/**"],
-  resources: .resources(["Resources/Prod/**"], privacyManifest: .default),
+  resources: .resources(
+    [
+      .glob(
+        pattern: .relativeToManifest("Resources/Prod/**"),
+        excluding: [.relativeToManifest("Resources/Prod/.gitkeep")]
+      )
+    ], privacyManifest: .default
+  ),
   dependencies: productionDependencies + externalDependencies,
   settings: Settings.settings(
     base: baseSetting,
@@ -102,7 +103,7 @@ let surchargesDev = Target.target(
   name: "SurchargesDev",
   destinations: [.iPhone, .iPad, .mac],
   product: .app,
-  bundleId: "nz.surcharges.dev",
+  bundleId: "nz.surcharges.development",
   deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
   infoPlist: .extendingDefault(
     with: [
@@ -113,10 +114,18 @@ let surchargesDev = Target.target(
       "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved."),
       "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you."),
       "NSCameraUsageDescription": .string("Surcharges uses your camera to take your receipt."),
+      "ITSAppUsesNonExemptEncryption": .boolean(false),
     ]
   ),
   sources: ["Sources/Commons/**", "Sources/Dev/**"],
-  resources: .resources(["Resources/Dev/**"], privacyManifest: .default),
+  resources: .resources(
+    [
+      .glob(
+        pattern: .relativeToManifest("Resources/Dev/**"),
+        excluding: [.relativeToManifest("Resources/Dev/.gitkeep")]
+      )
+    ], privacyManifest: .default
+  ),
   dependencies: developmentDependencies + externalDependencies,
   settings: Settings.settings(
     base: baseSetting,
