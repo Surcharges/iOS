@@ -15,4 +15,4 @@ sh ./make_files/make_firebase.sh
 
 cd ..
 
-TUIST_VERSION=$CI_TAG TUIST_DEVELOPMENT_TEAM=$DEVELOPMENT_TEAM /Users/local/.local/bin/mise exec -- tuist generate --no-open
+TUIST_APP_VERSION=$CI_TAG TUIST_DEVELOPMENT_TEAM=$DEVELOPMENT_TEAM /Users/local/.local/bin/mise exec -- tuist generate --no-open

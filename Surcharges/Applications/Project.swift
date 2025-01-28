@@ -48,7 +48,7 @@ let externalDependencies: [TargetDependency] = [
 
 // MARK: Target - Infomation
 let developmentTeam = Environment.developmentTeam.getString(default: "None")
-let marketingVersion = Environment.version.getString(default: "1.0.0")
+let marketingVersion = Environment.appVersion.getString(default: "1.0.0")
 
 let baseSetting = SettingsDictionary()
   .swiftVersion("6.0")
