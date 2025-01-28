@@ -47,7 +47,7 @@ let externalDependencies: [TargetDependency] = [
 ]
 
 // MARK: Target - Infomation
-let developmentTeam = "PN8663UTBA"
+let developmentTeam = Environment.developmentTeam.getString(default: "None")
 let projectVersion = "1"
 let marketingVersion = "1.0.0"
 
@@ -58,15 +58,10 @@ let baseSetting = SettingsDictionary()
   .marketingVersion(marketingVersion)
   .otherLinkerFlags(["-ObjC"])
   .automaticCodeSigning(devTeam: developmentTeam)
-  .developmentTeam(developmentTeam)
 
 let debugSetting = SettingsDictionary()
-  .automaticCodeSigning(devTeam: developmentTeam)
-  .developmentTeam(developmentTeam)
 
 let releaseSetting = SettingsDictionary()
-  .automaticCodeSigning(devTeam: developmentTeam)
-  .developmentTeam(developmentTeam)
 
 // MARK: Target - Prod
 let surcharges = Target.target(
@@ -102,7 +97,7 @@ let surchargesDev = Target.target(
   name: "SurchargesDev",
   destinations: [.iPhone, .iPad, .mac],
   product: .app,
-  bundleId: "nz.surcharges.dev",
+  bundleId: "nz.surcharges.development",
   deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
   infoPlist: .extendingDefault(
     with: [

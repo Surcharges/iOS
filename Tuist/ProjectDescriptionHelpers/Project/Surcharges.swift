@@ -4,7 +4,6 @@ import ModularPlugin
 public final class Surcharges: @unchecked Sendable {
   
   private let _project: ModularPlugin.Project
-  private let _developmentTeam = "PN8663UTBA"
   
   private var _hasDemo: Bool = false
   
@@ -100,16 +99,9 @@ public final class Surcharges: @unchecked Sendable {
           .bitcodeEnabled(false)
           .currentProjectVersion("1")
           .marketingVersion("1.0.0")
-          .automaticCodeSigning(devTeam: _developmentTeam)
-          .developmentTeam(_developmentTeam),
-        debug: SettingsDictionary()
-          .developmentTeam(_developmentTeam)
-          .automaticCodeSigning(devTeam: _developmentTeam)
-          .developmentTeam(_developmentTeam),
-        release: SettingsDictionary()
-          .developmentTeam(_developmentTeam)
-          .automaticCodeSigning(devTeam: _developmentTeam)
-          .developmentTeam(_developmentTeam),
+          .codeSignIdentityAppleDevelopment(),
+        debug: SettingsDictionary(),
+        release: SettingsDictionary(),
         defaultSettings: .recommended
       )
     )
