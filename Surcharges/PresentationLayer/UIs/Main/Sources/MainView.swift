@@ -45,6 +45,8 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: V
 					.padding([.top], 10)
 					.padding([.leading, .trailing], 20)
 					
+					/*
+					 // Favourite Places is currently not available.
 					Section {
 						
 						FavouritePlacesView()
@@ -55,6 +57,7 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: V
 							.font(.title3)
 							.blurBackground()
 					}
+					 */
 					
 					if _viewModel.isLoading {
 						
