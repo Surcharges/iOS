@@ -12,4 +12,11 @@ let target = surcharges.target(
     ]
 )
 
-let project = surcharges.project(targets: [target])
+let tests = surcharges.test(
+  projects: [
+    DomainLayer.UseCases,
+    DataLayer.RepositoryProtocols,
+  ]
+)
+
+let project = surcharges.project(targets: [target, tests])

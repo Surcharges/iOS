@@ -6,6 +6,7 @@ public final class Surcharges: @unchecked Sendable {
   private let _project: ModularPlugin.Project
   
   private var _hasDemo: Bool = false
+  private var _hasTests: Bool = false
   
   private let _schemeArguments: Arguments = .arguments(
     environmentVariables: ["OS_ACTIVITY_MODE": "disable"],
@@ -69,7 +70,7 @@ public final class Surcharges: @unchecked Sendable {
           path: .relativeToRoot($0.path)
         )
       }
-      
+    
     _dependencies.append(.target(name: _project.name))
     
     return  .target(
@@ -103,55 +104,101 @@ public final class Surcharges: @unchecked Sendable {
     )
   }
   
-  private var _schemes: [Scheme] {
-    get {
-      var demo: Scheme? {
-        
-        if _hasDemo {
-          return .scheme(
-            name: "\(_project.name)Demo",
-            shared: true,
-            hidden: false,
-            buildAction: .buildAction(
-              targets: [TargetReference(stringLiteral: "\(_project.name)Demo")]
-            ),
-            testAction: nil,
-            runAction: .runAction(
-              configuration: .init(stringLiteral: "debug"),
-              executable: .init(stringLiteral: "\(_project.name)Demo"),
-              arguments: _schemeArguments
-            ),
-            archiveAction: nil,
-            profileAction: nil,
-            analyzeAction: nil
+  public func test(projects: [ModularPlugin.Project]) -> Target {
+    
+    _hasTests = true
+    
+    return .target(
+      name: "\(_project.name)Tests",
+      destinations: [.iPhone, .iPad, .mac],
+      product: .unitTests,
+      bundleId: "\( _project.bundleId)Tests",
+      deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
+      sources: ["Tests/**"],
+      dependencies: projects
+        .map {
+          TargetDependency.project(
+            target: $0.name,
+            path: .relativeToRoot($0.path)
           )
-        } else {
-          return nil
-        }
-      }
-      
-      return [
+        },
+      settings: Settings.settings(
+        base: SettingsDictionary()
+          .swiftVersion("6.0")
+          .bitcodeEnabled(false),
+        debug: SettingsDictionary(),
+        release: SettingsDictionary(),
+        defaultSettings: .recommended
+      )
+    )
+  }
+  
+  private func _getSchemes() -> [Scheme] {
+    
+    var schemes: [Scheme] = [
+      .scheme(
+        name: _project.name,
+        shared: true,
+        hidden: false,
+        buildAction: .buildAction(
+          targets: [TargetReference(stringLiteral: _project.name)]
+        ),
+        testAction: nil,
+        runAction: .runAction(
+          configuration: .init(stringLiteral: "debug"),
+          executable: .init(stringLiteral: _project.name),
+          arguments: _schemeArguments
+        ),
+        archiveAction: nil,
+        profileAction: nil,
+        analyzeAction: nil
+      )
+    ]
+    
+    if _hasDemo {
+      schemes.append(
         .scheme(
-          name: _project.name,
+          name: "\(_project.name)Demo",
           shared: true,
           hidden: false,
           buildAction: .buildAction(
-            targets: [TargetReference(stringLiteral: _project.name)]
+            targets: [TargetReference(stringLiteral: "\(_project.name)Demo")]
           ),
           testAction: nil,
           runAction: .runAction(
             configuration: .init(stringLiteral: "debug"),
-            executable: .init(stringLiteral: _project.name),
+            executable: .init(stringLiteral: "\(_project.name)Demo"),
             arguments: _schemeArguments
           ),
           archiveAction: nil,
           profileAction: nil,
           analyzeAction: nil
-        ),
-        demo
-      ]
-        .compactMap { $0 }
+        )
+      )
     }
+    
+    if _hasTests {
+      schemes.append(
+        .scheme(
+          name: "\(_project.name)Tests",
+          shared: true,
+          hidden: false,
+          buildAction: .buildAction(
+            targets: [TargetReference(stringLiteral: "\(_project.name)Tests")]
+          ),
+          testAction: .targets(
+            [.testableTarget(target: "\(_project.name)Tests")],
+            configuration: .init(stringLiteral: "debug")
+          ),
+          runAction: nil,
+          archiveAction: nil,
+          profileAction: nil,
+          analyzeAction: nil
+        )
+      )
+    }
+    
+    return schemes
   }
   
   public func project(targets: [Target]) -> ProjectDescription.Project {
@@ -175,7 +222,7 @@ public final class Surcharges: @unchecked Sendable {
           ]
       ),
       targets: targets,
-      schemes: _schemes,
+      schemes: _getSchemes(),
       resourceSynthesizers: []
     )
   }

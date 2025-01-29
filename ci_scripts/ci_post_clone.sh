@@ -10,6 +10,8 @@ curl https://mise.jdx.dev/install.sh | sh
 
 /Users/local/.local/bin/mise install # Installs the version from .mise.toml
 
+echo $CI_TAG
+
 sh ./make_files/make_endpoint.sh
 sh ./make_files/make_firebase.sh
 
