@@ -14,4 +14,11 @@ let target = surcharges.target(
     ]
 )
 
-let project = surcharges.project(targets: [target])
+let tests = surcharges.test(
+  projects: [
+    PresentationLayer.ViewModels,
+    DomainLayer.UseCaseProtocols,
+  ]
+)
+
+let project = surcharges.project(targets: [target, tests])
