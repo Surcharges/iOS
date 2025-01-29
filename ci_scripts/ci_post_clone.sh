@@ -10,11 +10,22 @@ curl https://mise.jdx.dev/install.sh | sh
 
 /Users/local/.local/bin/mise install # Installs the version from .mise.toml
 
-echo $CI_TAG
+if [[ -n $CI_PULL_REQUEST_NUMBER ]];
+then
 
-sh ./make_files/make_endpoint.sh
-sh ./make_files/make_firebase.sh
+  cd ..
 
-cd ..
+  /Users/local/.local/bin/mise exec -- tuist generate UseCasesTests ViewModelsTests --no-open
 
-TUIST_APP_VERSION=$CI_TAG TUIST_DEVELOPMENT_TEAM=$DEVELOPMENT_TEAM /Users/local/.local/bin/mise exec -- tuist generate --no-open
+else
+
+  echo $CI_TAG
+
+  sh ./make_files/make_endpoint.sh
+  sh ./make_files/make_firebase.sh
+
+  cd ..
+
+  TUIST_APP_VERSION=$CI_TAG TUIST_DEVELOPMENT_TEAM=$DEVELOPMENT_TEAM /Users/local/.local/bin/mise exec -- tuist generate --no-open
+
+fi
