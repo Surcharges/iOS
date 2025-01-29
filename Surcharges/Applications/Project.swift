@@ -48,18 +48,33 @@ let externalDependencies: [TargetDependency] = [
 
 // MARK: Target - Infomation
 let developmentTeam = Environment.developmentTeam.getString(default: "None")
-let marketingVersion = Environment.appVersion.getString(default: "1.0.0")
+let appVersion = Environment.appVersion.getString(default: "1.0.0")
 
 let baseSetting = SettingsDictionary()
   .swiftVersion("6.0")
   .bitcodeEnabled(false)
-  .marketingVersion(marketingVersion)
+  .marketingVersion(appVersion)
   .otherLinkerFlags(["-ObjC"])
   .automaticCodeSigning(devTeam: developmentTeam)
 
 let debugSetting = SettingsDictionary()
 
 let releaseSetting = SettingsDictionary()
+
+// MARK: Plist
+let infoPlist: InfoPlist = .extendingDefault(
+  with: [
+    "UILaunchScreen": [
+      "UIColorName": "",
+      "UIImageName": "",
+    ],
+    "CFBundleShortVersionString": .string(appVersion),
+    "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved."),
+    "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you."),
+    "NSCameraUsageDescription": .string("Surcharges uses your camera to take your receipt."),
+    "ITSAppUsesNonExemptEncryption": .boolean(false),
+  ]
+)
 
 // MARK: Target - Prod
 let surcharges = Target.target(
@@ -68,18 +83,7 @@ let surcharges = Target.target(
   product: .app,
   bundleId: "nz.surcharges",
   deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
-  infoPlist: .extendingDefault(
-    with: [
-      "UILaunchScreen": [
-        "UIColorName": "",
-        "UIImageName": "",
-      ],
-      "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved."),
-      "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you."),
-      "NSCameraUsageDescription": .string("Surcharges uses your camera to take your receipt."),
-      "ITSAppUsesNonExemptEncryption": .boolean(false),
-    ]
-  ),
+  infoPlist: infoPlist,
   sources: ["Sources/Commons/**", "Sources/Prod/**"],
   resources: .resources(
     [
@@ -105,18 +109,7 @@ let surchargesDev = Target.target(
   product: .app,
   bundleId: "nz.surcharges.development",
   deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
-  infoPlist: .extendingDefault(
-    with: [
-      "UILaunchScreen": [
-        "UIColorName": "",
-        "UIImageName": "",
-      ],
-      "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved."),
-      "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you."),
-      "NSCameraUsageDescription": .string("Surcharges uses your camera to take your receipt."),
-      "ITSAppUsesNonExemptEncryption": .boolean(false),
-    ]
-  ),
+  infoPlist: infoPlist,
   sources: ["Sources/Commons/**", "Sources/Dev/**"],
   resources: .resources(
     [
