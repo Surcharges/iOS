@@ -9,15 +9,16 @@
 import SwiftUI
 import TipKit
 
+import Resources
 import CommonUI
 
 struct SurchargeStatusTip: Tip {
 	var title: Text {
-		Text("Surcharge Status")
+		Text(R.string.localizable.tipSurchargeStatusTitle())
 	}
 	
 	var message: Text? {
-		Text("Get to know different surcharge status")
+		Text(R.string.localizable.tipSurchargeStatusMessage())
 	}
 	
 	var image: Image? {

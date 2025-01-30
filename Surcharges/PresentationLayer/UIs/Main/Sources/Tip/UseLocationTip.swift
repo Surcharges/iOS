@@ -9,13 +9,15 @@
 import SwiftUI
 import TipKit
 
+import Resources
+
 struct UseLocationTip: Tip {
 	var title: Text {
-		Text("Use Your Location")
+		Text(R.string.localizable.tipUseLocationTitle())
 	}
 	
 	var message: Text? {
-		Text("Search for nearby places.")
+		Text(R.string.localizable.tipUseLocationMessage())
 	}
 	
 	var image: Image? {

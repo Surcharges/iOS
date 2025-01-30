@@ -8,9 +8,11 @@
 
 import SwiftUI
 
+import Resources
+
 struct WelcomeView: View {
 	
 	var body: some View {
-		Text("Welcome to the Surcharge App")
+		Text(R.string.localizable.welcomeToSurchargeApp())
 	}
 }

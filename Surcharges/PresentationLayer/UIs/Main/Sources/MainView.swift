@@ -93,7 +93,7 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: V
 									)
 									
 								} header: {
-									Text("Search for \"\(_viewModel.searchedText)\"")
+									Text(R.string.localizable.searchFor(_viewModel.searchedText))
 										.font(.title3)
 										.blurBackground()
 								}
@@ -141,7 +141,7 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: V
 				.buttonStyle(.plain)
 				.contentTransition(.symbolEffect(.replace))
 				.alert(
-					"Use Location is Denied",
+					R.string.localizable.alertUseLocationDeniedTitle(),
 					isPresented: $_showLocationDeniedAlert
 				) {
 					
@@ -150,17 +150,17 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: V
 						UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
 						
 					} label: {
-						Text("Go to Settings")
+						Text(R.string.localizable.goToSettings())
 					}
 					
 					Button(role: .cancel) {
 						_showLocationDeniedAlert.toggle()
 					} label: {
-						Text("Close")
+						Text(R.string.localizable.close())
 					}
 					
 				} message: {
-					Text("Allow to use your location")
+					Text(R.string.localizable.alertUseLocationDeniedMessage())
 				}
 				.popoverTip(_useLocationTip, arrowEdge: .leading) { action in
 					withAnimation {
@@ -169,7 +169,7 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: V
 					_useLocationTip.invalidate(reason: .actionPerformed)
 				}
 				
-				TextField("Search your destination", text: $_viewModel.searchText)
+				TextField(R.string.localizable.searchBoxPlaceholder(), text: $_viewModel.searchText)
 					.textFieldStyle(.roundedBorder)
 					.font(.body)
 					.disabled(_viewModel.isLoading)
@@ -191,7 +191,7 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: V
 						await _viewModel.search()
 					}
 				} label: {
-					Text("Search")
+					Text(R.string.localizable.searchButtonTitle())
 						.font(.body)
 						.disabled(!_viewModel.canSearch)
 				}

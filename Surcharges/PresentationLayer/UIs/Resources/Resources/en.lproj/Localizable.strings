@@ -1,0 +1,22 @@
+/* 
+  Localizable.strings
+  Resources
+
+  Created by Bonsung Koo on 30/01/2025.
+  Copyright © 2025 Surcharges. All rights reserved.
+*/
+
+"noResultForSearch"="Oops!\nNo results found for \"%@\"";
+"zeroRates"="Zero";
+"tipSurchargeStatusTitle"="Surcharge Status";
+"tipSurchargeStatusMessage"="Get to know different surcharge status.";
+"tipUseLocationTitle"="Use Your Location.";
+"tipUseLocationMessage"="Search for nearby places.";
+"welcomeToSurchargeApp"="Welcome to Surcharge App";
+"searchFor"="Search for \"%@\"";
+"alertUseLocationDeniedTitle"="Use Location is Denied";
+"alertUseLocationDeniedMessage"="Allow to use your location";
+"goToSettings"="Go to Settings";
+"close"="Close";
+"searchBoxPlaceholder"="Search your destination";
+"searchButtonTitle"="Search";

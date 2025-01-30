@@ -30,7 +30,7 @@ struct NoResultView: View {
 					.font(.largeTitle)
 			}
 				
-			Text("Oops!\nNo results found for \"\(_searchedText)\"")
+			Text(R.string.localizable.noResultForSearch(_searchedText))
 				.font(.subheadline)
 				.multilineTextAlignment(.center)
 				
