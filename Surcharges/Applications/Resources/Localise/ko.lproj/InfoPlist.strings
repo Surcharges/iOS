@@ -1,0 +1,10 @@
+/*
+ InfoPlist.strings
+ Resources
+ 
+ Created by Bonsung Koo on 30/01/2025.
+ Copyright © 2025 Surcharges. All rights reserved.
+ */
+
+"NSCameraUsageDescription"= "영수증 사진을 촬영하기 위해 카메라를 사용합니다.";
+"NSLocationWhenInUseUsageDescription"= "당신 주변의 상점을 검색하기 위해 위치 정보를 사용합니다.";

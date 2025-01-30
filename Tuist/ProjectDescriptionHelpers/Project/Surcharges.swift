@@ -25,10 +25,10 @@ public final class Surcharges: @unchecked Sendable {
   ) -> Target {
     return .target(
       name: _project.name,
-      destinations: [.iPhone, .iPad, .mac],
+      destinations: [.iPhone],
       product: .framework,
       bundleId:  _project.bundleId,
-      deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
+      deploymentTargets: .iOS("17.0"),
       infoPlist: .extendingDefault(
         with: [
           "UILaunchScreen": [
@@ -75,10 +75,10 @@ public final class Surcharges: @unchecked Sendable {
     
     return  .target(
       name: "\(_project.name)Demo",
-      destinations: [.iPhone, .iPad, .mac],
+      destinations: [.iPhone],
       product: .app,
       bundleId: "\( _project.bundleId)Demo",
-      deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
+      deploymentTargets: .iOS("17.0"),
       infoPlist: .extendingDefault(
         with: [
           "UILaunchScreen": [
@@ -88,6 +88,8 @@ public final class Surcharges: @unchecked Sendable {
           "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved."),
           "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you."),
           "NSCameraUsageDescription": .string("Surcharges uses your camera to take your receipt."),
+          "ITSAppUsesNonExemptEncryption": .boolean(false),
+          "UISupportedInterfaceOrientations": .array([.string("UIInterfaceOrientationPortrait")])
         ]
       ),
       sources: ["App/Sources/**"],
@@ -110,10 +112,10 @@ public final class Surcharges: @unchecked Sendable {
     
     return .target(
       name: "\(_project.name)Tests",
-      destinations: [.iPhone, .iPad, .mac],
+      destinations: [.iPhone],
       product: .unitTests,
       bundleId: "\( _project.bundleId)Tests",
-      deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
+      deploymentTargets: .iOS("17.0"),
       sources: ["Tests/**"],
       dependencies: projects
         .map {

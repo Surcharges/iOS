@@ -8,6 +8,7 @@ let target = surcharges.target(
   projects:
     [
       Shared.Services.AppStatusServiceProtocol,
+      PresentationLayer.UIs.Resources,
     ],
   externalPackages:
     [

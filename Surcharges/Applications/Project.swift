@@ -73,25 +73,28 @@ let infoPlist: InfoPlist = .extendingDefault(
     "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you."),
     "NSCameraUsageDescription": .string("Surcharges uses your camera to take your receipt."),
     "ITSAppUsesNonExemptEncryption": .boolean(false),
+    "UISupportedInterfaceOrientations": .array([.string("UIInterfaceOrientationPortrait")])
   ]
 )
 
 // MARK: Target - Prod
 let surcharges = Target.target(
   name: "Surcharges",
-  destinations: [.iPhone, .iPad, .mac],
+  destinations: [.iPhone],
   product: .app,
   bundleId: "nz.surcharges",
-  deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
+  deploymentTargets: .iOS("17.0"),
   infoPlist: infoPlist,
   sources: ["Sources/Commons/**", "Sources/Prod/**"],
   resources: .resources(
     [
+      "Resources/Localise/**",
       .glob(
         pattern: .relativeToManifest("Resources/Prod/**"),
         excluding: [.relativeToManifest("Resources/Prod/.gitkeep")]
-      )
-    ], privacyManifest: .default
+      ),
+    ],
+    privacyManifest: .default
   ),
   dependencies: productionDependencies + externalDependencies,
   settings: Settings.settings(
@@ -105,19 +108,21 @@ let surcharges = Target.target(
 // MARK: Target - Dev
 let surchargesDev = Target.target(
   name: "SurchargesDev",
-  destinations: [.iPhone, .iPad, .mac],
+  destinations: [.iPhone],
   product: .app,
   bundleId: "nz.surcharges.development",
-  deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
+  deploymentTargets: .iOS("17.0"),
   infoPlist: infoPlist,
   sources: ["Sources/Commons/**", "Sources/Dev/**"],
   resources: .resources(
     [
+      "Resources/Localise/**",
       .glob(
         pattern: .relativeToManifest("Resources/Dev/**"),
         excluding: [.relativeToManifest("Resources/Dev/.gitkeep")]
-      )
-    ], privacyManifest: .default
+      ),
+    ],
+    privacyManifest: .default
   ),
   dependencies: developmentDependencies + externalDependencies,
   settings: Settings.settings(

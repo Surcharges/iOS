@@ -27,10 +27,10 @@ let project = ProjectDescription.Project(
   targets: [
     Target.target(
       name: PresentationLayer.UIs.Resources.name,
-      destinations: [.iPhone, .iPad, .mac],
+      destinations: [.iPhone],
       product: .framework,
       bundleId: PresentationLayer.UIs.Resources.bundleId,
-      deploymentTargets: .multiplatform(iOS: "17.0", macOS: "13.0"),
+      deploymentTargets: .iOS("17.0"),
       sources: ["Sources/**"],
       resources: .resources(["Resources/**"], privacyManifest: .default),
       dependencies: [

@@ -1,0 +1,67 @@
+/*
+ Localizable.strings
+ Resources
+ 
+ Created by Bonsung Koo on 30/01/2025.
+ Copyright © 2025 Surcharges. All rights reserved.
+ */
+
+"noResultForSearch"="Oops!\nNo results found for \"%@\"";
+"zeroRates"="Zero";
+"tipSurchargeStatusTitle"="Surcharge Status";
+"tipSurchargeStatusMessage"="Get to know different surcharge status.";
+"tipUseLocationTitle"="Use Your Location.";
+"tipUseLocationMessage"="Search for nearby places.";
+"welcomeToSurchargeApp"="Welcome to Surcharge App";
+"searchFor"="Search for \"%@\"";
+"alertUseLocationDeniedTitle"="Use Location is Denied";
+"alertUseLocationDeniedMessage"="Allow to use your location";
+"goToSettings"="Go to Settings";
+"close"="Close";
+"searchBoxPlaceholder"="Search your destination";
+"searchButtonTitle"="Search";
+"reportForUnknownButtonTitle"="We're welcome to your contribution.";
+"reportForConfirmedButtonTitle"="Something wrong?";
+"surchargeStatusUnknownMessage"="Haven't reported the surcharge rate yet";
+"surchargeStatusUnknown"="Unknown";
+"surchargeStatusReported"="Reported";
+"surchargeStatusConfirmed"="Confirmed";
+"updatedAt"="Updated at %@";
+"recognitionSuccess"="Recognised🎉, Just in case please check the amounts, if it may not accurate.";
+"recognitionNameNotMatched"="Place name is not matched.";
+"reportProceedAnyway"="Do you think the recognition sucks?🤮\nTap here to proceed anyway.";
+"recognitionExtractedPartially"="It is recognised partially. Please input the rest manually.";
+"notReceipt"="It may not be a receipt or purchase terminal.";
+"recognitionFailed"="It is not extractable. Place input manually.";
+"reportFor"="You are going to report surcharge information for";
+"takeOrSelectPhoto"="Please take or select a photo of the receipt or terminal screen for recognising surcharge information.";
+"reportNote"="Please Note. When you report this information, the photo will be uploaded to the server to verify the information.";
+"selectPhoto"="Select a photo";
+"takePhoto"="Take a photo";
+"recognising"="Recognising...";
+"totalAmount"="Total Amount";
+"totalAmountPlaceholder"="Enter total amount";
+"surchargeAmount"="Surcharge Amount";
+"surchargeAmountPlaceholder"="Enter amount of surcharge";
+"reporting"="Reporting...";
+"reportButtonTitle"="Report";
+"reportSuccessTitle"="Thank you for your contribution to";
+"backToPlace"="Back to place";
+"or"="or";
+"surchargeStatusHelpDisclaimer"="Disclaimer: Although we are trying to provide the most accurate information, there may be some inaccuracies. Please use the information as a reference.";
+"surchargeStatusHelpDiscription"="There are three types of surcharge status:";
+"surchargeStatusHelpUnknown1"="Means the surcharge status is not yet known. We're please to receive your report.";
+"surchargeStatusHelpUnknown2"="Remeber, Red colour is unknown about surcharge.";
+"surchargeStatusHelpUnknown2Emphasise"="Red";
+"surchargeStatusHelpReported1"="Means the surcharge status is reported from someone who has passion to help others.\nHowever, it's not yet confirmed which means it may not be accurate.";
+"surchargeStatusHelpReported2"="Remeber, Blue colour is reported but not confirmed.";
+"surchargeStatusHelpReported2Emphasise"="Blue";
+"surchargeStatusHelpConfirmed1"="Means the surcharge status is confirmed by us. It's highly likely to be accurate.\nBut still, it may be accurate. Please check the updated date in place detail.";
+"surchargeStatusHelpConfirmed2"="Remeber, Green colour is confirmed for surcharge information.";
+"surchargeStatusHelpConfirmed2Emphasise"="Green";
+"gotIt"="Got it";
+"toastUnauthorised"="Do you want some permissions?";
+"toastOutOfRegion"="Only available in";
+"toastNoInternet"="Please check the Internet connection.";
+"toastNewVersion"="New version available. Please update.";
+"toastUnknown"="Oops🫢 Something went wrong. Please try again.";

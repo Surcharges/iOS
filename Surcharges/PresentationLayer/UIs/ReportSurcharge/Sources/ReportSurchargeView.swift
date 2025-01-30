@@ -40,7 +40,7 @@ public struct ReportSurchargeView<VM: ReportSurchargeViewModelProtocol, Router: 
 		ScrollView(showsIndicators: false) {
 			VStack(spacing: 20) {
 				VStack(spacing: 10) {
-					Text("You are going to report surcharge information for")
+					Text(R.string.localizable.reportFor())
 						.fixedSize(horizontal: false, vertical: true)
 						.font(.title3)
 						.multilineTextAlignment(.center)
@@ -55,13 +55,13 @@ public struct ReportSurchargeView<VM: ReportSurchargeViewModelProtocol, Router: 
 				
 				VStack(spacing: 0) {
 					
-					Text("Please take or select a photo of the receipt or terminal screen for recognising surcharge information.")
+					Text(R.string.localizable.takeOrSelectPhoto())
 						.fixedSize(horizontal: false, vertical: true)
 						.frame(maxWidth: .infinity, alignment: .leading)
 						.font(.subheadline)
 						.multilineTextAlignment(.leading)
 					
-					Text("Please Note. When you report this information, the photo will be uploaded to the server to verify the information.")
+					Text(R.string.localizable.reportNote())
 						.fixedSize(horizontal: false, vertical: true)
 						.frame(maxWidth: .infinity, alignment: .leading)
 						.font(.subheadline)
@@ -75,7 +75,7 @@ public struct ReportSurchargeView<VM: ReportSurchargeViewModelProtocol, Router: 
 					} label: {
 						HStack {
 							Image(systemName: "photo")
-							Text("Select a photo")
+							Text(R.string.localizable.selectPhoto())
 						}
 					}
 					Button {
@@ -83,18 +83,18 @@ public struct ReportSurchargeView<VM: ReportSurchargeViewModelProtocol, Router: 
 					} label: {
 						HStack {
 							Image(systemName: "camera")
-							Text("Take a photo")
+							Text(R.string.localizable.takePhoto())
 						}
 					}
 				} label: {
 					
 					if _viewModel.isRecognising {
 						HStack {
-							Text("Recognising...")
+							Text(R.string.localizable.recognising())
 							ProgressView()
 						}
 					} else {
-						Text("📸 or 🏞️")
+						Text("📸 \(R.string.localizable.or()) 🏞️")
 					}
 					
 				}
@@ -115,11 +115,11 @@ public struct ReportSurchargeView<VM: ReportSurchargeViewModelProtocol, Router: 
 						
 						VStack(spacing: 5) {
 							
-							Text("Total Amount")
+							Text(R.string.localizable.totalAmount())
 								.font(.caption)
 								.frame(maxWidth: .infinity, alignment: .leading)
 							
-							TextField("Enter total amount", text: $_viewModel.totalAmount)
+							TextField(R.string.localizable.totalAmountPlaceholder(), text: $_viewModel.totalAmount)
 								.keyboardType(.decimalPad)
 								.textFieldStyle(.roundedBorder)
 								.disabled(_viewModel.isRecognising || _viewModel.isReporting)
@@ -128,11 +128,11 @@ public struct ReportSurchargeView<VM: ReportSurchargeViewModelProtocol, Router: 
 						
 						VStack(spacing: 5) {
 							
-							Text("Surcharge Amount")
+							Text(R.string.localizable.surchargeAmount())
 								.font(.caption)
 								.frame(maxWidth: .infinity, alignment: .leading)
 							
-							TextField("Enter amount of surcharge", text: $_viewModel.surchargeAmount)
+							TextField(R.string.localizable.surchargeAmountPlaceholder(), text: $_viewModel.surchargeAmount)
 								.keyboardType(.decimalPad)
 								.textFieldStyle(.roundedBorder)
 								.disabled(_viewModel.isRecognising || _viewModel.isReporting)
@@ -150,11 +150,11 @@ public struct ReportSurchargeView<VM: ReportSurchargeViewModelProtocol, Router: 
 						
 						if _viewModel.isReporting {
 							HStack {
-								Text("Reporting...")
+								Text(R.string.localizable.reporting())
 								ProgressView()
 							}
 						} else {
-							Text("📝Report")
+							Text("📝\(R.string.localizable.reportButtonTitle())")
 						}
 						
 					}
