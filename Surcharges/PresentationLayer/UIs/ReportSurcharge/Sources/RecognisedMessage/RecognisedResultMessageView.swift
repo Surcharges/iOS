@@ -27,45 +27,45 @@ struct RecognisedResultMessageView: View {
 			switch _recognisedModel.result {
 			case .recognised:
 				
-				Text("Recognised🎉, Just in case please check the amounts, if it may not accurate.")
+				Text(R.string.localizable.recognitionSuccess())
 					.messageStyle(color: R.color.green800.color)
 
 			case .placeNotMatched:
 				
 				VStack(spacing: 5) {
-					Text("Place name is not matched.")
+					Text(R.string.localizable.recognitionNameNotMatched())
 						.messageStyle(color: R.color.red800.color)
 					
 					Button {
 						_howeverProceedAnyway()
 					} label: {
-						Text("Do you think the recognition sucks?\nTap here to proceed anyway.")
+						Text(R.string.localizable.reportProceedAnyway())
 							.font(.subheadline)
 					}
 				}
 				
 			case .extractedPartially:
 				
-				Text("It is recognised partially. Please input the rest manually.")
+				Text(R.string.localizable.recognitionExtractedPartially())
 					.messageStyle(color: R.color.red800.color)
 				
 			case .mayNotReceiptOrPurchaseTerminal:
 				
 				VStack(spacing: 5) {
-					Text("It may not be a receipt or purchase terminal.")
+					Text(R.string.localizable.notReceipt())
 						.messageStyle(color: R.color.red800.color)
 					
 					Button {
 						_howeverProceedAnyway()
 					} label: {
-						Text("Do you think the recognition sucks?\nTap here to proceed anyway.")
+						Text(R.string.localizable.reportProceedAnyway())
 							.font(.subheadline)
 					}
 				}
 				
 			case .notExtractable:
 				
-				Text("It is not extractable. Place input manually.")
+				Text(R.string.localizable.recognitionFailed())
 					.messageStyle(color: R.color.red800.color)
 				
 			}

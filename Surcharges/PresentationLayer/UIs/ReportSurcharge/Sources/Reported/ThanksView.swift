@@ -30,7 +30,7 @@ struct ThanksView: View {
 		VStack(spacing: 20) {
 			
 			VStack(spacing: 10) {
-				Text("Thank you for your contribution to")
+				Text(R.string.localizable.reportSuccessTitle())
 					.multilineTextAlignment(.center)
 					.font(.title3)
 				
@@ -93,7 +93,7 @@ struct ThanksView: View {
 				dismiss()
 				
 			} label: {
-				Text("Back to place")
+				Text(R.string.localizable.backToPlace())
 			}
 			.buttonStyle(.borderedProminent)
 			
