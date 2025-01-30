@@ -20,3 +20,10 @@
 "close"="Close";
 "searchBoxPlaceholder"="Search your destination";
 "searchButtonTitle"="Search";
+"reportForUnknownButtonTitle"="We're welcome to your contribution.";
+"reportForConfirmedButtonTitle"="Something wrong?";
+"surchargeStatusUnknownMessage"="Haven't reported the surcharge rate yet";
+"surchargeStatusUnknown"="Unknown";
+"surchargeStatusReported"="Reported";
+"surchargeStatusConfirmed"="Confirmed";
+"updatedAt"="Updated at %@";

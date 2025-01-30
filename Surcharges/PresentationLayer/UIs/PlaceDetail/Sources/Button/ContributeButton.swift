@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+import Resources
 import Models
 
 struct ContributeButton: View {
@@ -45,9 +46,9 @@ struct ContributeButton: View {
 		
 		switch _surcharge.status {
 		case .notDetermined: return ""
-		case .unknown: return "We're welcome to your contribution🙏🏻"
+		case .unknown: return "\(R.string.localizable.reportForUnknownButtonTitle())🙏🏻"
 		case .reported: return ""
-		case .confirmed: return "Something wrong?🤔"
+		case .confirmed: return "\(R.string.localizable.reportForConfirmedButtonTitle())🤔"
 		}
 	}
 }
