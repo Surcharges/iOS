@@ -11,7 +11,7 @@ curl https://mise.jdx.dev/install.sh | sh
 /Users/local/.local/bin/mise install # Installs the version from .mise.toml
 
 
-if [ $CI_WORKFLOW_ID -eq 'DF8E0AB2-31E7-450B-B956-B1F0D3EC3CAF' ]; 
+if [ $CI_WORKFLOW_ID = 'DF8E0AB2-31E7-450B-B956-B1F0D3EC3CAF' ]; 
 then
   
   # Dev release workflow
