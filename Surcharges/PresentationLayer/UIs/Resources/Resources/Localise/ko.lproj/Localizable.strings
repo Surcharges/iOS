@@ -1,0 +1,67 @@
+/* 
+ Localizable.strings
+ Resources
+ 
+ Created by Bonsung Koo on 30/01/2025.
+ Copyright © 2025 Surcharges. All rights reserved.
+ */
+
+"noResultForSearch"="이런!\n\"%@\"에 대한 검색결과가 없습니다.";
+"zeroRates"="Zero";
+"tipSurchargeStatusTitle"="결제수수료 상태";
+"tipSurchargeStatusMessage"="표시되는 결제수수료 상태를 알아보세요.";
+"tipUseLocationTitle"="현재 위치를 사용해 보세요.";
+"tipUseLocationMessage"="현재 위치를 기반으로 주변 상점을 검색해보세요.";
+"welcomeToSurchargeApp"="Surcharge에 잘 오셨습니다!";
+"searchFor"="\"%@\"의 검색 결과";
+"alertUseLocationDeniedTitle"="위치 정보 권한이 거부 됨.";
+"alertUseLocationDeniedMessage"="위치 정보를 사용할 수 있도록 권한을 주세요.";
+"goToSettings"="앱 세팅으로 이동";
+"close"="닫기";
+"searchBoxPlaceholder"="어디로 가시나요?";
+"searchButtonTitle"="검색";
+"reportForUnknownButtonTitle"="당신의 정보를 환영합니다.";
+"reportForConfirmedButtonTitle"="실제 정보와 다른가요?";
+"surchargeStatusUnknownMessage"="아직 보고된 결제수수료 정보가 없습니다.";
+"surchargeStatusUnknown"="알려지지 않음";
+"surchargeStatusReported"="보고 됨";
+"surchargeStatusConfirmed"="확인 됨";
+"updatedAt"="%@에 업데이트 됨";
+"recognitionSuccess"="인식완료🎉, 만약을 위해 다시 한 번 입력 된 금액을 확인해 주세요.";
+"recognitionNameNotMatched"="상호명이 일치하지 않습니다.";
+"reportProceedAnyway"="인식 기능이 별로인가요?🤮\n여기를 탭해서 그냥 진행해 보세요.";
+"recognitionExtractedPartially"="부분적으로 인식되었습니다. 수동으로 나머지를 입력해 주세요.";
+"notReceipt"="영수증이 아닌 것 같아요.";
+"recognitionFailed"="인식 할 수 없습니다. 수동으로 입력해 주세요.";
+"reportFor"="결제 수수료 정보를 알려주세요.";
+"takeOrSelectPhoto"="결제 수수료 정보를 인식하기 위해 영수증 사진을 찍거나 이미 찍은 영수증 사진을 선택해주세요.";
+"reportNote"="중요사항. 결제 수수료 정보를 보고하시면, 정보를 인증하기 위해 현재 첨부된 사진이 서버로 업로드 됩니다.";
+"selectPhoto"="사진 선택";
+"takePhoto"="사진 찍기";
+"recognising"="인식중...";
+"totalAmount"="전체 금액";
+"totalAmountPlaceholder"="전체 금액을 입력하세요";
+"surchargeAmount"="결제 수수료";
+"surchargeAmountPlaceholder"="결제 수수료 금액을 입력하세요";
+"reporting"="업로드중...";
+"reportButtonTitle"="업로드";
+"reportSuccessTitle"="결제 수수료 정보를 제공해 주셔서 감사합니다.";
+"backToPlace"="삼정으로 돌아가기";
+"or"="또는";
+"surchargeStatusHelpDisclaimer"="면책조항: 저희는 정확한 정보를 제공하려고 노력합니다만, 부정확한 정보가 있을 수 있습니다. Surcharge에서 제공되는 정보는 참고용으로만 사용해 주세요.";
+"surchargeStatusHelpDiscription"="총 세개의 결제 수수료 상태가 있습니다:";
+"surchargeStatusHelpUnknown1"="보고 된 결제 수수료 정보가 없음을 의미합니다. 혹시 어딘가에서 결제한 영수증을 가지고 계시다면 저희에게 알려주세요.";
+"surchargeStatusHelpUnknown2"="Surcharge의 어디서나 빨간색은 결제 수수료 정보가 알려지지 않음을 의미합니다.";
+"surchargeStatusHelpUnknown2Emphasise"="빨간색";
+"surchargeStatusHelpReported1"="정보를 공유하고 누군가를 돕고 싶어 하는 열정있는 누군가 결제 수수료 정보를 제공했음을 의미합니다. 그러나 아직 확인되지 않은 정보 입니다. 결제 수수료 정보가 부정확 할 수 있어요.";
+"surchargeStatusHelpReported2"="Surcharge의 어디서나 파란색은 결제 수수료 정보가 보고 되었음을 의미합니다.";
+"surchargeStatusHelpReported2Emphasise"="파란색";
+"surchargeStatusHelpConfirmed1"="결제 수수료 정보가 확인 되었음을 의미합니다. 이 정보는 정확할 확률이 높습니다. 하지만 여전히, 부정확 할 수 있기 때문에 상점 상제 정보에서 업데이트 날짜를 확인해 주세요.";
+"surchargeStatusHelpConfirmed2"="Surcharge의 어디서나 초록색은 결제 수수료 정보가 확인 되었음을 의미합니다.";
+"surchargeStatusHelpConfirmed2Emphasise"="초록색";
+"gotIt"="확인";
+"toastUnauthorised"="무엇을 하고 싶으신가요? 필요한 권한이라도?";
+"toastOutOfRegion"="다음 지역에서만 이용 가능합니다.";
+"toastNoInternet"="인터넷 연결을 확인해 주세요.";
+"toastNewVersion"="새로운 버전이 있습니다. 업데이트 해주세요.";
+"toastUnknown"="이런🫢 뭔가 이상하군요. 다시 시도해 주세요.";

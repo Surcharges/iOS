@@ -1,0 +1,10 @@
+/*
+ InfoPlist.strings
+ Resources
+ 
+ Created by Bonsung Koo on 30/01/2025.
+ Copyright © 2025 Surcharges. All rights reserved.
+ */
+
+"NSCameraUsageDescription"= "Surcharges uses your camera to take your receipt.";
+"NSLocationWhenInUseUsageDescription"= "Surcharges uses your location to provide nearest places to you.";

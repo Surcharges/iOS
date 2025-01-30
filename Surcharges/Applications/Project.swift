@@ -88,11 +88,13 @@ let surcharges = Target.target(
   sources: ["Sources/Commons/**", "Sources/Prod/**"],
   resources: .resources(
     [
+      "Resources/Localise/**",
       .glob(
         pattern: .relativeToManifest("Resources/Prod/**"),
         excluding: [.relativeToManifest("Resources/Prod/.gitkeep")]
-      )
-    ], privacyManifest: .default
+      ),
+    ],
+    privacyManifest: .default
   ),
   dependencies: productionDependencies + externalDependencies,
   settings: Settings.settings(
@@ -114,11 +116,13 @@ let surchargesDev = Target.target(
   sources: ["Sources/Commons/**", "Sources/Dev/**"],
   resources: .resources(
     [
+      "Resources/Localise/**",
       .glob(
         pattern: .relativeToManifest("Resources/Dev/**"),
         excluding: [.relativeToManifest("Resources/Dev/.gitkeep")]
-      )
-    ], privacyManifest: .default
+      ),
+    ],
+    privacyManifest: .default
   ),
   dependencies: developmentDependencies + externalDependencies,
   settings: Settings.settings(
