@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+import Resources
 import AppStatusServiceProtocol
 
 import ToastUI
@@ -24,23 +25,48 @@ extension View {
 				case .toast(let type):
 					switch type {
 					case .unauthorised:
-						ToastView("Do you want some permissions?😁")
+						ToastView("\(R.string.localizable.toastUnauthorised())😁")
 							.toastViewStyle(.failure)
-					case .outOfNZ:
-						ToastView("🇳🇿Only available in New Zealand.")
+					case .outOfRegion(let availableRegions):
+						ToastView("\(R.string.localizable.toastOutOfRegion()) \(availableRegions.map { _countryName(from: $0) }.joined(separator: ", "))")
 							.toastViewStyle(.information)
 					case .noInternet:
-						ToastView("🛜Please check the Internet connection.")
+						ToastView("🛜\(R.string.localizable.toastNoInternet())")
 							.toastViewStyle(.warning)
 					case .needToUpdate:
-						ToastView("🔥New version available. Please update.")
+						ToastView("🔥\(R.string.localizable.toastNewVersion())")
 							.toastViewStyle(.information)
 					case .unknown(let message):
-						ToastView("Oops🫢 Something went wrong. Please try again.\n\(message)")
+						ToastView("\(R.string.localizable.toastUnknown())\n\(message)")
 							.toastViewStyle(.failure)
 					}
 				}
 			}
 			.toastDimmedBackground(false)
+	}
+	
+	private func _countryName(from countryCode: String) -> String {
+		if let name = (Locale.current as NSLocale).displayName(forKey: .countryCode, value: countryCode) {
+			// Country name was found
+			
+			let flag = _flag(countryCode: countryCode)
+			
+			return "\(name)\(flag)"
+		} else {
+			// Country name cannot be found
+			return countryCode
+		}
+	}
+	
+	public func _flag(countryCode:String) -> String {
+		let baseFlagScalar: UInt32 = 127397
+		var flagString = ""
+		for scalarValue in countryCode.uppercased().unicodeScalars {
+			guard let scalar = UnicodeScalar(baseFlagScalar + scalarValue.value) else {
+				continue
+			}
+			flagString.unicodeScalars.append(scalar)
+		}
+		return flagString
 	}
 }

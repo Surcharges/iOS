@@ -60,3 +60,8 @@
 "surchargeStatusHelpConfirmed2"="Remeber, Green colour is confirmed for surcharge information.";
 "surchargeStatusHelpConfirmed2Emphasise"="Green";
 "gotIt"="Got it";
+"toastUnauthorised"="Do you want some permissions?";
+"toastOutOfRegion"="Only available in";
+"toastNoInternet"="Please check the Internet connection.";
+"toastNewVersion"="New version available. Please update.";
+"toastUnknown"="Oops🫢 Something went wrong. Please try again.";

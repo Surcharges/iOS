@@ -9,10 +9,22 @@
 import Foundation
 
 public enum NetworkError: Error {
+	
+	public enum ForbiddenReason: Identifiable, Equatable, Sendable {
+		case region(availableRegions: [String])
+		
+		public var id: String {
+			switch self {
+			case .region(let availableRegions):
+				return availableRegions.joined(separator: "")
+			}
+		}
+	}
+	
 	case systemError
 	case badRequest
 	case unauthorised
-	case forbidden
+	case forbidden(reason: ForbiddenReason)
 	case notFound
 	case methodNotAllowed
 	case deprecatedAPI
