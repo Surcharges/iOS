@@ -10,7 +10,7 @@ import Foundation
 
 public enum Toast: Identifiable, Equatable, Sendable {
 	case unauthorised
-	case outOfNZ
+	case outOfRegion(availableRegions: [String])
 	case noInternet
 	case needToUpdate
 	case unknown(message: String)

@@ -77,10 +77,10 @@ struct SurchargeView: View {
 					
 				case .unknown:
 					
-					Text("Haven't reported the surcharge rate yet😞")
+					Text("\(R.string.localizable.surchargeStatusUnknownMessage())😞")
 						.font(.headline)
 					
-					Text(verbatim: "Unknown")
+					Text(verbatim: R.string.localizable.surchargeStatusUnknown())
 						.font(.headline)
 						.surchargeStatusUnknown()
 						
@@ -89,7 +89,7 @@ struct SurchargeView: View {
 					Text(verbatim: _rateText(rate: _surcharge.rate))
 						.font(.largeTitle)
 					
-					Text(verbatim: "Reported")
+					Text(verbatim: R.string.localizable.surchargeStatusReported())
 						.font(.headline)
 						.surchargeStatusReported()
 					
@@ -98,14 +98,14 @@ struct SurchargeView: View {
 					Text(verbatim: _rateText(rate: _surcharge.rate))
 						.font(.largeTitle)
 					
-					Text(verbatim: "Confirmed")
+					Text(verbatim: R.string.localizable.surchargeStatusConfirmed())
 						.font(.headline)
 						.surchargeStatusConfirmed()
 					
 				}
 				
 				if let updatedDate = _surcharge.updatedDate {
-					Text("Updated at \(updatedDate.formatted(date: .numeric, time: .omitted))")
+					Text(R.string.localizable.updatedAt(updatedDate.formatted(date: .numeric, time: .omitted)))
 						.font(.footnote)
 				}
 				
@@ -118,9 +118,9 @@ struct SurchargeView: View {
 	
 	private func _rateText(rate: Double?) -> String {
 		if let rate = rate {
-			return rate == 0 ? "Zero🎉" : "\(rate)%"
+			return rate == 0 ? "\(R.string.localizable.zeroRates)🎉" : "\(rate)%"
 		} else {
-			return "Unknown"
+			return R.string.localizable.surchargeStatusUnknown()
 		}
 	}
 }

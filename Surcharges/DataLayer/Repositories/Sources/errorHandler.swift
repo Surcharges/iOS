@@ -17,8 +17,11 @@ extension RepositoryProtocol {
 		switch error {
 		case .unauthorised:
 			await appStatusService.notifyAppStatus(.toast(.unauthorised))
-		case .forbidden:
-			await appStatusService.notifyAppStatus(.toast(.outOfNZ))
+		case .forbidden(let reason):
+			switch reason {
+			case .region(let availableRegions):
+				await appStatusService.notifyAppStatus(.toast(.outOfRegion(availableRegions: availableRegions)))
+			}
 		case .systemError:
 			await appStatusService.notifyAppStatus(.toast(.noInternet))
 		case .deprecatedAPI:

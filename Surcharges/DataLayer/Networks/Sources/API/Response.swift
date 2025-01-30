@@ -71,7 +71,7 @@ extension API {
 		case .badRequest:
 			throw .badRequest
 		case .forbidden:
-			throw .forbidden
+			throw .forbidden(reason: .region(availableRegions: ["nz"]))
 		case .unauthorised:
 			throw .unauthorised
 		case .notFound:

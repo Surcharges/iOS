@@ -32,11 +32,11 @@ struct PlaceView: View {
 				
 				if let rate = _place.surcharge.rate {
 					if _place.surcharge.status == .reported {
-						Text(verbatim: rate == 0 ? "Zero🎉" : "\(rate)%")
+						Text(verbatim: rate == 0 ? "\(R.string.localizable.zeroRates())🎉" : "\(rate)%")
 							.surchargeStatusReported()
 						
 					} else if _place.surcharge.status == .confirmed {
-						Text(verbatim: rate == 0 ? "Zero🎉" : "\(rate)%")
+						Text(verbatim: rate == 0 ? "\(R.string.localizable.zeroRates())🎉" : "\(rate)%")
 							.surchargeStatusConfirmed()
 					}
 				}
