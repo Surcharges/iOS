@@ -18,11 +18,24 @@ public final class Surcharges: @unchecked Sendable {
   }
   
   public func target(
+    hasSources: Bool = true,
     hasResources: Bool = false,
     projects: [ModularPlugin.Project],
     scripts: [TargetScript] = [],
-    externalPackages: [TargetDependency] = []
+    externalPackages: [TargetDependency] = [],
+    baseSettings: SettingsDictionary? = nil
   ) -> Target {
+    
+    var _baseSettings: SettingsDictionary {
+      if let baseSettings = baseSettings {
+        return baseSettings
+      } else {
+        return SettingsDictionary()
+          .swiftVersion("6.0")
+          .bitcodeEnabled(false)
+      }
+    }
+    
     return .target(
       name: _project.name,
       destinations: [.iPhone],
@@ -38,7 +51,7 @@ public final class Surcharges: @unchecked Sendable {
           "NSHumanReadableCopyright": .string("©2025 Bonsung Koo. All rights reserved.")
         ]
       ),
-      sources: ["Sources/**"],
+      sources: hasSources ? ["Sources/**"] : nil,
       resources: hasResources ? .resources(["Resources/**"], privacyManifest: .default) : nil,
       scripts: scripts,
       dependencies: projects
@@ -49,9 +62,7 @@ public final class Surcharges: @unchecked Sendable {
           )
         } + externalPackages,
       settings: Settings.settings(
-        base: SettingsDictionary()
-          .swiftVersion("6.0")
-          .bitcodeEnabled(false),
+        base: _baseSettings,
         debug: SettingsDictionary(),
         release: SettingsDictionary(),
         defaultSettings: .recommended

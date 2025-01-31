@@ -18,8 +18,16 @@ public struct Packages {
     return .remote(url: "https://github.com/quanshousio/ToastUI", requirement: .exact("4.0.0"))
   }
   
+  public static var Lottie: Package {
+    return .remote(url: "https://github.com/airbnb/lottie-ios", requirement: .exact("4.5.1"))
+  }
+  
   public static var Firebase: Package {
     return .remote(url: "https://github.com/firebase/firebase-ios-sdk", requirement: .exact("11.7.0"))
+  }
+  
+  public static var GoogleMobileAds: Package {
+    return .remote(url: "https://github.com/googleads/swift-package-manager-google-mobile-ads", requirement: .exact("11.13.0"))
   }
   
   public static var all: [Package] {
@@ -28,7 +36,9 @@ public struct Packages {
       Shimmer,
       Confetti,
       ToastUI,
+      Lottie,
       Firebase,
+      GoogleMobileAds,
     ]
   }
 }

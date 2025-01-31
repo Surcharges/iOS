@@ -11,8 +11,9 @@ import SwiftUI
 import Resources
 
 struct WelcomeView: View {
-	
 	var body: some View {
-		Text(R.string.localizable.welcomeToSurchargeApp())
+		VStack {
+			Text("\(R.string.localizable.welcomeToSurchargeApp())🙌")
+		}
 	}
 }

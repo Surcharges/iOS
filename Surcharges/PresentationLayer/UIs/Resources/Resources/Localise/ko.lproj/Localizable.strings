@@ -12,7 +12,7 @@
 "tipSurchargeStatusMessage"="표시되는 결제수수료 상태를 알아보세요.";
 "tipUseLocationTitle"="현재 위치를 사용해 보세요.";
 "tipUseLocationMessage"="현재 위치를 기반으로 주변 상점을 검색해보세요.";
-"welcomeToSurchargeApp"="Surcharge에 잘 오셨습니다!";
+"welcomeToSurchargeApp"="환영합니다!";
 "searchFor"="\"%@\"의 검색 결과";
 "alertUseLocationDeniedTitle"="위치 정보 권한이 거부 됨.";
 "alertUseLocationDeniedMessage"="위치 정보를 사용할 수 있도록 권한을 주세요.";
@@ -20,7 +20,7 @@
 "close"="닫기";
 "searchBoxPlaceholder"="어디로 가시나요?";
 "searchButtonTitle"="검색";
-"reportForUnknownButtonTitle"="당신의 정보를 환영합니다.";
+"reportForUnknownButtonTitle"="공유하고 싶은 정보가 있나요?";
 "reportForConfirmedButtonTitle"="실제 정보와 다른가요?";
 "surchargeStatusUnknownMessage"="아직 보고된 결제수수료 정보가 없습니다.";
 "surchargeStatusUnknown"="알려지지 않음";
@@ -65,3 +65,6 @@
 "toastNoInternet"="인터넷 연결을 확인해 주세요.";
 "toastNewVersion"="새로운 버전이 있습니다. 업데이트 해주세요.";
 "toastUnknown"="이런🫢 뭔가 이상하군요. 다시 시도해 주세요.";
+"exposingAdsSuggestion"="지속 가능한 서비스를 위해 광고를 허용 해주시겠어요? 이곳과 검색 결과 목록에 광고가 표시됩니다.";
+"exposingAdsAcceptButtonTitle"="보여주세요!";
+"exposingAdsThanks"="도와주셔서 감사합니다!";

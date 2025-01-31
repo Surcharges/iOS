@@ -29,11 +29,12 @@ import Factories
 import AppStatusService
 import LocationService
 import ViewUpdateService
+import AdsServiceProtocol
 
 // Endpoint
 import EndpointProtocol
 
-public struct SurchargeAppView<Endpoint: EndpointProtocol>: View {
+public struct SurchargeAppView<Endpoint: EndpointProtocol, AdsService: AdsServiceProtocol>: View {
 	
 	@StateObject private var _mainRouter = MainRouter()
 	@StateObject private var _placeDetailRouter = PlaceDetailRouter()
@@ -55,7 +56,7 @@ public struct SurchargeAppView<Endpoint: EndpointProtocol>: View {
 		
 		NavigationStack {
 			
-			MainView(
+			MainView<MainFactory<Endpoint>.ViewModel, MainRouter, AdsService>(
 				viewModel: _mainFactory.resolve(appStatusService: _appStatusService),
 				router: _mainRouter
 			)

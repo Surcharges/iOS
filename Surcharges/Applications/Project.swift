@@ -18,13 +18,16 @@ func getDependencies(_ config: Configuration) -> [TargetDependency] {
     PresentationLayer.UIs.ReportSurcharge,
     PresentationLayer.UIs.SurchargeStatusHelp,
     PresentationLayer.UIs.Toast,
+    Shared.Google.FirebaseSDKs,
   ]
   
   switch config {
   case .dev:
     projects.append(DataSource.DevelopmentEndpoint)
+    projects.append(Shared.Services.DevelopmentAdsService)
   case .prod:
     projects.append(DataSource.ProductionEndpoint)
+    projects.append(Shared.Services.ProductionAdsService)
   }
   
   return projects.map {
@@ -41,9 +44,7 @@ let developmentDependencies: [TargetDependency] = getDependencies(.dev)
 
 // MARK: External Dependencies
 let externalDependencies: [TargetDependency] = [
-  ExternalPackages.Firebase.Core,
-  ExternalPackages.Firebase.Analytics,
-  ExternalPackages.Firebase.Crashlytics,
+  
 ]
 
 // MARK: Target - Infomation
@@ -54,7 +55,6 @@ let baseSetting = SettingsDictionary()
   .swiftVersion("6.0")
   .bitcodeEnabled(false)
   .marketingVersion(appVersion)
-  .otherLinkerFlags(["-ObjC"])
   .automaticCodeSigning(devTeam: developmentTeam)
 
 let debugSetting = SettingsDictionary()
@@ -62,8 +62,9 @@ let debugSetting = SettingsDictionary()
 let releaseSetting = SettingsDictionary()
 
 // MARK: Plist
-let infoPlist: InfoPlist = .extendingDefault(
-  with: [
+func getInfoPlist(_ config: Configuration, appVersion: String) -> InfoPlist {
+  
+  var infoPlist: [String: Plist.Value] = [
     "UILaunchScreen": [
       "UIColorName": "",
       "UIImageName": "",
@@ -73,9 +74,19 @@ let infoPlist: InfoPlist = .extendingDefault(
     "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you."),
     "NSCameraUsageDescription": .string("Surcharges uses your camera to take your receipt."),
     "ITSAppUsesNonExemptEncryption": .boolean(false),
-    "UISupportedInterfaceOrientations": .array([.string("UIInterfaceOrientationPortrait")])
+    "UISupportedInterfaceOrientations": .array([.string("UIInterfaceOrientationPortrait")]),
   ]
-)
+  
+  switch config {
+  case .dev:
+    infoPlist.updateValue(.string("ca-app-pub-2719055739020811~8730306210"), forKey: "GADApplicationIdentifier")
+  case .prod:
+    infoPlist.updateValue(.string("ca-app-pub-2719055739020811~5366340920"), forKey: "GADApplicationIdentifier")
+  }
+  
+  return .extendingDefault(with: infoPlist)
+  
+}
 
 // MARK: Target - Prod
 let surcharges = Target.target(
@@ -84,7 +95,7 @@ let surcharges = Target.target(
   product: .app,
   bundleId: "nz.surcharges",
   deploymentTargets: .iOS("17.0"),
-  infoPlist: infoPlist,
+  infoPlist: getInfoPlist(.prod, appVersion: appVersion),
   sources: ["Sources/Commons/**", "Sources/Prod/**"],
   resources: .resources(
     [
@@ -112,7 +123,7 @@ let surchargesDev = Target.target(
   product: .app,
   bundleId: "nz.surcharges.development",
   deploymentTargets: .iOS("17.0"),
-  infoPlist: infoPlist,
+  infoPlist: getInfoPlist(.dev, appVersion: appVersion),
   sources: ["Sources/Commons/**", "Sources/Dev/**"],
   resources: .resources(
     [
