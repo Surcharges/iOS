@@ -65,3 +65,6 @@
 "toastNoInternet"="Please check the Internet connection.";
 "toastNewVersion"="New version available. Please update.";
 "toastUnknown"="Oops🫢 Something went wrong. Please try again.";
+"exposingAdsSuggestion"="If you are enjoy this app, and make it sustainable, is it okay to show you ads? It will show here and in the place list.";
+"exposingAdsAcceptButtonTitle"="Yes. Show me ads!";
+"exposingAdsThanks"="Thank you for supporting us!";

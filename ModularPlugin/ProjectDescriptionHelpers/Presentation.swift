@@ -26,6 +26,7 @@ extension PresentationLayer {
     case UIExtensions
     case Resources
     case Toast
+    case MobileAds
     case Main
     case PlaceDetail
     case ReportSurcharge

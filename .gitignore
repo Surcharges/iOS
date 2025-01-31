@@ -7,6 +7,8 @@ GoogleService-Info.plist
 ### Sensitive Data ###
 DevelopmentEndpoint.swift
 ProductionEndpoint.swift
+DevelopmentAdsService.swift
+ProductionAdsService.swift
 
 ### Projects ###
 *.xcodeproj

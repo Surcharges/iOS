@@ -26,6 +26,9 @@ extension Shared {
     case AppStatusServiceProtocol
     case ViewUpdateService
     case ViewUpdateServiceProtocol
+    case ProductionAdsService
+    case DevelopmentAdsService
+    case AdsServiceProtocol
   }
 }
 
@@ -42,7 +45,29 @@ public extension Shared.Services {
       return "\(parent.path)/Shared/Services/AppStatus/\(name)"
     case .ViewUpdateService, .ViewUpdateServiceProtocol:
       return "\(parent.path)/Shared/Services/ViewUpdate/\(name)"
+    case .ProductionAdsService, .DevelopmentAdsService, .AdsServiceProtocol:
+      return "\(parent.path)/Shared/Services/Ads/\(name)"
     }
+  }
+  
+  var parent: Workspace {
+    return Surcharges.Surcharges
+  }
+}
+
+extension Shared {
+  public enum Google: Project {
+    case FirebaseSDKs
+  }
+}
+
+public extension Shared.Google {
+  var name: String {
+    return String(describing: self)
+  }
+  
+  var path: String {
+    return "\(parent.path)/Shared/Google/\(name)"
   }
   
   var parent: Workspace {
