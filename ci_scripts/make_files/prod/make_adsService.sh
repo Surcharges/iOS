@@ -14,10 +14,10 @@ echo "public final class ProductionAdsService: AdsServiceProtocol {" >> $FILE_PA
 echo "public init() { }" >> $FILE_PATH
 echo "public var isShowingAds: Bool {" >> $FILE_PATH
 echo "get {" >> $FILE_PATH
-echo "return UserDefaults.standard.bool(forKey: "isShowingAds")" >> $FILE_PATH
+echo "return UserDefaults.standard.bool(forKey: \"isShowingAds\")" >> $FILE_PATH
 echo "}" >> $FILE_PATH
 echo "set {" >> $FILE_PATH
-echo "UserDefaults.standard.set(newValue, forKey: "isShowingAds")" >> $FILE_PATH
+echo "UserDefaults.standard.set(newValue, forKey: \"isShowingAds\")" >> $FILE_PATH
 echo "}" >> $FILE_PATH
 echo "}" >> $FILE_PATH
 echo "public var fixedBannerUnitId = \"$AD_FIXED_BANNER_UNIT_ID\"" >> $FILE_PATH
