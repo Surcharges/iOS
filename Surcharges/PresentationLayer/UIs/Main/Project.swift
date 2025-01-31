@@ -10,17 +10,20 @@ let target = surcharges.target(
       PresentationLayer.ViewModelProtocols,
       PresentationLayer.UIs.CommonUI,
       PresentationLayer.Routers.RouterProtocols,
+      PresentationLayer.UIs.MobileAds,
+      Shared.Services.AdsServiceProtocol,
     ],
-  externalPackages: 
+  externalPackages:
     [
       
-  ]
+    ]
 )
 
 let demo = surcharges.demo(
   projects: [
     Builder.Factories,
     DataSource.DevelopmentEndpoint,
+    Shared.Services.DevelopmentAdsService,
     PresentationLayer.Routers.MainRouter,
     PresentationLayer.UIs.Main,
     PresentationLayer.UIs.SurchargeStatusHelp,

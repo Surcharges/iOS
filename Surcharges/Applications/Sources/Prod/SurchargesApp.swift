@@ -9,6 +9,7 @@
 import SwiftUI
 
 import ProductionEndpoint
+import ProductionAdsService
 
 @main
 struct SurchargesApp: App {
@@ -20,7 +21,7 @@ struct SurchargesApp: App {
 	var body: some Scene {
 		WindowGroup {
 			
-			SurchargeAppView<ProductionEndpoint>()
+			SurchargeAppView<ProductionEndpoint, ProductionAdsService>()
 			
 		}
 	}

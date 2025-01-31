@@ -6,17 +6,19 @@
 #  Created by Bonsung Koo on 28/01/2025.
 #  
 
-echo "import Foundation" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "import EndpointProtocol" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "public struct ProductionEndpoint: EndpointProtocol {" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "public init() { }" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "public var baseURL: String {" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "return \"$BASE_URL\"" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "}" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "public var authorisationScheme: String {" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "return \"$AUTHORISATION_SCHEME\"" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "}" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "public var authorisationToken: String {" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "return \"$AUTHORISATION_TOKEN\"" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "}" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
-echo "}" >> $CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
+FILE_PATH=$CI_PRIMARY_REPOSITORY_PATH/Surcharges/DataSource/Endpoints/ProductionEndpoint/Sources/ProductionEndpoint.swift
+
+echo "import Foundation" >> $FILE_PATH
+echo "import EndpointProtocol" >> $FILE_PATH
+echo "public struct ProductionEndpoint: EndpointProtocol {" >> $FILE_PATH
+echo "public init() { }" >> $FILE_PATH
+echo "public var baseURL: String {" >> $FILE_PATH
+echo "return \"$BASE_URL\"" >> $FILE_PATH
+echo "}" >> $FILE_PATH
+echo "public var authorisationScheme: String {" >> $FILE_PATH
+echo "return \"$AUTHORISATION_SCHEME\"" >> $FILE_PATH
+echo "}" >> $FILE_PATH
+echo "public var authorisationToken: String {" >> $FILE_PATH
+echo "return \"$AUTHORISATION_TOKEN\"" >> $FILE_PATH
+echo "}" >> $FILE_PATH
+echo "}" >> $FILE_PATH

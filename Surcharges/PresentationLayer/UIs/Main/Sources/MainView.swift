@@ -11,14 +11,17 @@ import TipKit
 
 import Resources
 import CommonUI
+import MobileAds
 
 import ViewModelProtocols
 import RouterProtocols
+import AdsServiceProtocol
 
-public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: View {
+public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol, AdsService: AdsServiceProtocol>: View {
 	
 	@StateObject private var _viewModel: VM
 	@StateObject private var _router: Router
+	@StateObject private var _adsService: AdsService = AdsService()
 	
 	private let _surchargeStatusTip = SurchargeStatusTip()
 	private let _useLocationTip = UseLocationTip()
@@ -71,6 +74,10 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: V
 						
 						if _viewModel.noResults {
 							
+							if _adsService.isShowingAds {
+								ListAdsView(unitId: _adsService.listBannerUnitId)
+							}
+							
 							NoResultView(searchedText: _viewModel.searchedText)
 								.padding(.top, 40)
 								.padding([.leading, .trailing], 20)
@@ -78,6 +85,10 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: V
 						} else {
 							
 							if !_viewModel.mainModel.places.isEmpty {
+								
+								if _adsService.isShowingAds {
+									ListAdsView(unitId: _adsService.listBannerUnitId)
+								}
 								
 								Section {
 									PlacesView(
@@ -93,8 +104,7 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: V
 									)
 									
 								} header: {
-									Text(R.string.localizable.searchFor(_viewModel.searchedText))
-										.font(.title3)
+									Text("🔎\(R.string.localizable.searchFor(_viewModel.searchedText))")
 										.blurBackground()
 								}
 								
@@ -102,6 +112,10 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol>: V
 								
 								WelcomeView()
 									.padding(.top, 40)
+									.padding([.leading, .trailing], 20)
+								
+								FixedAdsView(isAdShowing: $_adsService.isShowingAds, unitId: _adsService.fixedBannerUnitId)
+									.padding(.top, 20)
 									.padding([.leading, .trailing], 20)
 								
 							}
