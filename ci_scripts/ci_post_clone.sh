@@ -18,6 +18,7 @@ then
 
   sh ./make_files/dev/make_endpoint.sh
   sh ./make_files/dev/make_firebase.sh
+  sh ./make_files/dev/make_adsService.sh
 
   cd ..
 
@@ -42,6 +43,7 @@ else
   
     sh ./make_files/prod/make_endpoint.sh
     sh ./make_files/prod/make_firebase.sh
+    sh ./make_files/prod/make_adsService.sh
 
     cd ..
 
