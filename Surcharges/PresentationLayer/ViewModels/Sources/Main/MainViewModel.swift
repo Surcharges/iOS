@@ -25,6 +25,7 @@ public final class MainViewModel<
 	@Published public var mainModel: MainModel = .init(places: [], isExistNextPage: false)
 	@Published public var searchText: String = ""
 	@Published public var searchedText: String = ""
+	@Published public var showWelcome: Bool = true
 	@Published public var isLoading: Bool = false
 	@Published public var noResults: Bool = false
 	@Published public var canSearch: Bool = false
@@ -62,6 +63,8 @@ public final class MainViewModel<
 		
 		_nextPageToken = nil
 		isLoading = true
+		showWelcome = false
+		searchedText = searchText
 		
 		var userLocation: Location?
 		
@@ -81,7 +84,6 @@ public final class MainViewModel<
 				)
 			)
 			
-			searchedText = searchText
 			noResults = false
 			
 			let places = getPlacesResult.items.map { item -> Place in
