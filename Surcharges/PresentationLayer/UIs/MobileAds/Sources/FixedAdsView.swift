@@ -95,7 +95,6 @@ public struct FixedAdsView: View {
 				
 			}
 		}
-		.background(R.color.gray100.color)
 		.frame(minHeight: _adSize.size.width, maxHeight: _adSize.size.width)
 		.cornerRadius(20)
 		.readSize { size in

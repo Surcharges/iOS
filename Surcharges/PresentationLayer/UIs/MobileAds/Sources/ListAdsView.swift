@@ -30,7 +30,6 @@ public struct ListAdsView: View {
 				.frame(height: _adSize.size.height)
 		}
 		.background(R.color.gray100.color)
-		.cornerRadius(20)
 		.readSize { size in
 			_adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(size.width)
 		}

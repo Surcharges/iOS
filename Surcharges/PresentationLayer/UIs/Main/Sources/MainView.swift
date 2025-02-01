@@ -74,10 +74,6 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol, Ad
 						
 						if _viewModel.noResults {
 							
-							if _adsService.isShowingAds {
-								ListAdsView(unitId: _adsService.listBannerUnitId)
-							}
-							
 							NoResultView(searchedText: _viewModel.searchedText)
 								.padding(.top, 40)
 								.padding([.leading, .trailing], 20)
@@ -85,10 +81,6 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol, Ad
 						} else {
 							
 							if !_viewModel.mainModel.places.isEmpty {
-								
-								if _adsService.isShowingAds {
-									ListAdsView(unitId: _adsService.listBannerUnitId)
-								}
 								
 								Section {
 									PlacesView(
@@ -104,8 +96,22 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol, Ad
 									)
 									
 								} header: {
-									Text("🔎\(R.string.localizable.searchFor(_viewModel.searchedText))")
-										.blurBackground()
+									
+									VStack(spacing: 0) {
+										
+										if _adsService.isShowingAds {
+											ListAdsView(unitId: _adsService.listBannerUnitId)
+										}
+									
+										Text("🔎\(R.string.localizable.searchFor(_viewModel.searchedText))")
+											.frame(maxWidth: .infinity, alignment: .leading)
+											.padding([.leading, .trailing], 20)
+											.padding(.top, 10)
+											.padding(.bottom, 10)
+										
+									}
+									.blurBackground()
+
 								}
 								
 							} else {
@@ -115,9 +121,10 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol, Ad
 									.padding([.leading, .trailing], 20)
 								
 								FixedAdsView(isAdShowing: $_adsService.isShowingAds, unitId: _adsService.fixedBannerUnitId)
-									.padding(.top, 20)
+									.blurRoundedBackground(cornerRadius: 20)
+									.padding([.top, .bottom], 10)
 									.padding([.leading, .trailing], 20)
-								
+
 							}
 						}
 					}
