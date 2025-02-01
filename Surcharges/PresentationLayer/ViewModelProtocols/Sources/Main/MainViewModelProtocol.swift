@@ -13,12 +13,13 @@ import Models
 public protocol MainViewModelProtocol: ViewModelProtocol {
 	var mainModel: MainModel { get set }
 	var searchText: String { get set }
-	var searchedText: String { get set }
-	var isLoading: Bool { get set }
-	var noResults: Bool { get set }
-	var canSearch: Bool { get set }
-	var isDeniedToUseUserLocation: Bool { get set }
-	var isUserLocationOn: Bool { get set }
+	var searchedText: String { get }
+	var showWelcome: Bool { get }
+	var isLoading: Bool { get }
+	var noResults: Bool { get }
+	var canSearch: Bool { get }
+	var isDeniedToUseUserLocation: Bool { get }
+	var isUserLocationOn: Bool { get }
   
 	func search() async
 	func next() async

@@ -24,9 +24,6 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol, Ad
 	@StateObject private var _adsService: AdsService = AdsService()
 	
 	private let _surchargeStatusTip = SurchargeStatusTip()
-	private let _useLocationTip = UseLocationTip()
-	@State private var _showLocationDeniedAlert = false
-	@FocusState private var _isSearchTextFeildFocused: Bool
 	
 	public init(viewModel: VM, router: Router) {
 		__viewModel = StateObject(wrappedValue: viewModel)
@@ -48,41 +45,24 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol, Ad
 					.padding([.top], 10)
 					.padding([.leading, .trailing], 20)
 					
-					/*
-					 // Favourite Places is currently not available.
 					Section {
 						
-						FavouritePlacesView()
-							.padding([.leading, .trailing], 20)
-						
-					} header:  {
-						Text("Favourite Places")
-							.font(.title3)
-							.blurBackground()
-					}
-					 */
-					
-					if _viewModel.isLoading {
-						
-						Spacer()
-						
-						CircleProgress()
-						
-						Spacer()
-						
-					} else {
-						
-						if _viewModel.noResults {
+						if _viewModel.isLoading {
 							
-							NoResultView(searchedText: _viewModel.searchedText)
-								.padding(.top, 40)
-								.padding([.leading, .trailing], 20)
+							CircleProgress()
 							
 						} else {
 							
-							if !_viewModel.mainModel.places.isEmpty {
+							if _viewModel.noResults {
 								
-								Section {
+								NoResultView(searchedText: _viewModel.searchedText)
+									.padding(.top, 40)
+									.padding([.leading, .trailing], 20)
+								
+							} else {
+								
+								if !_viewModel.mainModel.places.isEmpty {
+									
 									PlacesView(
 										mainModel: $_viewModel.mainModel,
 										selectedPlace: { placeId in
@@ -95,132 +75,72 @@ public struct MainView<VM: MainViewModelProtocol, Router: MainRouterProtocol, Ad
 										}
 									)
 									
-								} header: {
+								} else {
 									
-									VStack(spacing: 0) {
-										
-										if _adsService.isShowingAds {
-											ListAdsView(unitId: _adsService.listBannerUnitId)
-										}
+									WelcomeView()
+										.padding(.top, 40)
+										.padding([.leading, .trailing], 20)
 									
-										Text("🔎\(R.string.localizable.searchFor(_viewModel.searchedText))")
-											.frame(maxWidth: .infinity, alignment: .leading)
-											.padding([.leading, .trailing], 20)
-											.padding(.top, 10)
-											.padding(.bottom, 10)
-										
-									}
-									.blurBackground()
-
+									FixedAdsView(isAdShowing: $_adsService.isShowingAds, unitId: _adsService.fixedBannerUnitId)
+										.blurRoundedBackground(cornerRadius: 20)
+										.padding([.top, .bottom], 10)
+										.padding([.leading, .trailing], 20)
+									
+								}
+							}
+							
+						}
+						
+					} header: {
+						
+						if !_viewModel.showWelcome {
+							
+							VStack(spacing: 0) {
+								
+								if _adsService.isShowingAds {
+									ListAdsView(unitId: _adsService.listBannerUnitId)
 								}
 								
-							} else {
-								
-								WelcomeView()
-									.padding(.top, 40)
+								Text("🔎\(R.string.localizable.searchFor(_viewModel.searchedText))")
+									.frame(maxWidth: .infinity, alignment: .leading)
 									.padding([.leading, .trailing], 20)
+									.padding(.top, 10)
+									.padding(.bottom, 10)
 								
-								FixedAdsView(isAdShowing: $_adsService.isShowingAds, unitId: _adsService.fixedBannerUnitId)
-									.blurRoundedBackground(cornerRadius: 20)
-									.padding([.top, .bottom], 10)
-									.padding([.leading, .trailing], 20)
-
 							}
+							.blurBackground()
+							
+						} else {
+							
+							Rectangle()
+								.foregroundStyle(R.color.clear.color)
+								.frame(height: 20)
+							
 						}
+						
 					}
+					
+					/*
+					 // Favourite Places is currently not available.
+					 Section {
+					 
+					 FavouritePlacesView()
+					 .padding([.leading, .trailing], 20)
+					 
+					 } header:  {
+					 Text("Favourite Places")
+					 .font(.title3)
+					 .blurBackground()
+					 }
+					 */
 				}
 			}
 			.scrollDismissesKeyboard(.interactively)
 			
-			HStack(spacing: 10) {
-				
-				Button {
-					
-					if _viewModel.isDeniedToUseUserLocation {
-						_showLocationDeniedAlert.toggle()
-					} else {
-						
-						withAnimation {
-							_viewModel.toggleUserLocation()
-						}
-						
-						_useLocationTip.invalidate(reason: .actionPerformed)
-						
-					}
-					
-				} label: {
-					
-					if _viewModel.isDeniedToUseUserLocation {
-						Image(systemName: "location.slash")
-							.foregroundStyle(R.color.blue600.color)
-					} else {
-						Image(systemName: _viewModel.isUserLocationOn ? "location.fill" : "location")
-							.foregroundStyle(R.color.blue600.color)
-					}
-					
-				}
-				.buttonStyle(.plain)
-				.contentTransition(.symbolEffect(.replace))
-				.alert(
-					R.string.localizable.alertUseLocationDeniedTitle(),
-					isPresented: $_showLocationDeniedAlert
-				) {
-					
-					Button {
-						
-						UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
-						
-					} label: {
-						Text(R.string.localizable.goToSettings())
-					}
-					
-					Button(role: .cancel) {
-						_showLocationDeniedAlert.toggle()
-					} label: {
-						Text(R.string.localizable.close())
-					}
-					
-				} message: {
-					Text(R.string.localizable.alertUseLocationDeniedMessage())
-				}
-				.popoverTip(_useLocationTip, arrowEdge: .leading) { action in
-					withAnimation {
-						_viewModel.toggleUserLocation()
-					}
-					_useLocationTip.invalidate(reason: .actionPerformed)
-				}
-				
-				TextField(R.string.localizable.searchBoxPlaceholder(), text: $_viewModel.searchText)
-					.textFieldStyle(.roundedBorder)
-					.font(.body)
-					.disabled(_viewModel.isLoading)
-					.onSubmit {
-						Task {
-							await _viewModel.search()
-						}
-					}
-					.submitLabel(.search)
-					.focused($_isSearchTextFeildFocused)
-					.onChange(of: _isSearchTextFeildFocused, { _, newValue in
-						if newValue {
-							UseLocationTip.tryToSearch.toggle()
-						}
-					})
-				
-				Button {
-					Task {
-						await _viewModel.search()
-					}
-				} label: {
-					Text(R.string.localizable.searchButtonTitle())
-						.font(.body)
-						.disabled(!_viewModel.canSearch)
-				}
-				
-			}
-			.padding([.top], 10)
-			.padding([.leading, .trailing], 30)
-			.padding([.bottom], 10)
+			SearchView(viewModel: __viewModel)
+				.padding([.top], 10)
+				.padding([.leading, .trailing], 30)
+				.padding([.bottom], 10)
 			
 		}
 		.navigationTitle("Surcharges💸")
