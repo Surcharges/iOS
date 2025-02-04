@@ -35,21 +35,30 @@ struct SurchargeView: View {
 	var body: some View {
 		VStack(spacing: 10) {
 			
-			VStack(spacing: 10) {
+			HStack(spacing: 20) {
 				
-				Text(_placeName)
-					.font(.headline)
-					.frame(maxWidth: .infinity, alignment: .leading)
-					.multilineTextAlignment(.leading)
+				Image(systemName: "storefront")
+					.imageScale(.large)
 					.shimmering(active: _isLoading)
 					.redacted(reason: _isLoading ? .placeholder : [])
 				
-				Text(_placeAddress)
-					.font(.subheadline)
-					.frame(maxWidth: .infinity, alignment: .leading)
-					.multilineTextAlignment(.leading)
-					.shimmering(active: _isLoading)
-					.redacted(reason: _isLoading ? .placeholder : [])
+				VStack(spacing: 5) {
+					
+					Text(_placeName)
+						.font(.headline)
+						.frame(maxWidth: .infinity, alignment: .leading)
+						.multilineTextAlignment(.leading)
+						.shimmering(active: _isLoading)
+						.redacted(reason: _isLoading ? .placeholder : [])
+					
+					Text(_placeAddress)
+						.font(.subheadline)
+						.frame(maxWidth: .infinity, alignment: .leading)
+						.multilineTextAlignment(.leading)
+						.shimmering(active: _isLoading)
+						.redacted(reason: _isLoading ? .placeholder : [])
+				}
+				
 			}
 			
 			VStack(spacing: 10) {

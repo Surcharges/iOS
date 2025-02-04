@@ -100,7 +100,8 @@ public final class Surcharges: @unchecked Sendable {
           "NSLocationWhenInUseUsageDescription": .string("Surcharges uses your location to provide nearest places to you."),
           "NSCameraUsageDescription": .string("Surcharges uses your camera to take your receipt."),
           "ITSAppUsesNonExemptEncryption": .boolean(false),
-          "UISupportedInterfaceOrientations": .array([.string("UIInterfaceOrientationPortrait")])
+          "UISupportedInterfaceOrientations": .array([.string("UIInterfaceOrientationPortrait")]),
+          "GADApplicationIdentifier": .string("ca-app-pub-2719055739020811~8730306210")
         ]
       ),
       sources: ["App/Sources/**"],
