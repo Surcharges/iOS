@@ -50,4 +50,4 @@ find . -type f -name "Project.swift" -exec dirname {} \; | while read dir; do
 
 done
 
-tuist graph Surcharges -d --no-open -o "$dir"
+tuist graph Surcharges UseCasesTests ViewModelsTests -d --no-open -o "$dir"
