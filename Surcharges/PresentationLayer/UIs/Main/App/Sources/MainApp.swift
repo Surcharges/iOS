@@ -19,6 +19,7 @@ import AppStatusService
 import AppStatusService
 import ViewUpdateService
 import DevelopmentEndpoint
+import DevelopmentAdsService
 
 @main
 struct MainApp: App {
@@ -32,7 +33,7 @@ struct MainApp: App {
 	var body: some Scene {
 		WindowGroup {
 			NavigationStack {
-				MainView(
+				MainView<MainFactory<DevelopmentEndpoint>.ViewModel, MainRouter, DevelopmentAdsService>(
 					viewModel: MainFactory<DevelopmentEndpoint>(
 						locationService: _locationService,
 						viewUpdateService: _viewUpdateService
