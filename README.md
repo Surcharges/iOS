@@ -1,9 +1,7 @@
 <p align="center">
   <img src="./assets/AppIcon_light.png" width="35%" alt="Surcharges Logo" />
 </p>
-<p align="center">
-  <span style="font-weight: bold; font-size: 60px;">Surcharges</span>
-</p>
+<h1 align="center" style="font-weight: bold;">Surcharges</h1>
 <p align="center">
   <a href="https://apps.apple.com/app/surcharges/id6741091962">
     <img src="./assets/appstore.svg" alt="AppStore" />
