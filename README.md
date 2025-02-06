@@ -1,8 +1,8 @@
 <p align="center">
   <img src="./assets/AppIcon_light.png" width="35%" alt="Surcharges Logo" />
 </p>
-<p align="center" style="font-weight: bold; font-size: 35px">
-Surcharges
+<p align="center">
+  <span style="font-weight: bold; font-size: 60px">Surcharges</span>
 </p>
 <p align="center">
   <a href="https://apps.apple.com/app/surcharges/id6741091962">
@@ -60,7 +60,7 @@ If you want to learn more about the command [Click here](https://docs.tuist.dev/
 
 
 ## Open Issues
-Check out the [issues page](https://github.com/Surcharges/iOS/issues/new) to see what we're currently working on.
+Check out the [issues page](https://github.com/Surcharges/iOS/issues) to see what we're currently working on.
 
 ## Contributing
 We welcome pull requests from you! Please let us know in advance by creating an [issue](https://github.com/Surcharges/iOS/issues/new) before submitting your pull request.
